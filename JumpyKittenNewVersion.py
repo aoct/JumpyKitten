@@ -163,11 +163,13 @@ class JumpyKittenGame(Widget):
             #     sys.exit()
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
                 print("collided")
-                # root.manager.current = 'MainPage' #This will be used to go to the main page
+                # self.manager.current = 'MainPage' #This will be used to go to the main page
 
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
         super(JumpyKittenPage, self).__init__(**kwargs)
+        
+    def on_enter(self):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)
         Clock.schedule_interval(self.game.update, 1.0/60.0)

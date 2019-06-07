@@ -170,7 +170,8 @@ class JumpyKittenGame(Widget):
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
         super(JumpyKittenPage, self).__init__(**kwargs)
-        self.game = JumpyKittenGame()
-        self.add_widget(self.game)
-        Clock.schedule_interval(self.game.update, 1.0/60.0)
+        def on_enter(self):
+            self.game = JumpyKittenGame()
+            self.add_widget(self.game)
+            Clock.schedule_interval(self.game.update, 1.0/60.0)
     pass
