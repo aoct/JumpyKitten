@@ -13,6 +13,8 @@ from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 class Background(Widget):
     image_one = ObjectProperty(Image())
@@ -106,6 +108,10 @@ class Obstacle(Widget):
     def update(self):
         self.pos = Vector(*self.velocity) + self.pos
 
+
+class endGamePopup(Popup):
+    pass
+
 class JumpyKittenGame(Widget):
     mcnay = ObjectProperty(Mcnay())
     background = ObjectProperty(Background())
@@ -162,13 +168,18 @@ class JumpyKittenGame(Widget):
             #     # This will be replaced later on
             #     sys.exit()
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
-                print("collided")
-                # self.manager.current = 'MainPage' #This will be used to go to the main page
+                self.mcnay.velocity_x = 0
+                self.mcnay.velocity_y = 0
+                self.mcnay.normal_velocity = [0,0]
+                self.background.velocity = [0,0]
+                self.obstacles.velocity = [0,0]
+                popup = endGamePopup()
+                popup.open()
 
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
         super(JumpyKittenPage, self).__init__(**kwargs)
-        
+
     def on_enter(self):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)

@@ -8,6 +8,3 @@ class mainPage(Screen):
 		super().__init__(**kwargs)
 
 	pass
-		# self.mainPage()
-
-	# def mainPage(self):

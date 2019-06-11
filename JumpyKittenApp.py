@@ -18,7 +18,6 @@ class JumpyKittenApp(App):
 		self.gamePage = JumpyKittenPage(name='GamePage')
 		self.sm.add_widget(self.gamePage)
 
-
 		return self.sm
 
 

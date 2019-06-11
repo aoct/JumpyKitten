@@ -7,7 +7,7 @@
         text: 'MainPage'
     Button:
         text: "Start"
-        on_press: root.manager.current = 'GamePage'
+        on_press: app.sm.current = 'GamePage'
 
 <JumpyKittenPage>:
     name: 'GamePage'
@@ -75,3 +75,16 @@
         source: "images/pixel_gray_base.png"
         size: root.size
         pos: root.pos
+
+<endGamePopup>:
+    title: 'You Lost'
+    BoxLayout:  
+        Label: 
+            text: 'Your Score'
+        Button:
+            text: 'Start Again'
+            on_press: 
+                app.sm.current = 'MainPage'
+                root.dismiss()
+
+    
