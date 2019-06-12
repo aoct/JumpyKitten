@@ -16,96 +16,9 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
-class Background(Widget):
-    image_one = ObjectProperty(Image())
-    image_two = ObjectProperty(Image())
-
-    velocity_x = NumericProperty(0)
-    velocity_y = NumericProperty(0)
-    velocity = ReferenceListProperty(velocity_x, velocity_y)
-
-    def update(self):
-        self.image_one.pos = Vector(*self.velocity) + self.image_one.pos
-        self.image_two.pos = Vector(*self.velocity) + self.image_two.pos
-
-        if self.image_one.right <= 0:
-            self.image_one.pos = (self.width, 0)
-        if self.image_two.right <= 0:
-            self.image_two.pos = (self.width, 0)
-
-    def update_position(self):
-        self.image_one.pos = (0, 0)
-        self.image_two.pos = (self.width, 0)
-
-class Mcnay(Widget):
-    bird_image = ObjectProperty(Image())
-
-    jump_time = NumericProperty(0.3)
-    jump_height = NumericProperty(95)
-
-    time_jumped = NumericProperty(0)
-
-    jumping = BooleanProperty(False)
-
-    velocity_x = NumericProperty(0)
-    velocity_y = NumericProperty(0)
-    normal_velocity_x = NumericProperty(0)
-    normal_velocity_y = NumericProperty(0)
-    velocity = ReferenceListProperty(velocity_x, velocity_y)
-    normal_velocity = ReferenceListProperty(normal_velocity_x, normal_velocity_y)
-
-    def __init__(self, **kwargs):
-        super(Mcnay, self).__init__(**kwargs)
-        if Config.getdefault('input', 'keyboard', False):
-            self._keyboard = Window.request_keyboard(
-                self._keyboard_closed, self, 'text')
-            self._keyboard.bind(on_key_down=self._on_keyboard_down)
-
-    def _keyboard_closed(self):
-        self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-        self._keyboard = None
-
-    def switch_to_normal(self, dt):
-        Clock.schedule_once(self.stop_jumping, self.jump_time  * (4.0 / 5.0))
-
-    def stop_jumping(self, dt):
-        self.jumping = False
-        self.velocity_y = self.normal_velocity_y
-
-    def on_touch_down(self, touch):
-        if self.pos[1] == 104:
-            self.jumping = True
-            self.velocity_y = self.jump_height / (self.jump_time * 60.0)
-            Clock.unschedule(self.stop_jumping)
-            Clock.schedule_once(self.switch_to_normal, self.jump_time  / 5.0)
-
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        self.on_touch_down(None)
-
-    def update(self):
-        self.pos = Vector(*self.velocity) + self.pos
-        if self.pos[1] <= 104:
-            Clock.unschedule(self.stop_jumping)
-            self.pos = (self.pos[0], 104)
-
-class Obstacle(Widget):
-    gap_top = NumericProperty(0)
-    gap_size = NumericProperty(150)
-
-    velocity_x = NumericProperty(0)
-    velocity_y = NumericProperty(0)
-    velocity = ReferenceListProperty(velocity_x, velocity_y)
-
-    marked = BooleanProperty(False)
-
-    def __init__(self, **kwargs):
-        super(Obstacle, self).__init__(**kwargs)
-
-    def update_position(self):
-        self.gap_top = 300   #randint(self.gap_size + 112, self.height)
-
-    def update(self):
-        self.pos = Vector(*self.velocity) + self.pos
+from components.background import Background
+from components.mcnay import Mcnay
+from components.obstacles import Obstacle
 
 
 class endGamePopup(Popup):
@@ -180,8 +93,8 @@ class JumpyKittenGame(Widget):
             #     # This will be replaced later on
             #     sys.exit()
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
-                self.mcnay.velocity_x = 0
-                self.mcnay.velocity_y = 0
+
+                self.mcnay.velocity = [0, 0]
                 self.mcnay.normal_velocity = [0,0]
                 self.background.velocity = [0,0]
                 self.obstacles.velocity = [0,0]
