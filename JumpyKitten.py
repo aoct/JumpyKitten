@@ -103,7 +103,6 @@ class Obstacle(Widget):
 
     def update_position(self):
         self.gap_top = 300   #randint(self.gap_size + 112, self.height)
-        print(self.gap_size, self.height)
 
     def update(self):
         self.pos = Vector(*self.velocity) + self.pos
@@ -125,13 +124,18 @@ class JumpyKittenGame(Widget):
 
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
-        self.mcnay.normal_velocity = [0, -4]
-        self.mcnay.velocity = self.mcnay.normal_velocity
-        self.background.velocity = [-2, 0]
+        self.reset()
         self.bind(size=self.size_callback)
 
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
+
+    def reset(self):
+        self.mcnay.normal_velocity = [0, -4]
+        self.mcnay.velocity = self.mcnay.normal_velocity
+        self.background.velocity = [-2, 0]
+        for obstacle in self.obstacles:
+            self.remove_obstacle()
 
     def remove_obstacle(self):
         self.remove_widget(self.obstacles[0])
@@ -181,6 +185,7 @@ class JumpyKittenGame(Widget):
                 self.mcnay.normal_velocity = [0,0]
                 self.background.velocity = [0,0]
                 self.obstacles.velocity = [0,0]
+
                 self.process.cancel()
                 popup = endGamePopup()
                 popup.open()
@@ -195,4 +200,4 @@ class JumpyKittenPage(Screen):
         self.game.start()
 
     def on_leave(self):
-        pass
+        self.game.reset()
