@@ -1,10 +1,10 @@
 import kivy
-kivy.require("1.8.0")
+kivy.require("1.10.0")
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-from JumpyKittenNewVersion import JumpyKittenPage
+from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
 
 

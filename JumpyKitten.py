@@ -13,6 +13,8 @@ from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 class Background(Widget):
     image_one = ObjectProperty(Image())
@@ -64,18 +66,15 @@ class Mcnay(Widget):
         self._keyboard = None
 
     def switch_to_normal(self, dt):
-        # self.bird_image.source = "images/flappyup.png"
         Clock.schedule_once(self.stop_jumping, self.jump_time  * (4.0 / 5.0))
 
     def stop_jumping(self, dt):
         self.jumping = False
-        # self.bird_image.source = "images/flappy.png"
         self.velocity_y = self.normal_velocity_y
 
     def on_touch_down(self, touch):
         if self.pos[1] == 104:
             self.jumping = True
-            # self.bird_image.source = "images/flappynormal.png"
             self.velocity_y = self.jump_height / (self.jump_time * 60.0)
             Clock.unschedule(self.stop_jumping)
             Clock.schedule_once(self.switch_to_normal, self.jump_time  / 5.0)
@@ -87,7 +86,6 @@ class Mcnay(Widget):
         self.pos = Vector(*self.velocity) + self.pos
         if self.pos[1] <= 104:
             Clock.unschedule(self.stop_jumping)
-            # self.bird_image.source = "images/flappynormal.png"
             self.pos = (self.pos[0], 104)
 
 class Obstacle(Widget):
@@ -104,10 +102,20 @@ class Obstacle(Widget):
         super(Obstacle, self).__init__(**kwargs)
 
     def update_position(self):
-        self.gap_top = randint(self.gap_size + 112, self.height)
+        self.gap_top = 300   #randint(self.gap_size + 112, self.height)
+        print(self.gap_size, self.height)
 
     def update(self):
         self.pos = Vector(*self.velocity) + self.pos
+
+
+class endGamePopup(Popup):
+    pass
+    # self.layout = FloatLayout(size=(300, 300))
+    #
+    # startButton = Button(text='Start', size_hint=(.6, .6), pos_hint={'x':.2, 'y':.2})
+    # startButton.bind(on_release=self.startButton_func)
+    # self.layout.add_widget(startButton)
 
 class JumpyKittenGame(Widget):
     mcnay = ObjectProperty(Mcnay())
@@ -121,6 +129,9 @@ class JumpyKittenGame(Widget):
         self.mcnay.velocity = self.mcnay.normal_velocity
         self.background.velocity = [-2, 0]
         self.bind(size=self.size_callback)
+
+    def start(self):
+        self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def remove_obstacle(self):
         self.remove_widget(self.obstacles[0])
@@ -165,13 +176,23 @@ class JumpyKittenGame(Widget):
             #     # This will be replaced later on
             #     sys.exit()
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
-                sys.exit()
+                self.mcnay.velocity_x = 0
+                self.mcnay.velocity_y = 0
+                self.mcnay.normal_velocity = [0,0]
+                self.background.velocity = [0,0]
+                self.obstacles.velocity = [0,0]
+                self.process.cancel()
+                popup = endGamePopup()
+                popup.open()
 
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
         super(JumpyKittenPage, self).__init__(**kwargs)
-        def on_enter(self):
-            self.game = JumpyKittenGame()
-            self.add_widget(self.game)
-            Clock.schedule_interval(self.game.update, 1.0/60.0)
-    pass
+        self.game = JumpyKittenGame()
+        self.add_widget(self.game)
+
+    def on_enter(self):
+        self.game.start()
+
+    def on_leave(self):
+        pass

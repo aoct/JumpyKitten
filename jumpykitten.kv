@@ -1,9 +1,8 @@
-#:kivy 1.8.0
-
+#:kivy 1.10.0
 
 <mainPage>:
     name: 'MainPage'
-    Label: 
+    Label:
         text: 'MainPage'
     Button:
         text: "Start"
@@ -78,13 +77,11 @@
 
 <endGamePopup>:
     title: 'You Lost'
-    BoxLayout:  
-        Label: 
+    BoxLayout:
+        Label:
             text: 'Your Score'
         Button:
             text: 'Start Again'
-            on_press: 
+            on_release:
                 app.sm.current = 'MainPage'
                 root.dismiss()
-
-    
