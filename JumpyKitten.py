@@ -37,6 +37,8 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
+        self.g_grav = -1.
+
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
@@ -69,7 +71,7 @@ class JumpyKittenGame(Widget):
         self.background.update_position()
 
     def update(self, dt):
-        self.mcnay.update()
+        self.mcnay.update(self.g_grav)
         self.background.update()
         # Loop through and update obstacles. Replace obstacles which went off the screen.
         for obstacle in self.obstacles:
