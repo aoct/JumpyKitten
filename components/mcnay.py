@@ -9,10 +9,10 @@ from kivy.clock import Clock
 from kivy.lang import Builder
 
 class Mcnay(Widget):
-    bird_image = ObjectProperty(Image())
+    mcnay_image = ObjectProperty(Image())
 
-    jump_time = NumericProperty(0.3)
-    jump_height = NumericProperty(95)
+    jump_time = NumericProperty(0.5)
+    jump_height = NumericProperty(120)
 
     time_jumped = NumericProperty(0)
 
@@ -27,11 +27,16 @@ class Mcnay(Widget):
 
     def __init__(self, **kwargs):
         super(Mcnay, self).__init__(**kwargs)
-        self.pos[1] = 104
+        self.pos = [0,0]
         if Config.getdefault('input', 'keyboard', False):
             self._keyboard = Window.request_keyboard(
                 self._keyboard_closed, self, 'text')
             self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+    def reset(self):
+        self.normal_velocity = [0, -4]
+        self.velocity = self.normal_velocity
+
     def _keyboard_closed(self):
         self._keyboard.unbind(on_key_down=self._on_keyboard_down)
         self._keyboard = None
@@ -62,7 +67,7 @@ class Mcnay(Widget):
 
 Builder.load_string("""
 <Mcnay>:
-    bird_image: image
+    mcnay_image: image
     size: 60, 60
     Image:
         id: image

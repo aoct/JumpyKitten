@@ -7,7 +7,7 @@ class Background(Widget):
     image_one = ObjectProperty(Image())
     image_two = ObjectProperty(Image())
 
-    velocity_x = NumericProperty(0)
+    velocity_x = NumericProperty(-2)
     velocity_y = NumericProperty(0)
     velocity = ReferenceListProperty(velocity_x, velocity_y)
 

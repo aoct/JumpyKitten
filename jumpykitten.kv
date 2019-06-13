@@ -30,7 +30,7 @@
         center_x: root.center_x
         top: root.top - 30
         markup: True
-        text: "[color=ffffff]" + str(root.score) + "[/color]"
+        text: "[color=ffffff]" + '{:.0f}'.format(root.score) + "[/color]"
 
 <Background>:
     image_one: image_one
@@ -50,7 +50,7 @@
     title: 'You Lost'
     BoxLayout:
         Label:
-            text: 'Your Score'
+            text: "Your scores"
         Button:
             text: 'Start Again'
             on_release:

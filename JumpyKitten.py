@@ -22,12 +22,9 @@ from components.obstacles import Obstacle
 
 
 class endGamePopup(Popup):
-    pass
-    # self.layout = FloatLayout(size=(300, 300))
-    #
-    # startButton = Button(text='Start', size_hint=(.6, .6), pos_hint={'x':.2, 'y':.2})
-    # startButton.bind(on_release=self.startButton_func)
-    # self.layout.add_widget(startButton)
+    def __init__(self, **kwargs):
+        super(Popup, self).__init__(**kwargs)
+
 
 class JumpyKittenGame(Widget):
     mcnay = ObjectProperty(Mcnay())
@@ -44,9 +41,8 @@ class JumpyKittenGame(Widget):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
-        self.mcnay.normal_velocity = [0, -4]
-        self.mcnay.velocity = self.mcnay.normal_velocity
-        self.background.velocity = [-2, 0]
+        self.score = 0
+        self.mcnay.reset()
         for obstacle in self.obstacles:
             self.remove_obstacle()
 
@@ -80,28 +76,21 @@ class JumpyKittenGame(Widget):
             obstacle.update()
             if obstacle.x < self.mcnay.x and not obstacle.marked:
                 obstacle.marked = True
-                self.score += 1
                 self.new_obstacle(remove=False)
+
         if len(self.obstacles) == 0:
             self.new_obstacle(remove=False)
         elif self.obstacles[0].x < 0:
             self.remove_obstacle()
-        # If obstacles is emply
+
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            # if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.gap_top + 20), size=(obstacle.width, obstacle.height - obstacle.gap_top))):
-            #     # This will be replaced later on
-            #     sys.exit()
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
-
-                self.mcnay.velocity = [0, 0]
-                self.mcnay.normal_velocity = [0,0]
-                self.background.velocity = [0,0]
-                self.obstacles.velocity = [0,0]
-
                 self.process.cancel()
                 popup = endGamePopup()
                 popup.open()
+
+        self.score += 0.02
 
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
