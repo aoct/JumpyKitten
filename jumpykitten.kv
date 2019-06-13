@@ -1,19 +1,6 @@
 #:kivy 1.10.0
 
-<mainPage>:
-    name: 'MainPage'
-    Label:
-        text: 'MainPage'
-    Button:
-        text: "Start"
-        on_press: app.sm.current = 'GamePage'
-
-<JumpyKittenPage>:
-    name: 'GamePage'
-
-
 <JumpyKittenGame>:
-    mcnay: mcnay
     background: background
     canvas:
         Color:
@@ -21,30 +8,12 @@
     Background:
         id: background
         pos: root.pos
-    Mcnay:
-        id: mcnay
-        center_x: root.center_x
-        center_y: root.center_y
     Label:
         font_size: 70
         center_x: root.center_x
         top: root.top - 30
         markup: True
         text: "[color=ffffff]" + '{:.0f}'.format(root.score) + "[/color]"
-
-<Background>:
-    image_one: image_one
-    image_two: image_two
-    Image:
-        id: image_one
-        source: "images/background.png"
-        pos: 0, 0
-        size: 800, 600
-    Image:
-        id: image_two
-        source: "images/background.png"
-        pos: root.width, 0
-        size: 800, 600
 
 <endGamePopup>:
     title: 'You Lost'

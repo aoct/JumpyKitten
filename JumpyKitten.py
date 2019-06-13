@@ -4,15 +4,13 @@ kivy.require("1.8.0")
 from random import randint
 import sys
 
-from kivy.properties import NumericProperty, ReferenceListProperty, BooleanProperty, ObjectProperty, ListProperty
+from kivy.properties import NumericProperty, ObjectProperty, ListProperty
 from kivy.uix.image import Image
-from kivy.vector import Vector
 from kivy.app import App
 from kivy.clock import Clock
-from kivy.config import Config
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
@@ -27,17 +25,21 @@ class endGamePopup(Popup):
 
 
 class JumpyKittenGame(Widget):
-    mcnay = ObjectProperty(Mcnay())
     background = ObjectProperty(Background())
     obstacles = ListProperty([])
     score = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
+
+        self.g_grav = -0.7
+
+        self.mcnay = Mcnay()
+        self.add_widget(self.mcnay)
+
         self.reset()
         self.bind(size=self.size_callback)
 
-        self.g_grav = -0.7
 
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)

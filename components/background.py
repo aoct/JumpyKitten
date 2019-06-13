@@ -2,6 +2,8 @@ from kivy.properties import NumericProperty, ReferenceListProperty, BooleanPrope
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
 from kivy.uix.image import Image
+from kivy.lang import Builder
+
 
 class Background(Widget):
     image_one = ObjectProperty(Image())
@@ -23,3 +25,19 @@ class Background(Widget):
     def update_position(self):
         self.image_one.pos = (0, 0)
         self.image_two.pos = (self.width, 0)
+
+Builder.load_string("""
+<Background>:
+    image_one: image_one
+    image_two: image_two
+    Image:
+        id: image_one
+        source: "images/background.png"
+        pos: 0, 0
+        size: 800, 600
+    Image:
+        id: image_two
+        source: "images/background.png"
+        pos: root.width, 0
+        size: 800, 600
+""")

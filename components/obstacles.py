@@ -1,5 +1,4 @@
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty, ReferenceListProperty, BooleanProperty, ObjectProperty, ListProperty
 from kivy.vector import Vector
 from kivy.lang import Builder
 
