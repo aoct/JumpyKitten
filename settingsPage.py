@@ -26,6 +26,7 @@ The settings page will contains features as:
 - music while playing on/off
 - remove ads (for cost)
 - vibrations on/off
+- screen orientation 
 - 
 
 """
