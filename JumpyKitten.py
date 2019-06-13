@@ -37,7 +37,7 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
-        self.g_grav = -1.
+        self.g_grav = -0.7
 
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
@@ -55,11 +55,10 @@ class JumpyKittenGame(Widget):
     def new_obstacle(self, remove=True):
         if remove:
             self.remove_obstacle()
+
         new_obstacle = Obstacle()
-        new_obstacle.height = self.height
         new_obstacle.x = self.width
-        new_obstacle.update_position()
-        new_obstacle.velocity = [-3, 0]
+
         self.add_widget(new_obstacle)
         self.obstacles = self.obstacles + [new_obstacle]
 
@@ -87,7 +86,7 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 0), size=(obstacle.width, obstacle.gap_top - obstacle.gap_size))):
+            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 112), size=(obstacle.width, obstacle.height))):
                 self.process.cancel()
                 popup = endGamePopup()
                 popup.open()
