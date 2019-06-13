@@ -13,7 +13,22 @@ Builder.load_string("""
         text: 'MainPage'
     Button:
         text: "Start"
-		size_hint: (.3, .3)
-		pos_hint: {'x':.35, 'y':.35}
+		size_hint: (.3, .15)
+		pos_hint: {'x':.35, 'y':.65}
         on_release: app.sm.current = 'GamePage'
+    Button:
+    	text: 'Ranking'
+    	size_hint: (.3, .15)
+		pos_hint: {'x':.35, 'y':.50}
+        on_release: app.sm.current = 'RankPage'
+    Button:
+    	text: 'Info'
+    	size_hint: (.3, .15)
+		pos_hint: {'x':.35, 'y':.35}
+        on_release: app.sm.current = 'InfoPage'
+    Button:
+    	text: 'Settings'
+    	size_hint: (.3, .15)
+		pos_hint: {'x':.35, 'y':.2}
+        on_release: app.sm.current = 'SettingsPage'
 """)
