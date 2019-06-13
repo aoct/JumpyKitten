@@ -18,8 +18,6 @@ class mainPage(Screen):
 Builder.load_string("""
 <mainPage>:
     name: 'MainPage'
-    Label:
-        text: 'MainPage'
     Button:
         text: "Start"
 		size_hint: (.3, .15)
