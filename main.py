@@ -30,6 +30,7 @@ class JumpyKittenApp(App):
 		self.settingsPage = settingsPage(name='SettingsPage')
 		self.sm.add_widget(self.settingsPage)
 
+
 		return self.sm
 
 
