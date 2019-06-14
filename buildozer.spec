@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Jumping Kitten
+title = Jumpy Kitten
 
 # (str) Package name
-package.name = jumpingkittenapp
+package.name = jumpyKitten
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -46,10 +46,10 @@ requirements = hostpython2 ,kivy, android, jnius, kivmob
 #garden_requirements =
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/images/presplash_image.png
 
 # (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
+icon.filename = %(source.dir)s/images/pixel_gray_base.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
