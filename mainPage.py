@@ -12,7 +12,8 @@ class mainPage(Screen):
         super(mainPage, self).__init__(**kwargs)
 
         self.ads = KivMob(TestIds.APP)
-        self.ads.new_interstitial(TestIds.INTERSTITIAL)
+        # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+        self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
         self.ads.request_interstitial()
 
 Builder.load_string("""

@@ -153,7 +153,8 @@ android.ndk = 17c
 
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
-android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+# android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
 
 # (list) Java classes to add as activities to the manifest.
 #android.add_activites = com.example.ExampleActivity
@@ -185,7 +186,11 @@ p4a.branch = master
 #android.wakelock = False
 
 # (list) Android application meta-data to set (key=value format)
-android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
+
+# Test ID
+# android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
+#Jumpy Kitten ID
+android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280870740386~8534172049
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
