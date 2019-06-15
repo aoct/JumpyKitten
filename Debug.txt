@@ -1,6 +1,0 @@
-Debugs required:
-
-- the game is initialized before we switch screens. With the current code, as soon as the app is opened the game starts running in the background. (You can see that from the messages that pop up in the terminal)
-- Problem with obstables and randint --> had to remove the randint because it was giving errors : ValueError: empty range for randrange() (262,101, -161)
-	- it looks like the values that were being passed were starting off as (high, low) and then becoming (low, high)
-
