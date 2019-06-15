@@ -1,0 +1,1 @@
+-	The size of the Background was 800 x 600. We need to rescale the dimensions in the app to fir with that.
