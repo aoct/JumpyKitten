@@ -1,15 +1,21 @@
 import kivy
 kivy.require("1.10.0")
 
+import platform
+if platform.platform().startswith('Darwin'):
+	print('Showing a smartphone-like screen')
+	from kivy.config import Config
+	Config.set('graphics', 'width', '600')
+	Config.set('graphics', 'height', '800')
+
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
 from infoPage import infoPage
 from rankPage import rankPage
 from settingsPage import settingsPage
-
 
 class JumpyKittenApp(App):
 	def build(self):

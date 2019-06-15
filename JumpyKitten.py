@@ -40,7 +40,6 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
-
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
