@@ -17,11 +17,12 @@
 
 <endGamePopup>:
     title: 'You Lost'
-    BoxLayout:
-        Label:
-            text: "Your scores"
-        Button:
-            text: 'Start Again'
-            on_release:
-                app.sm.current = 'MainPage'
-                root.dismiss()
+    background_color: 0, 0, 0, .3
+    size_hint: (.2, .3)
+    pos_hint: {'x':.4, 'y':.35}
+    Button:
+        text: 'Start Again'
+        size_hint: (1., 1.)
+        on_release:
+            app.sm.current = 'MainPage'
+            root.dismiss()
