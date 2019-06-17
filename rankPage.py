@@ -3,7 +3,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 
 from kivy.uix.gridlayout import GridLayout
-# from kivy.properties import ObjectProperty
 from kivy.uix.label import Label
 
 class rankPage(Screen):

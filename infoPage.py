@@ -1,6 +1,4 @@
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen
-from kivy.uix.button import Button
 from kivy.lang import Builder
 
 class infoPage(Screen):
@@ -15,6 +13,7 @@ Builder.load_string("""
         pos: 0, 0
         size: root.height * self.image_ratio, root.height
 	Label:
+		font_size: 20
 		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'
 	Button:
 		text: 'Back'

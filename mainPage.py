@@ -29,6 +29,7 @@ Builder.load_string("""
 		size_hint: (.3, .15)
 		pos_hint: {'x':.35, 'y':.65}
         on_release: app.sm.current = 'GamePage'
+        # background_color: 0, 0, 0, .3
     Button:
     	text: 'Ranking'
     	size_hint: (.3, .15)

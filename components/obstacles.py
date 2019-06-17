@@ -28,7 +28,7 @@ Builder.load_string("""
 <Obstacle>:
     canvas:
         Color:
-            rgb: 21 / 255.0, 180 / 255.0, 39 / 255.0
+            rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
         Rectangle:
             pos: self.x, root.base
             size: root.width, root.height
