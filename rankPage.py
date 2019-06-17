@@ -1,17 +1,48 @@
-from kivy.uix.floatlayout import FloatLayout
+import os, pickle
 from kivy.uix.screenmanager import Screen
-from kivy.uix.button import Button
 from kivy.lang import Builder
 
+from kivy.uix.gridlayout import GridLayout
+# from kivy.properties import ObjectProperty
+from kivy.uix.label import Label
+
 class rankPage(Screen):
-	pass
+	def __init__(self, **kwargs):
+		super(rankPage, self).__init__(**kwargs)
+		self.score_report = GridLayout(cols=1,
+									   size_hint=(1.,.5),
+									   pos_hint={'x':0., 'y':.3}
+									   )
+		self.score_report.add_widget(Label(text='Your scores', font_size=50))
+		self.score_report.add_widget(Label(text='Best: 0', font_size=50))
+		self.score_report.add_widget(Label(text='Avg: 0', font_size=50))
+
+		self.add_widget(self.score_report)
+
+
+	def on_enter(self):
+		score_best = 0
+		score_avg = 0
+		if os.path.isfile('data/score_history.pickle'):
+			score_history = pickle.load(open('data/score_history.pickle', 'rb'))
+
+			score_best =  max(score_history)
+			score_avg = sum(score_history)/float(len(score_history))
+
+			self.score_report.children[1].text = 'Best: {:.1f}'.format(score_best)
+			self.score_report.children[0].text = 'Average: {:.1f}'.format(score_avg)
+
+
 
 
 Builder.load_string("""
 <rankPage>:
 	name: 'RankPage'
-	Label:
-		text:'Ranking'
+	Image:
+        allow_stretch: True
+        source: "images/background.png"
+        pos: 0, 0
+        size: root.height * self.image_ratio, root.height
 	Button:
 		text: 'Back'
 		size_hint: (.1, .1)

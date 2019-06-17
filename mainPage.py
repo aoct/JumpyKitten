@@ -1,4 +1,3 @@
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
@@ -20,6 +19,11 @@ class mainPage(Screen):
 Builder.load_string("""
 <mainPage>:
     name: 'MainPage'
+    Image:
+        allow_stretch: True
+        source: "images/background.png"
+        pos: 0, 0
+        size: root.height * self.image_ratio, root.height
     Button:
         text: "Start"
 		size_hint: (.3, .15)
@@ -36,8 +40,8 @@ Builder.load_string("""
 		pos_hint: {'x':.35, 'y':.35}
         on_release: root.ads.show_interstitial()
     Button:
-    	text: 'Settings'
+    	text: 'Info'
     	size_hint: (.3, .15)
 		pos_hint: {'x':.35, 'y':.2}
-        on_release: app.sm.current = 'SettingsPage'
+        on_release: app.sm.current = 'InfoPage'
 """)

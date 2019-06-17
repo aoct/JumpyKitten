@@ -9,8 +9,13 @@ class infoPage(Screen):
 Builder.load_string("""
 <infoPage>:
 	name: 'InfoPage'
+	Image:
+        allow_stretch: True
+        source: "images/background.png"
+        pos: 0, 0
+        size: root.height * self.image_ratio, root.height
 	Label:
-		text: 'InfoPage'
+		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'
 	Button:
 		text: 'Back'
 		size_hint: (.1, .1)

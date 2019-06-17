@@ -3,6 +3,7 @@ kivy.require("1.8.0")
 
 from random import randint
 import sys
+import pickle, os
 
 from kivy.properties import NumericProperty, ObjectProperty, ListProperty
 from kivy.uix.image import Image
@@ -77,7 +78,6 @@ class JumpyKittenGame(Widget):
             obstacle.update()
             if obstacle.x < self.mcnay.x and not obstacle.marked:
                 obstacle.marked = True
-                # self.new_obstacle()
 
         if len(self.obstacles) == 0:
             self.new_obstacle()
@@ -92,6 +92,15 @@ class JumpyKittenGame(Widget):
         for obstacle in self.obstacles:
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.base), size=(obstacle.width, obstacle.height))):
                 self.process.cancel()
+
+                if os.path.isfile('data/score_history.pickle'):
+                    score_history = pickle.load(open('data/score_history.pickle', 'rb'))
+                else: score_history = []
+
+                score_history += [self.score]
+                pickle.dump(score_history, open('data/score_history.pickle', 'wb'))
+
+
                 popup = endGamePopup()
                 popup.open()
 
