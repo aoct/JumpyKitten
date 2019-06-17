@@ -35,7 +35,7 @@ class JumpyKittenGame(Widget):
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
 
-        self.g_grav = -0.7 #pizel * frame_rate^2
+        self.g_grav = -0.6 #pizel * frame_rate^2
 
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
@@ -90,7 +90,7 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.base), size=(obstacle.width, obstacle.height))):
+            if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.base), size=(obstacle.width*0.9, obstacle.height))):
                 self.process.cancel()
 
                 if os.path.isfile('data/score_history.pickle'):

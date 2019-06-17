@@ -26,23 +26,34 @@ Builder.load_string("""
         size: root.height * self.image_ratio, root.height
     Button:
         text: "Start"
-		size_hint: (.3, .15)
-		pos_hint: {'x':.35, 'y':.65}
         on_release: app.sm.current = 'GamePage'
-        # background_color: 0, 0, 0, .3
+        size_hint: (.3, .15)
+        pos_hint: {'x':.35, 'y':.35}
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/pixel_gray_base.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
     Button:
-    	text: 'Ranking'
-    	size_hint: (.3, .15)
-		pos_hint: {'x':.35, 'y':.50}
+    	text: 'Settings'
+    	size_hint: (.15, .1)
+		pos_hint: {'x':.05, 'y':.45}
+        on_release: app.sm.current = 'SettingsPage'
+    Button:
+    	text: 'Rank'
+    	size_hint: (.15, .1)
+		pos_hint: {'x':.8, 'y':.6}
         on_release: app.sm.current = 'RankPage'
     Button:
     	text: 'Ads'
-    	size_hint: (.3, .15)
-		pos_hint: {'x':.35, 'y':.35}
+    	size_hint: (.15, .1)
+		pos_hint: {'x':.8, 'y':.45}
         on_release: root.ads.show_interstitial()
     Button:
     	text: 'Info'
-    	size_hint: (.3, .15)
-		pos_hint: {'x':.35, 'y':.2}
+    	size_hint: (.15, .1)
+		pos_hint: {'x':.8, 'y':.3}
         on_release: app.sm.current = 'InfoPage'
 """)

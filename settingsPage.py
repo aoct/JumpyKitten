@@ -27,6 +27,4 @@ The settings page will contains features as:
 - remove ads (for cost)
 - vibrations on/off
 - screen orientation 
-- 
-
 """
