@@ -3,6 +3,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.lang import Builder
 
+from kivy.core.window import Window
 
 class Background(Widget):
     image_one = ObjectProperty(Image())
@@ -10,7 +11,7 @@ class Background(Widget):
 
     def __init__(self, **kwargs):
         super(Background, self).__init__(**kwargs)
-        self.velocity = [-2, 0] #pxl*frame_rate
+        self.velocity = [-Window.size[0]/400., 0] #pxl*frame_rate
 
     def update(self):
         self.image_one.pos[0] = self.velocity[0] + self.image_one.pos[0]

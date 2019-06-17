@@ -18,6 +18,8 @@ from components.background import Background
 from components.mcnay import Mcnay
 from components.obstacles import Obstacle
 
+from random import uniform
+
 
 class endGamePopup(Popup):
     def __init__(self, **kwargs):
@@ -32,7 +34,7 @@ class JumpyKittenGame(Widget):
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
 
-        self.g_grav = -0.7
+        self.g_grav = -0.7 #pizel * frame_rate^2
 
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
@@ -53,11 +55,8 @@ class JumpyKittenGame(Widget):
         self.remove_widget(self.obstacles[0])
         self.obstacles = self.obstacles[1:]
 
-    def new_obstacle(self, remove=True):
-        if remove:
-            self.remove_obstacle()
-
-        new_obstacle = Obstacle()
+    def new_obstacle(self):
+        new_obstacle = Obstacle(self.score)
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)
@@ -78,16 +77,20 @@ class JumpyKittenGame(Widget):
             obstacle.update()
             if obstacle.x < self.mcnay.x and not obstacle.marked:
                 obstacle.marked = True
-                self.new_obstacle(remove=False)
+                # self.new_obstacle()
 
         if len(self.obstacles) == 0:
-            self.new_obstacle(remove=False)
-        elif self.obstacles[0].x < 0:
+            self.new_obstacle()
+        elif self.obstacles[-1].x < Window.size[0]*0.7:
+            if uniform(0, 1.) > 0.99:
+                self.new_obstacle()
+
+        if self.obstacles[0].x < 0:
             self.remove_obstacle()
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, 112), size=(obstacle.width, obstacle.height))):
+            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.base), size=(obstacle.width, obstacle.height))):
                 self.process.cancel()
                 popup = endGamePopup()
                 popup.open()
