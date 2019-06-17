@@ -95,7 +95,10 @@ class JumpyKittenGame(Widget):
 
                 if os.path.isfile('data/score_history.pickle'):
                     score_history = pickle.load(open('data/score_history.pickle', 'rb'))
-                else: score_history = []
+                else:
+                    score_history = []
+                    if not os.path.isdir('data'):
+                        os.mkdir('data')
 
                 score_history += [self.score]
                 pickle.dump(score_history, open('data/score_history.pickle', 'wb'))
