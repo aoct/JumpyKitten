@@ -19,14 +19,17 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]/5.75
+        self.ground = Window.size[1]/6.5
 
-        self.size = (Window.size[1]/10, Window.size[1]/10)
+        self.size = (Window.size[0]/10., Window.size[0]/10.)
 
         if Config.getdefault('input', 'keyboard', False):
             self._keyboard = Window.request_keyboard(
                 self._keyboard_closed, self, 'text')
             self._keyboard.bind(on_key_down=self._on_keyboard_down)
+
+        self.updatesSinceLastImageChange = 0
+        self.imageFrame = 5
 
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
@@ -54,13 +57,19 @@ class Mcnay(Widget):
             self.pos[1] = self.ground
             self.velocity[1] = 0
 
+        if self.updatesSinceLastImageChange > 4: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
+            self.imageFrame += 1
+            self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
+            self.updatesSinceLastImageChange = 0
+        else:
+            self.updatesSinceLastImageChange += 1
 
 Builder.load_string("""
 <Mcnay>:
     mcnay_image: image
     Image:
         id: image
-        source: "images/pixel_gray_base.png"
+        source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
         size: root.size
         pos: root.pos
 """)

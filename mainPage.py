@@ -31,7 +31,7 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/pixel_gray_base.png"
+            source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
