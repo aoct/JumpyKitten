@@ -1,1 +1,3 @@
 -	The size of the Background was 800 x 600. We need to rescale the dimensions in the app to fir with that.
+- Add ads banner in the app everywhere
+- Change the cat image
