@@ -46,7 +46,7 @@ requirements = hostpython2 ,kivy, android, jnius, kivmob
 #garden_requirements =
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/images/presplash_image.png
+# presplash.filename = %(source.dir)s/images/presplash_image.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/images/cats/pink_nyan/frame_5_delay-0.07s.png
