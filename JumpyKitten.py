@@ -45,9 +45,7 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
-    def start(self, ads):
-        ads.request_banner()
-        ads.show_banner()
+    def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
@@ -125,7 +123,10 @@ class JumpyKittenPage(Screen):
 
     def on_enter(self):
         self.game.reset()
-        self.game.start(self.ads)
+        self.ads.request_banner()
+        self.ads.show_banner()
+        self.game.start()
 
     def on_leave(self):
+        self.ads.destroy_banner()
         self.game.reset()
