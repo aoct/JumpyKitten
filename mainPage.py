@@ -10,11 +10,10 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        # self.ads = KivMob(TestIds.APP)
-        self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-        # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-        self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-        self.ads.request_interstitial()
+        self.ads = KivMob(TestIds.APP)
+        # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+        self.ads.new_interstitial(TestIds.INTERSTITIAL)
+        # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
 
 Builder.load_string("""
 <mainPage>:
@@ -50,7 +49,9 @@ Builder.load_string("""
     	text: 'Ads'
     	size_hint: (.15, .1)
 		pos_hint: {'x':.8, 'y':.45}
-        on_release: root.ads.show_interstitial()
+        on_release:
+            root.ads.request_interstitial()
+            root.ads.show_interstitial()
     Button:
     	text: 'Info'
     	size_hint: (.15, .1)

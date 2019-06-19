@@ -15,6 +15,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
+from kivmob import KivMob, TestIds
+
 from components.background import Background
 from components.mcnay import Mcnay
 from components.obstacles import Obstacle
@@ -43,7 +45,9 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
-    def start(self):
+    def start(self, ads):
+        ads.request_banner()
+        ads.show_banner()
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
@@ -115,9 +119,13 @@ class JumpyKittenPage(Screen):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)
 
+        self.ads = KivMob(TestIds.APP)
+        self.ads.new_banner(TestIds.BANNER)
+
+
     def on_enter(self):
         self.game.reset()
-        self.game.start()
+        self.game.start(self.ads)
 
     def on_leave(self):
         self.game.reset()
