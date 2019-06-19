@@ -104,7 +104,7 @@ class JumpyKittenGame(Widget):
                 pickle.dump(score_history, open('data/score_history.pickle', 'wb'))
 
 
-                popup = endGamePopup()
+                popup = endGamePopup(auto_dismiss=False)
                 popup.open()
 
         self.score += 0.02
@@ -116,6 +116,7 @@ class JumpyKittenPage(Screen):
         self.add_widget(self.game)
 
     def on_enter(self):
+        self.game.reset()
         self.game.start()
 
     def on_leave(self):

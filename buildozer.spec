@@ -49,7 +49,7 @@ requirements = hostpython2 ,kivy, android, jnius, kivmob
 presplash.filename = %(source.dir)s/images/presplash_image.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/images/pixel_gray_base.png
+icon.filename = %(source.dir)s/images/cats/pink_nyan/frame_5_delay-0.07s.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = all

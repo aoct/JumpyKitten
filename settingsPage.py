@@ -9,13 +9,25 @@ class settingsPage(Screen):
 Builder.load_string("""
 <SettingsPage>:
 	name: 'SettingsPage'
+	Image:
+        allow_stretch: True
+        source: "images/background.png"
+        pos: 0, 0
+        size: root.height * self.image_ratio, root.height
 	Label:
-		text: 'SettingsPage'
+		text: 'Coming soon...'
 	Button:
-		text: 'Back'
+		text: ''
 		size_hint: (.1, .1)
-		pos_hint: {'x':0, 'y':.9}
+		pos_hint: {'x':0.01, 'y':.89}
 		on_release: app.sm.current = 'MainPage'
+        background_color: 0, 0, 0, .0
+		Image:
+            source: "images/icons/home.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
 """)
 
 
@@ -26,5 +38,5 @@ The settings page will contains features as:
 - music while playing on/off
 - remove ads (for cost)
 - vibrations on/off
-- screen orientation 
+- screen orientation
 """

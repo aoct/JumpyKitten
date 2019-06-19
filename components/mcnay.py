@@ -19,7 +19,7 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]/6.5
+        self.ground = Window.size[1]/5.35 - 20
 
         self.size = (Window.size[0]/10., Window.size[0]/10.)
 

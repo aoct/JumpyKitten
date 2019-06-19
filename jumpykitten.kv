@@ -16,13 +16,39 @@
         text: "[color=ffffff]" + '{:.0f}'.format(root.score) + "[/color]"
 
 <endGamePopup>:
-    title: 'You Lost'
+    title: ""
+    separator_height: 0
     background_color: 0, 0, 0, .3
-    size_hint: (.2, .3)
-    pos_hint: {'x':.4, 'y':.35}
-    Button:
-        text: 'Restart'
-        size_hint: (1., 1.)
-        on_release:
-            app.sm.current = 'MainPage'
-            root.dismiss()
+    size_hint: (.3, .4)
+    pos_hint: {'x':.35, 'y':.3}
+    GridLayout:
+        cols: 1
+        Button:
+            text: ''
+            size_hint: (.7, .7)
+            # pos: (.1, .3)
+            on_release:
+                root.dismiss()
+                app.sm.current = 'MainPage'
+                app.sm.current = 'GamePage'
+            background_color: 0, 0, 0, .0
+            Image:
+                source: "images/icons/retry.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True
+        Button:
+            text: ''
+            size_hint: (.2, .2)
+            # pos: (.1, .1)
+            on_release:
+                root.dismiss()
+                app.sm.current = 'MainPage'
+            background_color: 0, 0, 0, .0
+            Image:
+                source: "images/icons/home.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True

@@ -23,9 +23,9 @@ Builder.load_string("""
         allow_stretch: True
         source: "images/background.png"
         pos: 0, 0
-        size: root.height * self.image_ratio, root.height
+        size: root.width, root.height
     Button:
-        text: "Start"
+        text: " "
         on_release: app.sm.current = 'GamePage'
         size_hint: (.3, .15)
         pos_hint: {'x':.35, 'y':.35}
