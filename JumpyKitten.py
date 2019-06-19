@@ -128,5 +128,6 @@ class JumpyKittenPage(Screen):
         self.game.start()
 
     def on_leave(self):
+        self.ads.hide_banner()
         self.ads.destroy_banner()
         self.game.reset()

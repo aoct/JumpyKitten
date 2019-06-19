@@ -1,4 +1,4 @@
-FlappyKivy
+Jumpy Kitten
 ==========
 
 ![Screenshot](/screenshots/shot.png)
