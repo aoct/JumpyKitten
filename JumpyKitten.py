@@ -83,7 +83,7 @@ class JumpyKittenGame(Widget):
         if len(self.obstacles) == 0:
             self.new_obstacle()
         elif self.obstacles[-1].x < Window.size[0]*0.7:
-            if uniform(0, 1.) > 0.995:
+            if uniform(0, 1. + self.score*1e-5) > 0.995:
                 self.new_obstacle()
 
         if self.obstacles[0].x < 0:
@@ -91,7 +91,7 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.base), size=(obstacle.width*0.9, obstacle.height))):
+            if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.95))):
                 self.process.cancel()
 
                 if os.path.isfile('data/score_history.pickle'):

@@ -19,7 +19,7 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]/5.35 - 20
+        self.ground = Window.size[1]/5.4 - 30
 
         self.size = (Window.size[0]/8., Window.size[0]/8.)
 
@@ -45,12 +45,15 @@ class Mcnay(Widget):
             self.pos[1] = self.ground
             self.velocity[1] = 0
 
-        if self.updatesSinceLastImageChange > 4: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
+        if self.updatesSinceLastImageChange > 3: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
             self.imageFrame += 1
             self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
+
+        if self.velocity[1] != 0:
+            self.updatesSinceLastImageChange = 0
 
 Builder.load_string("""
 <Mcnay>:

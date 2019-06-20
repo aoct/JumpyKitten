@@ -18,13 +18,13 @@ class Background(Widget):
         self.image_two.pos[0] = self.velocity[0] + self.image_two.pos[0]
 
         if self.image_one.right <= 0:
-            self.image_one.pos = (self.width, 0)
+            self.image_one.pos = (self.width*0.99, 0)
         if self.image_two.right <= 0:
-            self.image_two.pos = (self.width, 0)
+            self.image_two.pos = (self.width*0.99, 0)
 
     def update_position(self):
         self.image_one.pos = (0, 0)
-        self.image_two.pos = (self.width, 0)
+        self.image_two.pos = (self.width*0.99, 0)
 
 Builder.load_string("""
 <Background>:
@@ -40,6 +40,6 @@ Builder.load_string("""
         id: image_two
         allow_stretch: True
         source: "images/background.png"
-        pos: root.width, 0
+        pos: root.width*0.99, 0
         size: root.height * self.image_ratio, root.height
 """)
