@@ -44,24 +44,24 @@ Builder.load_string("""
             allow_stretch: True
     Button:
     	text: 'Settings'
-    	size_hint: (.15, .1)
+    	size_hint: (.1, .1)
 		pos_hint: {'x':.05, 'y':.45}
         on_release: app.sm.current = 'SettingsPage'
     Button:
     	text: 'Rank'
-    	size_hint: (.15, .1)
-		pos_hint: {'x':.8, 'y':.6}
+    	size_hint: (.1, .1)
+		pos_hint: {'x':.85, 'y':.7}
         on_release: app.sm.current = 'RankPage'
     Button:
     	text: 'Ads'
-    	size_hint: (.15, .1)
-		pos_hint: {'x':.8, 'y':.45}
+    	size_hint: (.1, .1)
+		pos_hint: {'x':.85, 'y':.45}
         on_release:
             root.ads.request_interstitial()
             root.ads.show_interstitial()
     Button:
     	text: 'Info'
-    	size_hint: (.15, .1)
-		pos_hint: {'x':.8, 'y':.3}
+    	size_hint: (.1, .1)
+		pos_hint: {'x':.85, 'y':.2}
         on_release: app.sm.current = 'InfoPage'
 """)

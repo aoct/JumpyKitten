@@ -36,7 +36,7 @@ class JumpyKittenGame(Widget):
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
 
-        self.g_grav = -0.6 #pizel * frame_rate^2
+        self.g_grav = -0.5 #pizel * frame_rate^2
         self.obstacles = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
@@ -83,7 +83,7 @@ class JumpyKittenGame(Widget):
         if len(self.obstacles) == 0:
             self.new_obstacle()
         elif self.obstacles[-1].x < Window.size[0]*0.7:
-            if uniform(0, 1.) > 0.99:
+            if uniform(0, 1.) > 0.995:
                 self.new_obstacle()
 
         if self.obstacles[0].x < 0:

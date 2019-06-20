@@ -1,8 +1,8 @@
+import os
 import kivy
 kivy.require("1.10.0")
 
-import platform
-if platform.platform().startswith('Darwin'):
+if os.name == 'posix':
 	print('Showing a smartphone-like screen')
 	from kivy.config import Config
 	Config.set('graphics', 'width', '600')

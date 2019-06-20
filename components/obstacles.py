@@ -16,7 +16,7 @@ class Obstacle(Widget):
         self.width = uniform(0.8, 1.2)*Window.size[0]*0.05
         self.height = uniform(0.8, 1.2)*Window.size[1]/6.
 
-        self.base_velocity = Vector(-Window.size[0]/200., 0)
+        self.base_velocity = Vector(-Window.size[0]/150., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)
 
         self.marked = False

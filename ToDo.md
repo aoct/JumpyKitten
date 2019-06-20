@@ -1,1 +1,2 @@
--  Fix the background image
+- Add rotation of the screen https://gist.github.com/rnixx/c60a744576866a7f1a42
+- Add in app purchases
