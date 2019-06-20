@@ -1,19 +1,25 @@
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import Screen
-from kivy.uix.button import Button
 from kivy.lang import Builder
+from kivy.properties import ObjectProperty
+
+from components.background import Background
 
 class settingsPage(Screen):
-	pass
+	background = ObjectProperty(Background())
+	def __init__(self, **kwargs):
+		super(settingsPage, self).__init__(**kwargs)
+		self.bind(size=self.size_callback)
+
+	def size_callback(self, instance, value):
+	    self.background.size = value
+	    self.background.update_position()
 
 Builder.load_string("""
 <SettingsPage>:
-	name: 'SettingsPage'
-	Image:
-        allow_stretch: True
-        source: "images/background.png"
-        pos: 0, 0
-        size: root.height * self.image_ratio, root.height
+	background: background
+    Background:
+        id: background
+        pos: root.pos
 	Label:
 		text: 'Coming soon...'
 	Button:

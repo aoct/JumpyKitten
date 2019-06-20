@@ -4,8 +4,13 @@ from kivy.lang import Builder
 
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
+from kivy.properties import ObjectProperty
+
+from components.background import Background
+
 
 class rankPage(Screen):
+	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
 		super(rankPage, self).__init__(**kwargs)
 		self.score_report = GridLayout(cols=1,
@@ -17,6 +22,11 @@ class rankPage(Screen):
 		self.score_report.add_widget(Label(text='Avg: 0', font_size=50))
 
 		self.add_widget(self.score_report)
+		self.bind(size=self.size_callback)
+
+	def size_callback(self, instance, value):
+	    self.background.size = value
+	    self.background.update_position()
 
 
 	def on_enter(self):
@@ -36,12 +46,10 @@ class rankPage(Screen):
 
 Builder.load_string("""
 <rankPage>:
-	name: 'RankPage'
-	Image:
-        allow_stretch: True
-        source: "images/background.png"
-        pos: 0, 0
-        size: root.height * self.image_ratio, root.height
+	background: background
+    Background:
+        id: background
+        pos: root.pos
 	Button:
 		text: ''
 		size_hint: (.1, .1)

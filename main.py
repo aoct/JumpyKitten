@@ -1,12 +1,12 @@
 import kivy
 kivy.require("1.10.0")
 
-# import platform
-# if platform.platform().startswith('Darwin'):
-# 	print('Showing a smartphone-like screen')
-# 	from kivy.config import Config
-# 	Config.set('graphics', 'width', '600')
-# 	Config.set('graphics', 'height', '800')
+import platform
+if platform.platform().startswith('Darwin'):
+	print('Showing a smartphone-like screen')
+	from kivy.config import Config
+	Config.set('graphics', 'width', '600')
+	Config.set('graphics', 'height', '800')
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager

@@ -5,7 +5,7 @@ from random import randint
 import sys
 import pickle, os
 
-from kivy.properties import NumericProperty, ObjectProperty, ListProperty
+from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.image import Image
 from kivy.app import App
 from kivy.clock import Clock
@@ -31,14 +31,13 @@ class endGamePopup(Popup):
 
 class JumpyKittenGame(Widget):
     background = ObjectProperty(Background())
-    obstacles = ListProperty([])
     score = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
 
         self.g_grav = -0.6 #pizel * frame_rate^2
-
+        self.obstacles = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
 

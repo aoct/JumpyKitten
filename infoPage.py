@@ -1,17 +1,26 @@
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
+from kivy.properties import ObjectProperty
+
+from components.background import Background
+
 
 class infoPage(Screen):
-	pass
+	background = ObjectProperty(Background())
+	def __init__(self, **kwargs):
+		super(infoPage, self).__init__(**kwargs)
+		self.bind(size=self.size_callback)
+
+	def size_callback(self, instance, value):
+	    self.background.size = value
+	    self.background.update_position()
 
 Builder.load_string("""
 <infoPage>:
-	name: 'InfoPage'
-	Image:
-        allow_stretch: True
-        source: "images/background.png"
-        pos: 0, 0
-        size: root.height * self.image_ratio, root.height
+	background: background
+    Background:
+        id: background
+        pos: root.pos
 	Label:
 		font_size: 20
 		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'

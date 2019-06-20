@@ -1,11 +1,14 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
+from kivy.properties import ObjectProperty
 
 from kivmob import KivMob, TestIds
 
+from components.background import Background
 
 class mainPage(Screen):
+    background = ObjectProperty(Background())
 
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
@@ -15,19 +18,23 @@ class mainPage(Screen):
         self.ads.new_interstitial(TestIds.INTERSTITIAL)
         # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
 
+        self.bind(size=self.size_callback)
+
+    def size_callback(self, instance, value):
+        self.background.size = value
+        self.background.update_position()
+
 Builder.load_string("""
 <mainPage>:
-    name: 'MainPage'
-    Image:
-        allow_stretch: True
-        source: "images/background.png"
-        pos: 0, 0
-        size: root.width, root.height
+    background: background
+    Background:
+        id: background
+        pos: root.pos
     Button:
         text: " "
         on_release: app.sm.current = 'GamePage'
-        size_hint: (.3, .15)
-        pos_hint: {'x':.35, 'y':.35}
+        size_hint: (.2, .2)
+        pos_hint: {'x':.4, 'y':.4}
         background_color: 0, 0, 0, .0
         Image:
             source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
