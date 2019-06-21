@@ -31,7 +31,6 @@ Builder.load_string("""
         id: background
         pos: root.pos
     Button:
-        text: " "
         on_release: app.sm.current = 'GamePage'
         size_hint: (.2, .2)
         pos_hint: {'x':.4, 'y':.4}
@@ -43,25 +42,49 @@ Builder.load_string("""
             size: self.parent.size
             allow_stretch: True
     Button:
-    	text: 'Settings'
     	size_hint: (.1, .1)
 		pos_hint: {'x':.05, 'y':.45}
         on_release: app.sm.current = 'SettingsPage'
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/icons/settings.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
     Button:
-    	text: 'Rank'
     	size_hint: (.1, .1)
 		pos_hint: {'x':.85, 'y':.7}
         on_release: app.sm.current = 'RankPage'
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/icons/ranking.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
     Button:
-    	text: 'Ads'
     	size_hint: (.1, .1)
 		pos_hint: {'x':.85, 'y':.45}
+        background_color: 0, 0, 0, .0
         on_release:
             root.ads.request_interstitial()
             root.ads.show_interstitial()
+        Image:
+            source: "images/icons/noads.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
     Button:
-    	text: 'Info'
     	size_hint: (.1, .1)
 		pos_hint: {'x':.85, 'y':.2}
         on_release: app.sm.current = 'InfoPage'
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/icons/info.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
 """)

@@ -33,13 +33,13 @@ Builder.load_string("""
     Image:
         id: image_one
         allow_stretch: True
-        source: "images/background.png"
+        source: "images/background_4.png"
         pos: 0, 0
         size: root.height * self.image_ratio, root.height
     Image:
         id: image_two
         allow_stretch: True
-        source: "images/background.png"
+        source: "images/background_4.png"
         pos: root.width*0.99, 0
         size: root.height * self.image_ratio, root.height
 """)

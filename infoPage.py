@@ -25,7 +25,6 @@ Builder.load_string("""
 		font_size: 20
 		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'
 	Button:
-		text: ''
 		size_hint: (.1, .1)
 		pos_hint: {'x':0.01, 'y':.89}
 		on_release: app.sm.current = 'MainPage'
