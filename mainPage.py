@@ -53,8 +53,8 @@ Builder.load_string("""
   #           size: self.parent.size
   #           allow_stretch: True
     Button:
-    	size_hint: (.1, .1)
-		pos_hint: {'x':.85, 'y':.55}
+    	size_hint: (.2, .2)
+		pos_hint: {'x':.02, 'y':.4}
         on_release: app.sm.current = 'RankPage'
         background_color: 0, 0, 0, .0
         Image:
@@ -77,8 +77,8 @@ Builder.load_string("""
   #           size: self.parent.size
   #           allow_stretch: True
     Button:
-    	size_hint: (.1, .1)
-		pos_hint: {'x':.85, 'y':.35}
+    	size_hint: (.2, .2)
+		pos_hint: {'x':.78, 'y':.4}
         on_release: app.sm.current = 'InfoPage'
         background_color: 0, 0, 0, .0
         Image:

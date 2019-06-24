@@ -14,8 +14,8 @@ class Obstacle(Widget):
     def __init__(self, score, **kwargs):
         super(Obstacle, self).__init__(**kwargs)
 
-        self.width = (1+0.01*log(score+1))*uniform(0.8, 1.2)*Window.size[0]*0.15
-        self.height = (1+0.01*log(score+1))*uniform(0.8, 1.2)*Window.size[1]/6.
+        self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
+        self.height = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[1]/6.
 
         self.base_velocity = Vector(-Window.size[0]/150., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)

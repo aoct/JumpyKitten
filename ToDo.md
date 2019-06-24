@@ -1,1 +1,2 @@
+- Fix collision algo
 - Add in app purchases
