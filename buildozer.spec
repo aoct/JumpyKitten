@@ -7,7 +7,7 @@ title = Jumpy Kitten
 package.name = jumpyKitten
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.aoct.JumpyKitten
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -75,7 +75,7 @@ osx.kivy_version = 1.9.1
 #
 
 # (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
+fullscreen = 1
 
 # (string) Presplash background color (for new android toolchain)
 # Supported formats are: #RRGGBB #AARRGGBB or one of the following names:
