@@ -1,7 +1,7 @@
 Jumpy Kitten
 ==========
 
-![Screenshot](/screenshots/shot.png)
+![Screenshot](/screenshots/Screenshot_20190625-000631.png)
 
 A fame programmed in Python + Kivy!
 
