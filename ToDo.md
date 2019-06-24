@@ -1,4 +1,1 @@
 - Add in app purchases
-- Add that 2 obstacles can't appear closer than mcnay jump distance
-- Add ability to perform jump while in the air
-- add 

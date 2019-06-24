@@ -41,20 +41,20 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+  #   Button:
+  #   	size_hint: (.1, .1)
+		# pos_hint: {'x':.85, 'y':.45}
+  #       on_release: app.sm.current = 'SettingsPage'
+  #       background_color: 0, 0, 0, .0
+  #       Image:
+  #           source: "images/icons/settings.png"
+  #           y: self.parent.y
+  #           x: self.parent.x
+  #           size: self.parent.size
+  #           allow_stretch: True
     Button:
     	size_hint: (.1, .1)
-		pos_hint: {'x':.05, 'y':.45}
-        on_release: app.sm.current = 'SettingsPage'
-        background_color: 0, 0, 0, .0
-        Image:
-            source: "images/icons/settings.png"
-            y: self.parent.y
-            x: self.parent.x
-            size: self.parent.size
-            allow_stretch: True
-    Button:
-    	size_hint: (.1, .1)
-		pos_hint: {'x':.85, 'y':.7}
+		pos_hint: {'x':.85, 'y':.55}
         on_release: app.sm.current = 'RankPage'
         background_color: 0, 0, 0, .0
         Image:
@@ -63,22 +63,22 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+  #   Button:
+  #   	size_hint: (.1, .1)
+		# pos_hint: {'x':.85, 'y':.45}
+  #       background_color: 0, 0, 0, .0
+  #       on_release:
+  #           root.ads.request_interstitial()
+  #           root.ads.show_interstitial()
+  #       Image:
+  #           source: "images/icons/noads.png"
+  #           y: self.parent.y
+  #           x: self.parent.x
+  #           size: self.parent.size
+  #           allow_stretch: True
     Button:
     	size_hint: (.1, .1)
-		pos_hint: {'x':.85, 'y':.45}
-        background_color: 0, 0, 0, .0
-        on_release:
-            root.ads.request_interstitial()
-            root.ads.show_interstitial()
-        Image:
-            source: "images/icons/noads.png"
-            y: self.parent.y
-            x: self.parent.x
-            size: self.parent.size
-            allow_stretch: True
-    Button:
-    	size_hint: (.1, .1)
-		pos_hint: {'x':.85, 'y':.2}
+		pos_hint: {'x':.85, 'y':.35}
         on_release: app.sm.current = 'InfoPage'
         background_color: 0, 0, 0, .0
         Image:

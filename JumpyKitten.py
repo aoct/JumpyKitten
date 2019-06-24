@@ -91,7 +91,8 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.95))):
+            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.obstacle_base), size=(obstacle.width*0.75, obstacle.height*0.65))):
+            # if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))):
                 self.process.cancel()
 
                 if os.path.isfile('data/score_history.pickle'):

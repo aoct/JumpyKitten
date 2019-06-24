@@ -8,12 +8,12 @@ from kivy.core.window import Window
 from random import uniform
 
 class Obstacle(Widget):
-    obstacle_base =  NumericProperty(Window.size[1]/5.35 - 5)
+    obstacle_base =  NumericProperty(Window.size[1]/5.35 - 70)
 
     def __init__(self, score, **kwargs):
         super(Obstacle, self).__init__(**kwargs)
 
-        self.width = uniform(0.8, 1.2)*Window.size[0]*0.05
+        self.width = uniform(0.8, 1.2)*Window.size[0]*0.15
         self.height = uniform(0.8, 1.2)*Window.size[1]/6.
 
         self.base_velocity = Vector(-Window.size[0]/150., 0)
@@ -26,14 +26,15 @@ class Obstacle(Widget):
 
 Builder.load_string("""
 <Obstacle>:
-    canvas:
-        Color:
-            rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
-        Rectangle:
-            pos: self.x, root.obstacle_base
-            size: root.width, root.height
+    # canvas:
+    #     Color:
+    #         rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
+    #     Rectangle:
+    #         pos: self.x, root.obstacle_base
+    #         size: root.width, root.height
     Image:
-        source: "images/drith_pile.png"
+        source: "images/obstacle.png"
         center_x: root.center_x
         y: root.obstacle_base*0.9 - 30
+        size: root.width, root.height
 """)

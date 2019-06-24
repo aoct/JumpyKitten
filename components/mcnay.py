@@ -19,12 +19,14 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]/5.4 - 30
+        self.ground = Window.size[1]/5.4 - 100
 
         self.size = (Window.size[0]/8., Window.size[0]/8.)
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 5
+
+        self.doubleJump = 0 
 
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
@@ -37,6 +39,10 @@ class Mcnay(Widget):
         if self.pos[1] == self.ground:
             self.jump()
 
+        if self.pos[1] != self.ground and self.doubleJump == 0:
+            self.jump()
+            self.doubleJump = 1
+
     def update(self, g_grav):
         self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
         self.velocity[1] = self.velocity[1] + g_grav
@@ -44,6 +50,7 @@ class Mcnay(Widget):
         if self.pos[1] <= self.ground:
             self.pos[1] = self.ground
             self.velocity[1] = 0
+            self.doubleJump = 0
 
         if self.updatesSinceLastImageChange > 3: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
             self.imageFrame += 1
