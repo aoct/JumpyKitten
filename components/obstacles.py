@@ -6,15 +6,16 @@ from kivy.properties import NumericProperty
 from kivy.core.window import Window
 
 from random import uniform
+from math import log
 
 class Obstacle(Widget):
-    obstacle_base =  NumericProperty(Window.size[1]/5.35 - 70)
+    obstacle_base =  NumericProperty(Window.size[1]*0.15)
 
     def __init__(self, score, **kwargs):
         super(Obstacle, self).__init__(**kwargs)
 
-        self.width = uniform(0.8, 1.2)*Window.size[0]*0.15
-        self.height = uniform(0.8, 1.2)*Window.size[1]/6.
+        self.width = (1+0.01*log(score+1))*uniform(0.8, 1.2)*Window.size[0]*0.15
+        self.height = (1+0.01*log(score+1))*uniform(0.8, 1.2)*Window.size[1]/6.
 
         self.base_velocity = Vector(-Window.size[0]/150., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)

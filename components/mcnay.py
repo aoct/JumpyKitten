@@ -1,4 +1,4 @@
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
 from kivy.uix.image import Image
@@ -19,14 +19,14 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]/5.4 - 100
+        self.ground = Window.size[1]*0.05
 
         self.size = (Window.size[0]/8., Window.size[0]/8.)
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 5
 
-        self.doubleJump = 0 
+        self.doubleJump = 0
 
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)

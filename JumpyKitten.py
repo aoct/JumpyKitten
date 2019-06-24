@@ -4,6 +4,7 @@ kivy.require("1.8.0")
 from random import randint
 import sys
 import pickle, os
+from math import log
 
 from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.image import Image
@@ -65,9 +66,6 @@ class JumpyKittenGame(Widget):
         self.obstacles = self.obstacles + [new_obstacle]
 
     def size_callback(self, instance, value):
-        for obstacle in self.obstacles:
-            obstacle.height = value[1]
-            obstacle.update_position()
         self.background.size = value
         self.background.update_position()
 
@@ -83,7 +81,7 @@ class JumpyKittenGame(Widget):
         if len(self.obstacles) == 0:
             self.new_obstacle()
         elif self.obstacles[-1].x < Window.size[0]*0.7:
-            if uniform(0, 1. + self.score*1e-5) > 0.995:
+            if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
         if self.obstacles[0].x < 0:
@@ -91,7 +89,8 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.obstacle_base), size=(obstacle.width*0.75, obstacle.height*0.65))):
+            if self.score > 100:
+            # if self.mcnay.collide_widget(Widget(pos=(obstacle.x, obstacle.obstacle_base), size=(obstacle.width*0.75, obstacle.height*0.65))):
             # if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))):
                 self.process.cancel()
 
