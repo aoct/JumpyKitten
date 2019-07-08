@@ -1,3 +1,4 @@
+import time
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
@@ -17,6 +18,10 @@ class mainPage(Screen):
         # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
         self.ads.new_interstitial(TestIds.INTERSTITIAL)
         # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+        self.ads.request_interstitial()
+        while True:
+            time.sleep(0.5)
+            if self.ads.is_interstitial_loaded(): break
 
         self.bind(size=self.size_callback)
 
@@ -25,8 +30,10 @@ class mainPage(Screen):
         self.background.update_position()
 
     def on_enter(self):
-        self.ads.request_interstitial()
         self.ads.show_interstitial()
+
+    def on_leave(self):
+        self.ads.request_interstitial()
 
 Builder.load_string("""
 <mainPage>:
