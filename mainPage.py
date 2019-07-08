@@ -21,7 +21,8 @@ class mainPage(Screen):
         self.ads.request_interstitial()
         while True:
             time.sleep(0.5)
-            if self.ads.is_interstitial_loaded(): break
+            if self.ads.is_interstitial_loaded():
+                break
 
         self.bind(size=self.size_callback)
 
@@ -30,9 +31,14 @@ class mainPage(Screen):
         self.background.update_position()
 
     def on_enter(self):
+        while True:
+            time.sleep(0.5)
+            if self.ads.is_interstitial_loaded():
+                break
         self.ads.show_interstitial()
 
     def on_leave(self):
+        self.ads.destroy_interstitial()
         self.ads.request_interstitial()
 
 Builder.load_string("""
