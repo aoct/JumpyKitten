@@ -1,4 +1,8 @@
-import os
+import os, sys
+
+if os.getusername() == 'alessiotamborini':
+	sys.path.append('/Users/alessiotamborini/Documents/SmartphoneApps/JumpyKitten/')
+
 import kivy
 kivy.require("1.10.0")
 
@@ -10,6 +14,8 @@ if os.name == 'posix':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
+
+
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage

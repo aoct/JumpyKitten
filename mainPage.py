@@ -19,10 +19,12 @@ class mainPage(Screen):
         # self.ads.new_interstitial(TestIds.INTERSTITIAL)
         self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
         self.ads.request_interstitial()
-        while True:
+        counter = 0
+        while counter < 5:
             time.sleep(0.5)
             if self.ads.is_interstitial_loaded():
                 break
+            counter += 1
 
         self.bind(size=self.size_callback)
 
@@ -31,10 +33,12 @@ class mainPage(Screen):
         self.background.update_position()
 
     def on_enter(self):
-        while True:
+        counter = 0
+        while counter < 5:
             time.sleep(0.5)
             if self.ads.is_interstitial_loaded():
                 break
+            counter += 1
         self.ads.show_interstitial()
 
     def on_leave(self):
