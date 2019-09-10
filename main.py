@@ -1,7 +1,7 @@
 import os, sys
 
-if os.getusername() == 'alessiotamborini':
-	sys.path.append('/Users/alessiotamborini/Documents/SmartphoneApps/JumpyKitten/')
+sys.path.append("_applibs")
+sys.path.append(".")
 
 import kivy
 kivy.require("1.10.0")
