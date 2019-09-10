@@ -15,6 +15,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.logger import Logger
 
 from kivmob import KivMob, TestIds
 
@@ -23,6 +24,8 @@ from components.mcnay import Mcnay
 from components.obstacles import Obstacle
 
 from random import uniform
+
+from os.path import join
 
 
 class endGamePopup(Popup):
@@ -92,6 +95,9 @@ class JumpyKittenGame(Widget):
             if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))):
                 self.process.cancel()
 
+                """
+                #This was the old code that worked also on android, it does not work for iOS case on iOS there is a specific folder where you have to save data for a game.
+                #Check whether the current version also works for android.
                 if os.path.isfile('data/score_history.pickle'):
                     score_history = pickle.load(open('data/score_history.pickle', 'rb'))
                 else:
@@ -102,6 +108,26 @@ class JumpyKittenGame(Widget):
                 score_history += [self.score]
                 pickle.dump(score_history, open('data/score_history.pickle', 'wb'))
 
+                """
+
+                user_data_dir = App.get_running_app().user_data_dir
+                filename = join(user_data_dir, "score_history.pickle")
+                print(filename)
+
+                try:
+                    if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+                        score_history = pickle.load(open(filename, 'rb'))
+                    else:
+                        score_history = []
+                        if not os.path.isdir(user_data_dir):
+                            os.mkdir(user_data_dir)
+
+                    score_history += [self.score]
+                    file = open(filename, 'wb')
+                    pickle.dump(score_history, file) #THis is the line that is making the ios app crash.
+                    print("saved") 
+                except:
+                    Logger.exception("Problem saving file")
 
                 popup = endGamePopup(auto_dismiss=False)
                 popup.open()

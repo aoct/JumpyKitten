@@ -20,7 +20,7 @@ class mainPage(Screen):
         self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
         self.ads.request_interstitial()
         counter = 0
-        while counter < 5:
+        while counter < 2:
             time.sleep(0.5)
             if self.ads.is_interstitial_loaded():
                 break
@@ -34,7 +34,7 @@ class mainPage(Screen):
 
     def on_enter(self):
         counter = 0
-        while counter < 5:
+        while counter < 2:
             time.sleep(0.5)
             if self.ads.is_interstitial_loaded():
                 break

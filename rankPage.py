@@ -5,8 +5,11 @@ from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
+from kivy.app import App
 
 from components.background import Background
+
+from os.path import join
 
 
 class rankPage(Screen):
@@ -32,8 +35,15 @@ class rankPage(Screen):
 	def on_enter(self):
 		score_best = 0
 		score_avg = 0
-		if os.path.isfile('data/score_history.pickle'):
-			score_history = pickle.load(open('data/score_history.pickle', 'rb'))
+
+		# if os.path.isfile('data/score_history.pickle'):
+			# score_history = pickle.load(open('data/score_history.pickle', 'rb'))
+
+		user_data_dir = App.get_running_app().user_data_dir
+		filename = join(user_data_dir, "score_history.pickle")
+
+		if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+			score_history = pickle.load(open(filename, 'rb'))
 
 			score_best =  max(score_history)
 			score_avg = sum(score_history)/float(len(score_history))
