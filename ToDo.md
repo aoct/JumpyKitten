@@ -1,3 +1,9 @@
 - fix saving algorithm - there are differences between the ios and the android version
 - fix admob - ios and android are separate now! we ideally want a unique code for all
+- Bird that fly against you
+- add new obstacles
+- iOS figure out how to add more ads
+- double jump recharge
+- speed increase from linear to logarithmic
+- background that changes with the weather
 - Add in app purchases
