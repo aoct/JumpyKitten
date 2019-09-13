@@ -1,9 +1,11 @@
-- fix saving algorithm - there are differences between the ios and the android version
-- fix admob - ios and android are separate now! we ideally want a unique code for all
-- Bird that fly against you
+- Add iOS ads in gaming page
+- Bird that fly against you as obstacles
 - add new obstacles
+- Add reward video for redemption when you die
+- Add animation when you die (like jump backward)
 - iOS figure out how to add more ads
 - double jump recharge
 - speed increase from linear to logarithmic
 - background that changes with the weather
-- Add in app purchases
+- Add in app purchases (no ads version of the game)
+- Add reward like candies or kitten treats. Gather them
