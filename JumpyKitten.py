@@ -92,7 +92,8 @@ class JumpyKittenGame(Widget):
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
-            if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))):
+            # if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))): #Old collision Function, was a kivy built in widget function
+            if self.mcnay.collision_with_obstacle(obstacle.width, obstacle.height, obstacle.pos[0], obstacle.pos[1]):
                 self.process.cancel()
 
                 """

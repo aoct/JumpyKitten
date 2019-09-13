@@ -62,6 +62,22 @@ class Mcnay(Widget):
         if self.velocity[1] != 0:
             self.updatesSinceLastImageChange = 0
 
+    def collision_with_obstacle(self, width, height, x_pos, y_pos):
+        xCenterObstacle = x_pos + width/2
+        yCenterObstacle = y_pos + height/2
+        radiusObstacle = self.width/2
+
+        xCenterMcNay = self.pos[0] + self.size[0]/2
+        yCenterMcNay = self.pos[1] + self.size[1]/2
+        radiusMcnay = self.width/2
+
+        #The contact is based on circles centered at middle of the widgets
+        if ((xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2) <= (radiusObstacle + radiusMcnay)**2:
+            return True
+        elif ((xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2) > (radiusObstacle + radiusMcnay)**2:
+            return False
+
+
 Builder.load_string("""
 <Mcnay>:
     mcnay_image: image

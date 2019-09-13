@@ -1,8 +1,11 @@
 import time
+
+
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
+from kivy.utils import platform
 
 from kivmob import KivMob, TestIds
 
@@ -34,6 +37,12 @@ class mainPage(Screen):
 
     def on_enter(self):
         counter = 0
+        
+        if platform == 'ios':
+            from pyobjus import autoclass
+            self.banner_ad = autoclass('adSwitch').alloc().init()
+            self.banner_ad.show_ads()
+
         while counter < 2:
             time.sleep(0.5)
             if self.ads.is_interstitial_loaded():
@@ -44,6 +53,8 @@ class mainPage(Screen):
     def on_leave(self):
         self.ads.destroy_interstitial()
         self.ads.request_interstitial()
+        if platform == 'ios':
+            self.banner_ad.hide_ads()
 
 Builder.load_string("""
 <mainPage>:
