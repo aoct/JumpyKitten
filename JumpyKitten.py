@@ -108,7 +108,7 @@ class JumpyKittenGame(Widget):
                     filename = 'data/score_history.pickle'
 
                 try:
-                    if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+                    if os.path.isfile(filename) :
                         score_history = pickle.load(open(filename, 'rb'))
                     else:
                         score_history = []
