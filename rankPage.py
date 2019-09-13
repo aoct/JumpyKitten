@@ -6,6 +6,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
 from kivy.app import App
+from kivy.utils import platform
 
 from components.background import Background
 
@@ -20,9 +21,10 @@ class rankPage(Screen):
 									   size_hint=(1.,.5),
 									   pos_hint={'x':0., 'y':.3}
 									   )
-		self.score_report.add_widget(Label(text='Your scores', font_size=50))
-		self.score_report.add_widget(Label(text='Best: 0', font_size=50))
-		self.score_report.add_widget(Label(text='Avg: 0', font_size=50))
+		self.score_report.add_widget(Label(text='Your scores', font_size=90))
+		self.score_report.add_widget(Label(text='Best: 0', font_size=70))
+		self.score_report.add_widget(Label(text='Last: 0', font_size=70))
+		self.score_report.add_widget(Label(text='Number of games: 0', font_size=70))
 
 		self.add_widget(self.score_report)
 		self.bind(size=self.size_callback)
@@ -33,25 +35,17 @@ class rankPage(Screen):
 
 
 	def on_enter(self):
-		score_best = 0
-		score_avg = 0
-
-		# if os.path.isfile('data/score_history.pickle'):
-			# score_history = pickle.load(open('data/score_history.pickle', 'rb'))
-
-		user_data_dir = App.get_running_app().user_data_dir
-		filename = join(user_data_dir, "score_history.pickle")
+		if platform == 'ios':
+			filename = join(App.get_running_app().user_data_dir, "score_history.pickle")
+		else:
+			filename = 'data/score_history.pickle'
 
 		if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
 			score_history = pickle.load(open(filename, 'rb'))
 
-			score_best =  max(score_history)
-			score_avg = sum(score_history)/float(len(score_history))
-
-			self.score_report.children[1].text = 'Best: {:.1f}'.format(score_best)
-			self.score_report.children[0].text = 'Average: {:.1f}'.format(score_avg)
-
-
+			self.score_report.children[2].text = 'Best: {:.0f}'.format(max(score_history))
+			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
+			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
 
 
 Builder.load_string("""

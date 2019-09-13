@@ -17,17 +17,18 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        # self.ads = KivMob(TestIds.APP)
-        self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-        # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-        self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-        self.ads.request_interstitial()
-        counter = 0
-        while counter < 2:
-            time.sleep(0.5)
-            if self.ads.is_interstitial_loaded():
-                break
-            counter += 1
+        if platform != 'ios':
+            # self.ads = KivMob(TestIds.APP)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            self.ads.request_interstitial()
+            counter = 0
+            while counter < 2:
+                time.sleep(0.5)
+                if self.ads.is_interstitial_loaded():
+                    break
+                counter += 1
 
         self.bind(size=self.size_callback)
 
@@ -42,20 +43,23 @@ class mainPage(Screen):
             from pyobjus import autoclass
             self.banner_ad = autoclass('adSwitch').alloc().init()
             self.banner_ad.show_ads()
-
-        while counter < 2:
-            time.sleep(0.5)
-            if self.ads.is_interstitial_loaded():
-                break
-            counter += 1
-        self.ads.show_interstitial()
+        else:
+            while counter < 2:
+                time.sleep(0.5)
+                if self.ads.is_interstitial_loaded():
+                    break
+                counter += 1
+            self.ads.show_interstitial()
 
     def on_leave(self):
-        self.ads.destroy_interstitial()
-        self.ads.request_interstitial()
         if platform == 'ios':
             self.banner_ad.hide_ads()
+        else:
+            self.ads.destroy_interstitial()
+            self.ads.request_interstitial()
 
+
+            
 Builder.load_string("""
 <mainPage>:
     background: background

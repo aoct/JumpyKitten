@@ -16,6 +16,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.logger import Logger
+from kivy.utils import platform
 
 from commercial.kivmob import KivMob, TestIds
 
@@ -96,24 +97,15 @@ class JumpyKittenGame(Widget):
             if self.mcnay.collision_with_obstacle(obstacle.width, obstacle.height, obstacle.pos[0], obstacle.pos[1]):
                 self.process.cancel()
 
-                """
+                
                 #This was the old code that worked also on android, it does not work for iOS case on iOS there is a specific folder where you have to save data for a game.
                 #Check whether the current version also works for android.
-                if os.path.isfile('data/score_history.pickle'):
-                    score_history = pickle.load(open('data/score_history.pickle', 'rb'))
+                if platform == 'ios':
+                    user_data_dir = App.get_running_app().user_data_dir
+                    filename = join(user_data_dir, "score_history.pickle")
                 else:
-                    score_history = []
-                    if not os.path.isdir('data'):
-                        os.mkdir('data')
-
-                score_history += [self.score]
-                pickle.dump(score_history, open('data/score_history.pickle', 'wb'))
-
-                """
-
-                user_data_dir = App.get_running_app().user_data_dir
-                filename = join(user_data_dir, "score_history.pickle")
-                print(filename)
+                    user_data_dir = 'data'
+                    filename = 'data/score_history.pickle'
 
                 try:
                     if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
@@ -124,9 +116,7 @@ class JumpyKittenGame(Widget):
                             os.mkdir(user_data_dir)
 
                     score_history += [self.score]
-                    file = open(filename, 'wb')
-                    pickle.dump(score_history, file) #THis is the line that is making the ios app crash.
-                    print("saved") 
+                    pickle.dump(score_history, open(filename, 'wb'))
                 except:
                     Logger.exception("Problem saving file")
 
@@ -141,19 +131,23 @@ class JumpyKittenPage(Screen):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)
 
-        # self.ads = KivMob(TestIds.APP)
-        self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-        # self.ads.new_banner(TestIds.BANNER)
-        self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+        if platform != 'ios':
+            # self.ads = KivMob(TestIds.APP)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_banner(TestIds.BANNER)
+            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
 
 
     def on_enter(self):
         self.game.reset()
-        self.ads.request_banner()
-        self.ads.show_banner()
+
+        if platform != 'ios':
+            self.ads.request_banner()
+            self.ads.show_banner()
         self.game.start()
 
     def on_leave(self):
-        self.ads.hide_banner()
-        self.ads.destroy_banner()
+        if platform != 'ios':
+            self.ads.hide_banner()
+            self.ads.destroy_banner()
         self.game.reset()
