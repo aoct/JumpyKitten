@@ -1,2 +1,3 @@
-- Fix collision algo
+- fix saving algorithm - there are differences between the ios and the android version
+- fix admob - ios and android are separate now! we ideally want a unique code for all
 - Add in app purchases

@@ -7,7 +7,7 @@ from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
 
-from kivmob import KivMob, TestIds
+from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
 

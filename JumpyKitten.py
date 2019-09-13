@@ -17,7 +17,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.logger import Logger
 
-from kivmob import KivMob, TestIds
+from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
 from components.mcnay import Mcnay
