@@ -1,8 +1,8 @@
 import os, sys
 
 #Needed for build success on xcode
-sys.path.append("_applibs")
-sys.path.append(".")
+# sys.path.append("_applibs")
+# sys.path.append(".")
 
 import kivy
 kivy.require("1.10.0")
@@ -15,6 +15,8 @@ if os.name == 'posix':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
+from kivy.logger import Logger
+Logger.warning('Importing local modules')
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
@@ -24,6 +26,7 @@ from settingsPage import settingsPage
 
 class JumpyKittenApp(App):
 	def build(self):
+		Logger.warning('Building Main')
 		self.sm = ScreenManager()
 
 		self.mainPage = mainPage(name = 'MainPage')
