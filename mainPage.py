@@ -37,13 +37,12 @@ class mainPage(Screen):
         self.background.update_position()
 
     def on_enter(self):
-        counter = 0
-        
         if platform == 'ios':
             from pyobjus import autoclass
             self.banner_ad = autoclass('adSwitch').alloc().init()
             self.banner_ad.show_ads()
         else:
+            counter = 0
             while counter < 2:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
@@ -59,7 +58,7 @@ class mainPage(Screen):
             self.ads.request_interstitial()
 
 
-            
+
 Builder.load_string("""
 <mainPage>:
     background: background
