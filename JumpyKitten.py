@@ -68,7 +68,7 @@ class JumpyKittenGame(Widget):
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)
-        self.obstacles = self.obstacles + [new_obstacle]
+        self.obstacles.append(new_obstacle)
 
     def size_callback(self, instance, value):
         self.background.size = value
