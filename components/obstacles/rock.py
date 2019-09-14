@@ -14,6 +14,8 @@ class Rock(Widget):
     def __init__(self, score, **kwargs):
         super(Rock, self).__init__(**kwargs)
 
+        self.type = 'rock'
+
         self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
         self.height = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[1]/6.
 

@@ -4,7 +4,6 @@ kivy.require("1.8.0")
 from random import randint
 import sys
 import pickle, os
-import numpy as np
 from math import log
 
 from kivy.properties import NumericProperty, ObjectProperty
@@ -65,8 +64,10 @@ class JumpyKittenGame(Widget):
         self.obstacles.remove(ob)
 
     def new_obstacle(self):
-        if score > 50:
-        new_obstacle = Bird(self.score)
+        if self.score > 50 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.75:
+            new_obstacle = Bird(self.score)
+        else:
+            new_obstacle = Rock(self.score)    
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)
@@ -83,7 +84,7 @@ class JumpyKittenGame(Widget):
         furtherst_obstacle = -999999.
         for o in self.obstacles:
             o.update()
-            if o.x > furtherst_obstacle:
+            if o.type == 'rock' and o.x > furtherst_obstacle:
                 furtherst_obstacle = o.x
             if o.x + o.width < 0:
                 self.remove_obstacle(o)

@@ -14,13 +14,15 @@ class Bird(Widget):
     def __init__(self, score, **kwargs):
         super(Bird, self).__init__(**kwargs)
 
-        self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
-        self.height = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[1]/6.
+        self.type = 'bird'
 
-        self.base_velocity = Vector(-Window.size[0]/60., 0)
+        self.height = Window.size[1]/18.
+        self.width = self.height
+
+        self.base_velocity = Vector(-Window.size[0]/90., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)
 
-        self.y = random(Window.size[1]-Window.size[1]/2, Window.size[1]- 30)
+        self.y = uniform(Window.size[1]-Window.size[1]*2/3, Window.size[1]- 100)
 
         self.marked = False
 
@@ -38,5 +40,6 @@ Builder.load_string("""
     Image:
         source: "images/obstacle2.png"
         center_x: root.center_x
+        y: root.y
         size: root.width, root.height
 """)
