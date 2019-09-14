@@ -23,7 +23,8 @@ from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
 from components.mcnay import Mcnay
-from components.obstacles import Obstacle
+from components.obstacles.rock import Rock
+from components.obstacles.bird import Bird
 
 from random import uniform
 
@@ -64,7 +65,8 @@ class JumpyKittenGame(Widget):
         self.obstacles.remove(ob)
 
     def new_obstacle(self):
-        new_obstacle = Obstacle(self.score)
+        if score > 50:
+        new_obstacle = Bird(self.score)
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)
