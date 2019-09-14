@@ -9,4 +9,3 @@
 - background that changes with the weather
 - Add in app purchases (no ads version of the game)
 - Add reward like candies or kitten treats. Gather them
-- speed up update function in JumpyKitten.py - remove as many for loops as possible - check collision only with closest obstacle
