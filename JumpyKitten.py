@@ -78,50 +78,51 @@ class JumpyKittenGame(Widget):
         self.mcnay.update(self.g_grav)
         self.background.update()
         # Loop through and update obstacles. Replace obstacles which went off the screen.
+        furtherst_obstacle = -999999.
         for o in self.obstacles:
             o.update()
+            if o.x > furtherst_obstacle:
+                furtherst_obstacle = o.x
             if o.x + o.width < 0:
                 self.remove_obstacle(o)
+            else:
+                if self.mcnay.collision_with_obstacle(o):
+                    self.obstacle_collision()
 
-        furtherst_obstacle = np.max(list(map(lambda x: x.x, self.obstacles)))
         if len(self.obstacles) == 0:
             self.new_obstacle()
         elif furtherst_obstacle < Window.size[0]*0.7:
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
-        # See if the player collides with any obstacles
-        for obstacle in self.obstacles:
-            # if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))): #Old collision Function, was a kivy built in widget function
-            if self.mcnay.collision_with_obstacle(obstacle.width, obstacle.height, obstacle.pos[0], obstacle.pos[1]):
-                self.process.cancel()
-                
-                #This was the old code that worked also on android, it does not work for iOS case on iOS there is a specific folder where you have to save data for a game.
-                #Check whether the current version also works for android.
-                if platform == 'ios':
-                    user_data_dir = App.get_running_app().user_data_dir
-                    filename = join(user_data_dir, "score_history.pickle")
-                else:
-                    user_data_dir = 'data'
-                    filename = 'data/score_history.pickle'
-
-                try:
-                    if os.path.isfile(filename) :
-                        score_history = pickle.load(open(filename, 'rb'))
-                    else:
-                        score_history = []
-                        if not os.path.isdir(user_data_dir):
-                            os.mkdir(user_data_dir)
-
-                    score_history += [self.score]
-                    pickle.dump(score_history, open(filename, 'wb'))
-                except:
-                    Logger.exception("Problem saving file")
-
-                popup = endGamePopup(auto_dismiss=False)
-                popup.open()
-
         self.score += 0.02
+
+    def obstacle_collision(self):
+        self.process.cancel()
+
+        if platform == 'ios':
+            user_data_dir = App.get_running_app().user_data_dir
+            filename = join(user_data_dir, "score_history.pickle")
+        else:
+            user_data_dir = 'data'
+            filename = 'data/score_history.pickle'
+
+        try:
+            if os.path.isfile(filename) :
+                score_history = pickle.load(open(filename, 'rb'))
+            else:
+                score_history = []
+                if not os.path.isdir(user_data_dir):
+                    os.mkdir(user_data_dir)
+
+            score_history += [self.score]
+            pickle.dump(score_history, open(filename, 'wb'))
+        except:
+            Logger.exception("Problem saving file")
+
+        popup = endGamePopup(auto_dismiss=False)
+        popup.open()
+
 
 class JumpyKittenPage(Screen):
     def __init__(self, **kwargs):
