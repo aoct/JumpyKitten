@@ -1,3 +1,5 @@
+import numpy as np
+
 from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
@@ -62,19 +64,19 @@ class Mcnay(Widget):
         if self.velocity[1] != 0:
             self.updatesSinceLastImageChange = 0
 
-    def collision_with_obstacle(self, width, height, x_pos, y_pos):
-        xCenterObstacle = x_pos + width/2
-        yCenterObstacle = y_pos + height/2
-        radiusObstacle = self.width/2
+    def collision_with_obstacle(self, o):
+        xCenterObstacle = o.pos[0] + o.width/2
+        yCenterObstacle = o.pos[1] + o.height/2
+        radiusObstacle = o.width/2
 
         xCenterMcNay = self.pos[0] + self.size[0]/2
         yCenterMcNay = self.pos[1] + self.size[1]/2
         radiusMcnay = self.width/2
 
         #The contact is based on circles centered at middle of the widgets
-        if ((xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2) <= (radiusObstacle + radiusMcnay)**2:
+        if np.hypot(xCenterObstacle - xCenterMcNay, yCenterObstacle - yCenterMcNay) <= radiusObstacle + radiusMcnay:
             return True
-        elif ((xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2) > (radiusObstacle + radiusMcnay)**2:
+        else:
             return False
 
 
