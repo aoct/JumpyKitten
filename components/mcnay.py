@@ -1,5 +1,3 @@
-import numpy as np
-
 from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
@@ -74,7 +72,7 @@ class Mcnay(Widget):
         radiusMcnay = self.width/2
 
         #The contact is based on circles centered at middle of the widgets
-        if np.hypot(xCenterObstacle - xCenterMcNay, yCenterObstacle - yCenterMcNay) <= radiusObstacle + radiusMcnay:
+        if (xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2 <= (radiusObstacle + radiusMcnay)**2:
             return True
         else:
             return False

@@ -4,7 +4,6 @@ kivy.require("1.8.0")
 from random import randint
 import sys
 import pickle, os
-import numpy as np
 from math import log
 
 from kivy.properties import NumericProperty, ObjectProperty
