@@ -4,6 +4,7 @@ kivy.require("1.8.0")
 from random import randint
 import sys
 import pickle, os
+import numpy as np
 from math import log
 
 from kivy.properties import NumericProperty, ObjectProperty
@@ -56,11 +57,11 @@ class JumpyKittenGame(Widget):
         self.score = 0
         self.mcnay.reset()
         for obstacle in self.obstacles:
-            self.remove_obstacle()
+            self.remove_obstacle(obstacle)
 
-    def remove_obstacle(self):
-        self.remove_widget(self.obstacles[0])
-        self.obstacles = self.obstacles[1:]
+    def remove_obstacle(self, ob):
+        self.remove_widget(ob)
+        self.obstacles.remove(ob)
 
     def new_obstacle(self):
         new_obstacle = Obstacle(self.score)
@@ -77,26 +78,23 @@ class JumpyKittenGame(Widget):
         self.mcnay.update(self.g_grav)
         self.background.update()
         # Loop through and update obstacles. Replace obstacles which went off the screen.
-        for obstacle in self.obstacles:
-            obstacle.update()
-            if obstacle.x < self.mcnay.x and not obstacle.marked:
-                obstacle.marked = True
+        for o in self.obstacles:
+            o.update()
+            if o.x + o.width < 0:
+                self.remove_obstacle(o)
 
+        furtherst_obstacle = np.max(list(map(lambda x: x.x, self.obstacles)))
         if len(self.obstacles) == 0:
             self.new_obstacle()
-        elif self.obstacles[-1].x < Window.size[0]*0.7:
+        elif furtherst_obstacle < Window.size[0]*0.7:
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
-
-        if self.obstacles[0].x < 0:
-            self.remove_obstacle()
 
         # See if the player collides with any obstacles
         for obstacle in self.obstacles:
             # if self.mcnay.collide_widget(Widget(pos=(obstacle.x+0.05*obstacle.width, obstacle.obstacle_base), size=(obstacle.width*0.9, obstacle.height*0.80))): #Old collision Function, was a kivy built in widget function
             if self.mcnay.collision_with_obstacle(obstacle.width, obstacle.height, obstacle.pos[0], obstacle.pos[1]):
                 self.process.cancel()
-
                 
                 #This was the old code that worked also on android, it does not work for iOS case on iOS there is a specific folder where you have to save data for a game.
                 #Check whether the current version also works for android.
