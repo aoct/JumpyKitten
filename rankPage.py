@@ -1,4 +1,5 @@
 import os, pickle
+
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 
@@ -11,6 +12,9 @@ from kivy.utils import platform
 from components.background import Background
 
 from os.path import join
+
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 
 class rankPage(Screen):
@@ -46,6 +50,15 @@ class rankPage(Screen):
 			self.score_report.children[2].text = 'Best: {:.0f}'.format(max(score_history))
 			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
 			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
+
+		#create a connection with googlesheets
+		scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+		credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
+		file = gspread.authorize(credentials)
+		sheet = file.open("JumpyKitten_Ranking").sheet1
+
+		sheet.update_cell(2,1,"Test Name")
+		sheet.update_cell(2,2,format(max(score_history)))
 
 
 Builder.load_string("""

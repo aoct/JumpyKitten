@@ -1,6 +1,5 @@
 import time
 
-
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
