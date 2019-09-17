@@ -8,17 +8,21 @@ from kivy.core.window import Window
 from random import uniform
 from math import log
 
-class Obstacle(Widget):
+class Bird(Widget):
     obstacle_base =  NumericProperty(Window.size[1]*0.15)
 
     def __init__(self, score, **kwargs):
-        super(Obstacle, self).__init__(**kwargs)
+        super(Bird, self).__init__(**kwargs)
 
-        self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
-        self.height = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[1]/6.
+        self.type = 'bird'
 
-        self.base_velocity = Vector(-Window.size[0]/120., 0)
+        self.height = Window.size[1]/18.
+        self.width = self.height
+
+        self.base_velocity = Vector(-Window.size[0]/90., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)
+
+        self.y = uniform(Window.size[1]-Window.size[1]*2/3, Window.size[1]- 100)
 
         self.marked = False
 
@@ -26,7 +30,7 @@ class Obstacle(Widget):
         self.pos[0] += self.velocity[0]
 
 Builder.load_string("""
-<Obstacle>:
+<Bird>:
     # canvas:
     #     Color:
     #         rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
@@ -34,8 +38,8 @@ Builder.load_string("""
     #         pos: self.x, root.obstacle_base
     #         size: root.width, root.height
     Image:
-        source: "images/obstacle.png"
+        source: "images/obstacle2.png"
         center_x: root.center_x
-        y: root.obstacle_base*0.9 - 30
+        y: root.y
         size: root.width, root.height
 """)

@@ -1,6 +1,7 @@
+- add ranking page! This will be done with a google sheet
+- in settings page, add username for the user
 - Add iOS ads in gaming page
-- Bird that fly against you as obstacles
-- add new obstacles
+- add new obstacles - done just missing drawing of bird
 - Add reward video for redemption when you die
 - Add animation when you die (like jump backward)
 - iOS figure out how to add more ads
@@ -9,3 +10,5 @@
 - background that changes with the weather
 - Add in app purchases (no ads version of the game)
 - Add reward like candies or kitten treats. Gather them
+- speed up update function in JumpyKitten.py - remove as many for loops as possible - check collision only with closest obstacle
+- rocks and grass need to move at the same speed -- divide the background in 2, the grass and the further background. OR Rocks will be round and rolling on the grass, so they can move at whatever speed one desires
