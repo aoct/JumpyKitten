@@ -22,7 +22,7 @@ Builder.load_string("""
         id: background
         pos: root.pos
 	Label:
-		font_size: 30
+		font_size: 40
 		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'
 	Button:
 		size_hint: (.1, .1)

@@ -6,6 +6,7 @@ from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
+from kivy.logger import Logger
 
 from commercial.kivmob import KivMob, TestIds
 
@@ -17,14 +18,15 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        if platform != 'ios':
+        if not platform == 'ios':
             # self.ads = KivMob(TestIds.APP)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            Logger.debug('Requesting interstitial')
             self.ads.request_interstitial()
             counter = 0
-            while counter < 2:
+            while counter < 5:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
                     break
@@ -43,19 +45,23 @@ class mainPage(Screen):
             self.banner_ad.show_ads()
         else:
             counter = 0
-            while counter < 2:
+            while counter < 5:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
+                    Logger.debug('Interstitial loaded')
                     break
                 counter += 1
             self.ads.show_interstitial()
+            Logger.debug('Interstitial shown')
 
     def on_leave(self):
         if platform == 'ios':
             self.banner_ad.hide_ads()
         else:
-            self.ads.destroy_interstitial()
-            self.ads.request_interstitial()
+            if self.ads.is_interstitial_loaded():
+                Logger.debug('Destroying interstitial and requesting new')
+                self.ads.destroy_interstitial()
+                self.ads.request_interstitial()
 
 
 

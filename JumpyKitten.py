@@ -139,7 +139,8 @@ class JumpyKittenPage(Screen):
     def on_enter(self):
         self.game.reset()
 
-        if platform != 'ios':
+        if not platform == 'ios':
+            Logger.debug('Requesting banner')
             self.ads.request_banner()
             self.ads.show_banner()
         self.game.start()
