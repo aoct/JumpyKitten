@@ -15,7 +15,6 @@ if os.name == 'posix':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
-from kivy.logger import Logger
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
@@ -25,6 +24,7 @@ from settingsPage import settingsPage
 
 class JumpyKittenApp(App):
 	def build(self):
+		print('Building the main App')
 		self.sm = ScreenManager()
 
 		self.mainPage = mainPage(name = 'MainPage')

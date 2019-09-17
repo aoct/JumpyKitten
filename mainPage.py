@@ -23,7 +23,7 @@ class mainPage(Screen):
             # self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-            Logger.debug('Requesting interstitial')
+            print('Requesting interstitial')
             self.ads.request_interstitial()
             counter = 0
             while counter < 5:
@@ -48,18 +48,18 @@ class mainPage(Screen):
             while counter < 5:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
-                    Logger.debug('Interstitial loaded')
+                    print('Interstitial loaded')
                     break
                 counter += 1
             self.ads.show_interstitial()
-            Logger.debug('Interstitial shown')
+            print('Interstitial shown')
 
     def on_leave(self):
         if platform == 'ios':
             self.banner_ad.hide_ads()
         else:
             if self.ads.is_interstitial_loaded():
-                Logger.debug('Destroying interstitial and requesting new')
+                print('Destroying interstitial and requesting new')
                 self.ads.destroy_interstitial()
                 self.ads.request_interstitial()
 
