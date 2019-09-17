@@ -64,10 +64,10 @@ class JumpyKittenGame(Widget):
         self.obstacles.remove(ob)
 
     def new_obstacle(self):
-        if self.score > 50 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.75:
+        if self.score > 30 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
             new_obstacle = Bird(self.score)
         else:
-            new_obstacle = Rock(self.score)    
+            new_obstacle = Rock(self.score)
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)

@@ -25,7 +25,7 @@ class mainPage(Screen):
             print('Requesting interstitial')
             self.ads.request_interstitial()
             counter = 0
-            while counter < 5:
+            while counter < 2:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
                     break
@@ -44,7 +44,7 @@ class mainPage(Screen):
             self.banner_ad.show_ads()
         else:
             counter = 0
-            while counter < 5:
+            while counter < 2:
                 time.sleep(0.5)
                 if self.ads.is_interstitial_loaded():
                     print('Interstitial loaded')
