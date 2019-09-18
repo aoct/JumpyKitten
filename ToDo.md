@@ -1,14 +1,26 @@
-- add ranking page! This will be done with a google sheet - nearly DONE
-- in settings page, add username for the user
+Most important:
+- Add animation when you die (like jump backward) 
 - Add iOS ads in gaming page
-- add new obstacles - done just missing drawing of bird
+- Add in app purchases (no ads version of the game)
+- add bird drawing
+- fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
+- fix ranking page setup
+- design AOCT Dev logo -- 
+
+
+
+
+
+- in settings page, add username for the user
 - Add reward video for redemption when you die
-- Add animation when you die (like jump backward)
 - iOS figure out how to add more ads
 - double jump recharge
 - speed increase from linear to logarithmic
 - background that changes with the weather
-- Add in app purchases (no ads version of the game)
 - Add reward like candies or kitten treats. Gather them
 - speed up update function in JumpyKitten.py - remove as many for loops as possible - check collision only with closest obstacle
-- rocks and grass need to move at the same speed -- divide the background in 2, the grass and the further background. OR Rocks will be round and rolling on the grass, so they can move at whatever speed one desires
+
+
+Examples of how to use pyobjus:
+- https://github.com/kivy/plyer/tree/master/plyer/platforms/ios
+- https://github.com/eviltnan/kognitivo/blob/master/billing/android_billing.py
