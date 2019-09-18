@@ -9,7 +9,7 @@ from random import uniform
 from math import log
 
 class Rock(Widget):
-    obstacle_base =  NumericProperty(Window.size[1]*0.15)
+    obstacle_base =  NumericProperty(Window.size[1]*0.10)
 
     def __init__(self, score, **kwargs):
         super(Rock, self).__init__(**kwargs)
