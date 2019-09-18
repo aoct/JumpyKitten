@@ -21,25 +21,34 @@ class rankPage(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
 		super(rankPage, self).__init__(**kwargs)
-		self.score_report = GridLayout(cols=1,
-									   size_hint=(1.,.5),
-									   pos_hint={'x':0., 'y':.3}
+		self.master_grid = GridLayout(cols=1,
+									   size_hint=(1.,.9),
+									   pos_hint={'x':0., 'y':.05},
+									   spacing=10
 									   )
+		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
 		self.score_report.add_widget(Label(text='Your scores', font_size=90))
 		self.score_report.add_widget(Label(text='Best: 0', font_size=60))
 		self.score_report.add_widget(Label(text='Last: 0', font_size=60))
 		self.score_report.add_widget(Label(text='Number of games: 0', font_size=60))
+		self.master_grid.add_widget(self.score_report)
 
-		self.score_report.add_widget(Label(text='World ranking', font_size=90))
-
-		self.onlineUsers = GridLayout(cols=1, spacing=10, size_hint_y=None, row_force_default=True, row_default_height=40)
+		self.world_ranking = GridLayout(cols=1, size_hint=(1.,.7))
+		self.world_ranking.add_widget(Label(text='World ranking', font_size=90))
+		row = GridLayout(cols=3)
+		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
+		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
+		row.add_widget(Label(text='Score', halign='right', valign='center', font_size=60))
+		self.world_ranking.add_widget(row)
+		self.onlineUsers = GridLayout(cols=1, spacing=15, size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
 
-		self.scrollOnlineUsers = ScrollView()
+		self.scrollOnlineUsers = ScrollView(size_hint=(1.,.9))
 		self.scrollOnlineUsers.add_widget(self.onlineUsers)
-		self.score_report.add_widget(self.scrollOnlineUsers)
+		self.world_ranking.add_widget(self.scrollOnlineUsers)
+		self.master_grid.add_widget(self.world_ranking)
 
-		self.add_widget(self.score_report)
+		self.add_widget(self.master_grid)
 
 		self.userDevice_ID = '{} ({})'.format(getpass.getuser().capitalize()[:10], socket.gethostname()[:10])
 		print('Username for the ranking', self.userDevice_ID)
@@ -50,10 +59,11 @@ class rankPage(Screen):
 	    self.background.size = value
 	    self.background.update_position()
 
-	def addUserToScroll(self, uname, score):
-		row = GridLayout(cols=2)
-		row.add_widget(Label(text=uname, halign='left', valign='center', font_size=50))
-		row.add_widget(Label(text=score, halign='right', valign='center', font_size=50))
+	def addUserToScroll(self, rank, uname, score):
+		row = GridLayout(cols=3)
+		row.add_widget(Label(text=rank, halign='center', valign='center', font_size=60))
+		row.add_widget(Label(text=uname, halign='left', valign='center', font_size=60))
+		row.add_widget(Label(text=score, halign='right', valign='center', font_size=60))
 		self.onlineUsers.add_widget(row)
 
 	def on_enter(self):
@@ -83,12 +93,12 @@ class rankPage(Screen):
 		else:
 			uname_already_present = False
 			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
-				print(i_row, uname, score)
-				self.addUserToScroll(uname, score)
+				if i_row == 1: continue
+				self.addUserToScroll('0', uname, score)
 				if uname == self.userDevice_ID:
 					uname_already_present = True
 					if float(score) < best_score:
-						sheet.update_cell(i_row, 2, str(best_score))
+						sheet.update_cell(i_row, 2, '{:.0f}'.format(best_score))
 			if not uname_already_present:
 				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
 				sheet.update_cell(i_row+1, 2, str(best_score))
