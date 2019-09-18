@@ -1,9 +1,5 @@
 import os, sys
 
-#Needed for build success on xcode
-# sys.path.append("_applibs")
-# sys.path.append(".")
-
 import kivy
 kivy.require("1.10.0")
 
@@ -15,6 +11,12 @@ if os.name == 'posix':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
+from kivy.utils import platform
+
+if platform == 'ios':
+	sys.path.append("_applibs")
+	sys.path.append(".")
+	sys.path.append("iOS_libraries")
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage

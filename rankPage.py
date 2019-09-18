@@ -73,22 +73,25 @@ class rankPage(Screen):
 
 		#create a connection with googlesheets
 		## We should put something such that if there is no internet connection it does not crush
-		scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-		credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
-		file = gspread.authorize(credentials)
-		sheet = file.open('JumpyKitten_Ranking').sheet1
-
-		uname_already_present = False
-		for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
-			print(i_row, uname, score)
-			self.addUserToScroll(uname, score)
-			if uname == self.userDevice_ID:
-				uname_already_present = True
-				if float(score) < best_score:
-					sheet.update_cell(i_row, 2, str(best_score))
-		if not uname_already_present:
-			sheet.update_cell(i_row+1, 1, self.userDevice_ID)
-			sheet.update_cell(i_row+1, 2, str(best_score))
+		try:
+			scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+			credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
+			file = gspread.authorize(credentials)
+			sheet = file.open('JumpyKitten_Ranking').sheet1
+		except:
+			Logger.exception("No Internet Connection")
+		else:
+			uname_already_present = False
+			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
+				print(i_row, uname, score)
+				self.addUserToScroll(uname, score)
+				if uname == self.userDevice_ID:
+					uname_already_present = True
+					if float(score) < best_score:
+						sheet.update_cell(i_row, 2, str(best_score))
+			if not uname_already_present:
+				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
+				sheet.update_cell(i_row+1, 2, str(best_score))
 
 
 		print(sheet.get_all_values())
