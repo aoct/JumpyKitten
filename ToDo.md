@@ -1,4 +1,4 @@
-- add ranking page! This will be done with a google sheet
+- add ranking page! This will be done with a google sheet - nearly DONE
 - in settings page, add username for the user
 - Add iOS ads in gaming page
 - add new obstacles - done just missing drawing of bird

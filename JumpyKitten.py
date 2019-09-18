@@ -79,7 +79,7 @@ class JumpyKittenGame(Widget):
 
     def update(self, dt):
         self.mcnay.update(self.g_grav)
-        self.background.update()
+        self.background.update(self.score)
         # Loop through and update obstacles. Replace obstacles which went off the screen.
         furtherst_obstacle = -999999.
         for o in self.obstacles:
