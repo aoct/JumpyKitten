@@ -55,7 +55,7 @@ class Mcnay(Widget):
         if self.updatesSinceLastImageChange > 1: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
             self.imageFrame += 1
             # self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
-            self.mcnay_image.source = 'images/cats/pink_cat_new/CATFINALDRFAFT-0{}.png'.format(self.imageFrame%10)
+            self.mcnay_image.source = 'images/cats/pink_cat_new/cropped/CATFINALDRFAFT-0{}.png'.format(self.imageFrame%10)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
@@ -85,7 +85,7 @@ Builder.load_string("""
     Image:
         id: image
         # source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
-        source: "images/cats/pink_cat_new/CATFINALDRFAFT-00.png"
+        source: "images/cats/pink_cat_new/cropped/CATFINALDRFAFT-00.png"
         size: root.size
         pos: root.pos
 """)

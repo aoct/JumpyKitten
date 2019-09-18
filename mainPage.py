@@ -76,7 +76,7 @@ Builder.load_string("""
         pos_hint: {'x':.4, 'y':.4}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
+            source: "images/cats/pink_cat_new/cropped/CATFINALDRFAFT-00.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
