@@ -52,10 +52,10 @@ class Mcnay(Widget):
             self.velocity[1] = 0
             self.doubleJump = 0
 
-        if self.updatesSinceLastImageChange > 2: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
+        if self.updatesSinceLastImageChange > 1: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
             self.imageFrame += 1
             # self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
-            self.mcnay_image.source = 'images/cats/pink_cat_new/CATFINALDRFAFT-0{}.png'.format(self.imageFrame%5)
+            self.mcnay_image.source = 'images/cats/pink_cat_new/CATFINALDRFAFT-0{}.png'.format(self.imageFrame%10)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
