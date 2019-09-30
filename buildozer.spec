@@ -36,7 +36,7 @@ version = 0.2.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3crystax, kivy, android, jnius, kivmob
+requirements = python3, kivy, android, jnius, kivmob
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -106,7 +106,7 @@ android.ndk = 17c
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-android.ndk_path = /home/olmo/SmartphoneApps/crystax-ndk-10.3.2
+# android.ndk_path = ~/Shared/crystax-ndk-10.3.2
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
 #android.sdk_path =
