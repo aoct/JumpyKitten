@@ -18,10 +18,10 @@ class mainPage(Screen):
         super(mainPage, self).__init__(**kwargs)
 
         if not platform == 'ios':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
             print('Requesting interstitial')
             self.ads.request_interstitial()
             counter = 0
