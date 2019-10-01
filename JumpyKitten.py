@@ -50,6 +50,13 @@ class JumpyKittenGame(Widget):
         self.reset()
         self.bind(size=self.size_callback)
 
+        if platform == 'ios':
+            print('requesting banner')
+            from pyobjus import autoclass
+            self.banner_ad = autoclass('adSwitch').alloc().init()
+            self.banner_ad.show_ads()
+            print(self.banner_ad.hidden_ad())
+
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
@@ -98,6 +105,10 @@ class JumpyKittenGame(Widget):
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
+        if platform == 'ios':
+            if self.banner_ad.hidden_ad() == 0:
+                self.banner_ad.show_ads()
+            
         self.score += 0.02
 
     def obstacle_collision(self):
@@ -133,24 +144,35 @@ class JumpyKittenPage(Screen):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)
 
+        # if platform == 'ios':
+        #     from pyobjus import autoclass
+        #     self.banner_ad = autoclass('adSwitch').alloc().init()
         if platform != 'ios':
             # self.ads = KivMob(TestIds.APP)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_banner(TestIds.BANNER)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
 
 
     def on_enter(self):
         self.game.reset()
 
-        if not platform == 'ios':
+        if platform == 'ios':
+            print('requesting banner')
+            from pyobjus import autoclass
+            self.banner_ad = autoclass('adSwitch').alloc().init()
+            self.banner_ad.show_ads()
+            print(self.banner_ad.hidden_ad())
+        elif platform != 'ios':
             print('Requesting banner')
             self.ads.request_banner()
             self.ads.show_banner()
         self.game.start()
 
     def on_leave(self):
-        if platform != 'ios':
+        if platform == 'ios':
+            self.banner_ad.hide_ads()
+        elif platform != 'ios':
             self.ads.hide_banner()
             self.ads.destroy_banner()
         self.game.reset()

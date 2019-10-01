@@ -17,7 +17,11 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        if not platform == 'ios':
+        # if platform == 'ios':
+        # 	from pyobjus import autoclass
+        # 	self.banner_ad = autoclass('adSwitch').alloc().init()
+        # else:
+        if platform != 'ios':
             # self.ads = KivMob(TestIds.APP)
             # self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
@@ -39,9 +43,9 @@ class mainPage(Screen):
 
     def on_enter(self):
         if platform == 'ios':
-            from pyobjus import autoclass
-            self.banner_ad = autoclass('adSwitch').alloc().init()
-            self.banner_ad.show_ads()
+        	from pyobjus import autoclass
+        	self.banner_ad = autoclass('adSwitch').alloc().init()
+        	self.banner_ad.show_ads()
         else:
             counter = 0
             while counter < 2:
@@ -55,7 +59,8 @@ class mainPage(Screen):
 
     def on_leave(self):
         if platform == 'ios':
-            self.banner_ad.hide_ads()
+        	print('showing banner')
+        	self.banner_ad.hide_ads()
         else:
             if self.ads.is_interstitial_loaded():
                 print('Destroying interstitial and requesting new')
@@ -72,11 +77,11 @@ Builder.load_string("""
         pos: root.pos
     Button:
         on_release: app.sm.current = 'GamePage'
-        size_hint: (.2, .2)
-        pos_hint: {'x':.4, 'y':.4}
+        size_hint: (.3, .3)
+        pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/pink_cat_new/cropped/CATFINALDRFAFT-00.png"
+            source: "images/cats/pink_cat_new/CAT_FRAME_0_HR.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
