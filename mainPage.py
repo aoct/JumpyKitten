@@ -78,11 +78,7 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-<<<<<<< HEAD
-            source: "images/cats/pink_cat_new/CAT_FRAME_0_HR.png"
-=======
             source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
->>>>>>> bc7f67e92d31c879a5cee3ef21042e4663d08e21
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
