@@ -87,12 +87,7 @@ Builder.load_string("""
     mcnay_image: image
     Image:
         id: image
-<<<<<<< HEAD
-        # source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
-        source: "images/cats/pink_cat_new/CAT_FRAME_0_HD.png"
-=======
         source: 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
->>>>>>> bc7f67e92d31c879a5cee3ef21042e4663d08e21
         size: root.size
         pos: root.pos
 """)
