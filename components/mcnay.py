@@ -34,7 +34,7 @@ class Mcnay(Widget):
 
     def jump(self):
         self.velocity[1] = self.impulse / self.mass
-        self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_0_HR.png'
+        self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_0_HD.png'
 
     def on_touch_down(self, touch):
         if self.pos[1] == self.ground:
@@ -56,7 +56,7 @@ class Mcnay(Widget):
         if self.updatesSinceLastImageChange > 2: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
             self.imageFrame += 1
             # self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
-            self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_{}_HR.png'.format(self.imageFrame%4)
+            self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_{}_HD.png'.format(self.imageFrame%4)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
@@ -86,7 +86,7 @@ Builder.load_string("""
     Image:
         id: image
         # source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
-        source: "images/cats/pink_cat_new/CAT_FRAME_0_HR.png"
+        source: "images/cats/pink_cat_new/CAT_FRAME_0_HD.png"
         size: root.size
         pos: root.pos
 """)
