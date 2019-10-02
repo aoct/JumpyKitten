@@ -109,7 +109,7 @@ class JumpyKittenGame(Widget):
             if self.banner_ad.hidden_ad() == 0:
                 self.banner_ad.show_ads()
             
-        self.score += 0.02
+        self.score += 0.05
 
     def obstacle_collision(self):
         self.process.cancel()
@@ -148,11 +148,10 @@ class JumpyKittenPage(Screen):
         #     from pyobjus import autoclass
         #     self.banner_ad = autoclass('adSwitch').alloc().init()
         if platform != 'ios':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_banner(TestIds.BANNER)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_banner(TestIds.BANNER)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
 
     def on_enter(self):
         self.game.reset()

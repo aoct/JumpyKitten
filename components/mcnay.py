@@ -21,7 +21,7 @@ class Mcnay(Widget):
 
         self.ground = Window.size[1]*0.05
 
-        self.size = (Window.size[0]/6., Window.size[0]/6.)
+        self.size = (Window.size[0]/7., Window.size[0]/7.)
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 5
@@ -33,6 +33,8 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
 
     def jump(self):
+        self.imageFrame = 0
+        self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
         self.velocity[1] = self.impulse / self.mass
         self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_0_HD.png'
 
@@ -53,10 +55,9 @@ class Mcnay(Widget):
             self.velocity[1] = 0
             self.doubleJump = 0
 
-        if self.updatesSinceLastImageChange > 2: #The gif I took it from had 0.07 frame rate and our app run at 1/60 --> ~ 4.2
+        if self.updatesSinceLastImageChange > 4 and self.pos[1] <= self.ground:
             self.imageFrame += 1
-            # self.mcnay_image.source = 'images/cats/pink_nyan/frame_{}_delay-0.07s.png'.format(self.imageFrame%5)
-            self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_{}_HD.png'.format(self.imageFrame%4)
+            self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_{}_HD.png'.format(self.imageFrame%4)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
@@ -67,11 +68,12 @@ class Mcnay(Widget):
     def collision_with_obstacle(self, o):
         xCenterObstacle = o.pos[0] + o.width/2
         yCenterObstacle = o.pos[1] + o.height/2
-        radiusObstacle = o.width/2
+        radiusObstacle = 0.45*o.width
 
         xCenterMcNay = self.pos[0] + self.size[0]/2
         yCenterMcNay = self.pos[1] + self.size[1]/2
-        radiusMcnay = self.width/2.75
+
+        radiusMcnay = 0.4*self.width
 
         #The contact is based on circles centered at middle of the widgets
         if (xCenterObstacle - xCenterMcNay)**2 + (yCenterObstacle - yCenterMcNay)**2 <= (radiusObstacle + radiusMcnay)**2:
@@ -85,8 +87,12 @@ Builder.load_string("""
     mcnay_image: image
     Image:
         id: image
+<<<<<<< HEAD
         # source: "images/cats/pink_nyan/frame_5_delay-0.07s.png"
         source: "images/cats/pink_cat_new/CAT_FRAME_0_HD.png"
+=======
+        source: 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
+>>>>>>> bc7f67e92d31c879a5cee3ef21042e4663d08e21
         size: root.size
         pos: root.pos
 """)

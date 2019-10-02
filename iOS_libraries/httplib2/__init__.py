@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import absolute_import
 # -*- coding: utf-8 -*-
 """Small, fast HTTP client library for Python."""
 
@@ -472,7 +474,7 @@ def _bind_write_headers(msg):
     def _write_headers(self):
         # Self refers to the Generator object.
         for h, v in msg.items():
-            print("%s:" % h, end=" ", file=self._fp)
+            print("%s:" % h, end=' ', file=self._fp)
             if isinstance(v, header.Header):
                 print(v.encode(maxlinelen=self._maxheaderlen), file=self._fp)
             else:

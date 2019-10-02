@@ -22,7 +22,7 @@ class Bird(Widget):
         self.base_velocity = Vector(-Window.size[0]/90., 0)
         self.velocity = self.base_velocity * (1 + 0.05*score/10)
 
-        self.y = uniform(Window.size[1]-Window.size[1]*2/3, Window.size[1]- 100)
+        self.y = uniform(0.33*Window.size[1], 0.8*Window.size[1])
 
         self.marked = False
 
@@ -31,14 +31,8 @@ class Bird(Widget):
 
 Builder.load_string("""
 <Bird>:
-    # canvas:
-    #     Color:
-    #         rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
-    #     Rectangle:
-    #         pos: self.x, root.obstacle_base
-    #         size: root.width, root.height
     Image:
-        source: "images/obstacle2.png"
+        source: "images/obstacles/blueDot.png"
         center_x: root.center_x
         y: root.y
         size: root.width, root.height

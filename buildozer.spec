@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1.1
+version = 0.2.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -36,7 +36,7 @@ version = 0.1.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = hostpython2 ,kivy, android, jnius, kivmob
+requirements = kivy, python3, android, jnius
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -49,7 +49,7 @@ requirements = hostpython2 ,kivy, android, jnius, kivmob
 presplash.filename = %(source.dir)s/images/presplash_image.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/images/AppLouncherIcon.png
+icon.filename = %(source.dir)s/images/AppIcon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = landscape
@@ -106,7 +106,7 @@ android.ndk = 17c
 #android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
-#android.ndk_path =
+# android.ndk_path = ~/Shared/crystax-ndk-10.3.2
 
 # (str) Android SDK directory (if empty, it will be automatically downloaded.)
 #android.sdk_path =
@@ -153,8 +153,8 @@ android.ndk = 17c
 
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
-# android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
-android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
+android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+# android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
 
 # (list) Java classes to add as activities to the manifest.
 #android.add_activites = com.example.ExampleActivity
@@ -188,9 +188,9 @@ p4a.branch = master
 # (list) Android application meta-data to set (key=value format)
 
 # Test ID
-# android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
+android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
 #Jumpy Kitten ID
-android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280870740386~8534172049
+# android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280870740386~8534172049
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)

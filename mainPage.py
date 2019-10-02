@@ -17,15 +17,12 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        # if platform == 'ios':
-        # 	from pyobjus import autoclass
-        # 	self.banner_ad = autoclass('adSwitch').alloc().init()
-        # else:
-        if platform != 'ios':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+        if not platform == 'ios':
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+
             print('Requesting interstitial')
             self.ads.request_interstitial()
             counter = 0
@@ -81,7 +78,11 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
+<<<<<<< HEAD
             source: "images/cats/pink_cat_new/CAT_FRAME_0_HR.png"
+=======
+            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
+>>>>>>> bc7f67e92d31c879a5cee3ef21042e4663d08e21
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size

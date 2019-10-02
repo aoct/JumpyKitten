@@ -81,15 +81,13 @@ class rankPage(Screen):
 			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
 			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
 
-		#create a connection with googlesheets
-		## We should put something such that if there is no internet connection it does not crush
 		try:
 			scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 			credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
 			file = gspread.authorize(credentials)
 			sheet = file.open('JumpyKitten_Ranking').sheet1
 		except:
-			Logger.exception("No Internet Connection")
+			print('[Warning] No Internet Connection. Ranking will not be loaded')
 		else:
 			uname_already_present = False
 			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
@@ -102,9 +100,6 @@ class rankPage(Screen):
 			if not uname_already_present:
 				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
 				sheet.update_cell(i_row+1, 2, str(best_score))
-
-
-		print(sheet.get_all_values())
 
 Builder.load_string("""
 <rankPage>:
@@ -132,5 +127,4 @@ Ranking Page will be a page where the user see's two things:
 1. his overall ranking compared to other players
 2. the achievements he accomplished during the game (ex. average score, etc)
 		--> the more achievements a player accomplishes the more stuff he unlocks
-
 """
