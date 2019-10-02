@@ -101,9 +101,6 @@ class rankPage(Screen):
 				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
 				sheet.update_cell(i_row+1, 2, str(best_score))
 
-
-		print(sheet.get_all_values())
-
 Builder.load_string("""
 <rankPage>:
 	background: background
@@ -130,5 +127,4 @@ Ranking Page will be a page where the user see's two things:
 1. his overall ranking compared to other players
 2. the achievements he accomplished during the game (ex. average score, etc)
 		--> the more achievements a player accomplishes the more stuff he unlocks
-
 """
