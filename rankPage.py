@@ -81,15 +81,13 @@ class rankPage(Screen):
 			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
 			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
 
-		#create a connection with googlesheets
-		## We should put something such that if there is no internet connection it does not crush
 		try:
 			scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 			credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
 			file = gspread.authorize(credentials)
 			sheet = file.open('JumpyKitten_Ranking').sheet1
 		except:
-			Logger.exception("No Internet Connection")
+			print('[Warning] No Internet Connection. Ranking will not be loaded')
 		else:
 			uname_already_present = False
 			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):

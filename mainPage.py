@@ -72,11 +72,11 @@ Builder.load_string("""
         pos: root.pos
     Button:
         on_release: app.sm.current = 'GamePage'
-        size_hint: (.2, .2)
-        pos_hint: {'x':.4, 'y':.4}
+        size_hint: (.3, .3)
+        pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/pink_cat_new/cropped/CATFINALDRFAFT-00.png"
+            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size

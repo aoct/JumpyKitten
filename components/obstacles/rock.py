@@ -36,7 +36,7 @@ Builder.load_string("""
     #         pos: self.x, root.obstacle_base
     #         size: root.width, root.height
     Image:
-        source: "images/obstacle.png"
+        source: "images/obstacles/rockOnGrass.png"
         center_x: root.center_x
         y: root.obstacle_base*0.9 - 30
         size: root.width, root.height

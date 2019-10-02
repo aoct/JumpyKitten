@@ -9,11 +9,12 @@
         id: background
         pos: root.pos
     Label:
-        font_size: 60
+        font_size: 75
         right: 1.65*root.center_x
-        top: 0.85*root.top
+        top: 0.8*root.top
         markup: True
-        text: "[color=000000]Distance: " + '{:.0f}'.format(root.score) + "[/color]"
+        bold: True
+        text: "[u][color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color][/u]"
 
 <endGamePopup>:
     title: ""

@@ -31,14 +31,8 @@ class Bird(Widget):
 
 Builder.load_string("""
 <Bird>:
-    # canvas:
-    #     Color:
-    #         rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
-    #     Rectangle:
-    #         pos: self.x, root.obstacle_base
-    #         size: root.width, root.height
     Image:
-        source: "images/obstacle2.png"
+        source: "images/obstacles/blueDot.png"
         center_x: root.center_x
         y: root.y
         size: root.width, root.height

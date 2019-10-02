@@ -49,7 +49,7 @@ requirements = kivy, python3, android, jnius
 presplash.filename = %(source.dir)s/images/presplash_image.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/images/AppLouncherIcon.png
+icon.filename = %(source.dir)s/images/AppIcon.png
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = landscape
