@@ -98,7 +98,7 @@ class JumpyKittenGame(Widget):
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
-        self.score += 0.02
+        self.score += 0.05
 
     def obstacle_collision(self):
         self.process.cancel()

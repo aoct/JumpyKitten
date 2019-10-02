@@ -19,7 +19,7 @@ class Background(Widget):
         self.base_velocity = Vector(-Window.size[0]/200., 0)
 
     def update(self, score):
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+10*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
 
         self.image_1.pos[0] = self.velocity[0] + self.image_1.pos[0]
         self.image_2.pos[0] = self.velocity[0] + self.image_2.pos[0]
