@@ -90,9 +90,13 @@ class rankPage(Screen):
 			print('[Warning] No Internet Connection. Ranking will not be loaded')
 		else:
 			uname_already_present = False
+			users = []
 			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
 				if i_row == 1: continue
-				self.addUserToScroll('0', uname, score)
+				users.append([uname, int(score)])
+			users.sort(reverse=True, key=lambda x: x[1])
+			for rank, (uname, score) in enumerate(users, 1):
+				self.addUserToScroll(str(rank), uname, str(score))
 				if uname == self.userDevice_ID:
 					uname_already_present = True
 					if float(score) < best_score:
