@@ -24,6 +24,7 @@ from components.background import Background
 from components.mcnay import Mcnay
 from components.obstacles.rock import Rock
 from components.obstacles.bird import Bird
+from components.obstacles.log import Log
 
 from random import uniform
 
@@ -71,10 +72,13 @@ class JumpyKittenGame(Widget):
         self.obstacles.remove(ob)
 
     def new_obstacle(self):
-        if self.score > 30 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
+        if self.score > 50 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
             new_obstacle = Bird(self.score)
         else:
-            new_obstacle = Rock(self.score)
+            if uniform(0,1) > 0.8:
+                new_obstacle = Rock(self.score)
+            else:
+                new_obstacle = Log(self.score)
         new_obstacle.x = self.width
 
         self.add_widget(new_obstacle)
