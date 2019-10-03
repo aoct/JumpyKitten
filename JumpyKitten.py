@@ -116,6 +116,7 @@ class JumpyKittenGame(Widget):
         self.score += 0.05
 
     def obstacle_collision(self):
+        self.mcnay.death()            
         self.process.cancel()
 
         if platform == 'ios':
