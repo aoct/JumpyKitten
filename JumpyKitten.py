@@ -64,6 +64,8 @@ class JumpyKittenGame(Widget):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
+        if hasattr(self, 'process'):
+            self.process.cancel()
         self.score = 0
         self.mcnay.reset()
         for obstacle in self.obstacles:
@@ -120,14 +122,13 @@ class JumpyKittenGame(Widget):
 
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
-        print(self.mcnay.velocity[0], self.mcnay.velocity[1])
         if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground:
             self.process.cancel()
 
     def obstacle_collision(self):
         self.process.cancel()
         self.mcnay.death()
-        self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)   
+        self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)
 
         if platform == 'ios':
             user_data_dir = App.get_running_app().user_data_dir
