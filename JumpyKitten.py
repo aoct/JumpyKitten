@@ -72,7 +72,7 @@ class JumpyKittenGame(Widget):
         self.obstacles.remove(ob)
 
     def new_obstacle(self):
-        if self.score > 50 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
+        if self.score > 20 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.17:
             new_obstacle = Bird(self.score)
         else:
             if uniform(0,1) > 0.8:
@@ -95,7 +95,7 @@ class JumpyKittenGame(Widget):
         furtherst_obstacle = -999999.
         for o in self.obstacles:
             o.update()
-            if o.type == 'rock' and o.x > furtherst_obstacle:
+            if o.type == 'ground steady' and o.x > furtherst_obstacle:
                 furtherst_obstacle = o.x
             if o.x + o.width < 0:
                 self.remove_obstacle(o)
@@ -112,7 +112,7 @@ class JumpyKittenGame(Widget):
         if platform == 'ios':
             if self.banner_ad.hidden_ad() == 0:
                 self.banner_ad.show_ads()
-            
+
         self.score += 0.05
 
     def obstacle_collision(self):
