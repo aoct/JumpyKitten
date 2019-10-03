@@ -116,8 +116,9 @@ class JumpyKittenGame(Widget):
         self.score += 0.05
 
     def obstacle_collision(self):
-        self.mcnay.death()            
         self.process.cancel()
+        self.mcnay.death()
+        elf.process = Clock.schedule_interval(self.mcnay.update(self.g_grav), 1.0/60.0, 30volte)   
 
         if platform == 'ios':
             user_data_dir = App.get_running_app().user_data_dir

@@ -82,7 +82,7 @@ class Mcnay(Widget):
 
     def death(self):
         self.velocity[1] = 0.5* self.impulse / self.mass
-        self.velocity[0] = -Window.size[0]/400.
+        self.velocity[0] = -0.2*Window.size[0]/200.
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_DEATH_HD.png'
 
 

@@ -1,6 +1,5 @@
 Version 0:
 - Add animation when you die (like jump backward)
-- Add bird drawing
 - Ranking page: layout e primi 3 & 3 attorno alla tua posizione
 - New pre - splash image
 - in settings page, add username for the user, controllando che non ci sia gia sullo spreadsheet e mette subito il tuo username a 0
