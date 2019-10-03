@@ -31,6 +31,7 @@ class Mcnay(Widget):
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
         self.velocity = Vector(0, 0)
+        self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
 
     def jump(self):
         self.imageFrame = 0
@@ -46,13 +47,13 @@ class Mcnay(Widget):
             self.doubleJump = 1
 
     def update(self, g_grav):
-        self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
-        self.velocity[1] = self.velocity[1] + g_grav
-
-        if self.pos[1] <= self.ground:
-            self.pos[1] = self.ground
-            self.velocity[1] = 0
-            self.doubleJump = 0
+        if self.velocity[1] != 0 or self.pos[1] != self.ground:
+            self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
+            self.velocity[1] = self.velocity[1] + g_grav
+            if self.pos[1] <= self.ground:
+                self.pos[1] = self.ground
+                self.velocity[1] = 0
+                self.doubleJump = 0
 
         if self.updatesSinceLastImageChange > 4 and self.pos[1] <= self.ground:
             self.imageFrame += 1
@@ -60,9 +61,6 @@ class Mcnay(Widget):
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
-
-        if self.velocity[1] != 0:
-            self.updatesSinceLastImageChange = 0
 
     def collision_with_obstacle(self, o):
         xCenterObstacle = o.pos[0] + o.width/2
@@ -84,6 +82,19 @@ class Mcnay(Widget):
         self.velocity[1] = 0.5* self.impulse / self.mass
         self.velocity[0] = -0.2*Window.size[0]/200.
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_DEATH_HD.png'
+
+    def update_after_death(self, g_grav):
+        if self.velocity[0] > 0:
+            F_friction = g_grav
+            self.pos[0] = self.pos[0] + (self.velocity[0] + 0.5*F_friction)*Window.size[0]/800.
+            self.velocity[0] = self.velocity[0] + F_friction
+
+        self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
+        self.velocity[1] = self.velocity[1] + g_grav
+
+        if self.pos[1] <= self.ground:
+            self.pos[1] = self.ground
+            self.velocity[1] = 0
 
 
 Builder.load_string("""
