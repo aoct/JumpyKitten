@@ -27,7 +27,7 @@ class rankPageWorld(Screen):
 									   spacing=10
 									   )
 
-		self.world_ranking = GridLayout(cols=1, size_hint=(1.,.7))
+		self.world_ranking = GridLayout(cols=1, size_hint_x=1.)#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
 		self.world_ranking.add_widget(Label(text='World ranking', font_size=90))
 		row = GridLayout(cols=3)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
@@ -67,6 +67,9 @@ class rankPageWorld(Screen):
 			filename = 'data/score_history.pickle'
 
 		best_score = 0
+		if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+			best_score = max(pickle.load(open(filename, 'rb')))
+
 		try:
 			scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 			credentials = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
@@ -77,19 +80,31 @@ class rankPageWorld(Screen):
 		else:
 			uname_already_present = False
 			users = []
+
 			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
 				if i_row == 1: continue
-				users.append([uname, int(score)])
-			users.sort(reverse=True, key=lambda x: x[1])
-			for rank, (uname, score) in enumerate(users, 1):
-				self.addUserToScroll(str(rank), uname, str(score))
 				if uname == self.userDevice_ID:
 					uname_already_present = True
 					if float(score) < best_score:
 						sheet.update_cell(i_row, 2, '{:.0f}'.format(best_score))
+						score = best_score
+				users.append([uname, int(score)])
+			
 			if not uname_already_present:
 				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
-				sheet.update_cell(i_row+1, 2, str(best_score))
+				sheet.update_cell(i_row+1, 2, str(int(best_score)))
+				
+			users.sort(reverse=True, key=lambda x: x[1])
+
+			if not self.onlineUsers.children:
+				# device_index = #find the device number and print first
+				# self.addUserToScroll(str(device_index+1), users[device_index][0], str(users[device_index][1]))
+				self.addUserToScroll('','------------------','')
+				for rank, (uname, score) in enumerate(users, 1):
+					self.addUserToScroll(str(rank), uname, str(score))
+	
+	def on_leave(self):
+		self.onlineUsers.clear_widgets()
 
 Builder.load_string("""
 <rankPageWorld>:

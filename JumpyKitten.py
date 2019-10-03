@@ -120,9 +120,7 @@ class JumpyKittenGame(Widget):
 
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
-        print(self.mcnay.velocity[0], self.mcnay.velocity[1])
-        if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground:
-            self.process.cancel()
+        if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground: self.process.cancel()
 
     def obstacle_collision(self):
         self.process.cancel()

@@ -78,11 +78,23 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
+            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png" 
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+    Label: 
+        text: "Press to Start" 
+        pos_hint: {'x':.35, 'y':.25}
+        size_hint: (0.3, 0.1)
+        halign: 'center'
+        valign: 'center'
+        font_size: 60
+        color: [226/255.0, 158/255.0, 163/255.0, 1]
+        markup: True
+        bold: True
+
+
   #   Button:
   #   	size_hint: (.1, .1)
 		# pos_hint: {'x':.85, 'y':.45}
