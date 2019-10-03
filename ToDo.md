@@ -1,26 +1,23 @@
-Most important:
-- Add animation when you die (like jump backward) 
-- Add iOS ads in gaming page -- (The ads have been put also in the in game section; there is a coding fallacy for now that causes the ads not to load properly. when switching between two pages with ads the ads for the second page are first loaded and then the ads for the first page are destroyed. This results in no ads showing!! )
-- xcode - add code to destroy add / not only hide it
+Version 0:
+- Add animation when you die (like jump backward)
+- Add bird drawing
+- Ranking page: layout e primi 3 & 3 attorno alla tua posizione
+- New pre - splash image
+- in settings page, add username for the user, controllando che non ci sia gia sullo spreadsheet e mette subito il tuo username a 0
+
+
+Version 1:
 - Add in app purchases (no ads version of the game)
-- add bird drawing
 - fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
-- fix ranking page setup
-- design AOCT Dev logo -- 
-- add pause button in the game page
+- design AOCT Dev logo
 
 
-
-
-
-- in settings page, add username for the user
+Whenver:
 - Add reward video for redemption when you die
-- iOS figure out how to add more ads
 - double jump recharge
-- speed increase from linear to logarithmic
+- Add jump height dependence with press time
 - background that changes with the weather
 - Add reward like candies or kitten treats. Gather them
-- speed up update function in JumpyKitten.py - remove as many for loops as possible - check collision only with closest obstacle
 
 
 Examples of how to use pyobjus:

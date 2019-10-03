@@ -36,7 +36,6 @@ class Mcnay(Widget):
         self.imageFrame = 0
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
         self.velocity[1] = self.impulse / self.mass
-        self.mcnay_image.source = 'images/cats/pink_cat_new/CAT_FRAME_0_HD.png'
 
     def on_touch_down(self, touch):
         if self.pos[1] == self.ground:
