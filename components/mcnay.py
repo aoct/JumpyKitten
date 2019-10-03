@@ -79,15 +79,17 @@ class Mcnay(Widget):
             return False
 
     def death(self):
-        self.velocity[1] = 0.5* self.impulse / self.mass
-        self.velocity[0] = -0.2*Window.size[0]/200.
+        self.velocity[1] = self.impulse / self.mass
+        self.velocity[0] = Window.size[0]/200.
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_DEATH_HD.png'
 
     def update_after_death(self, g_grav):
         if self.velocity[0] > 0:
             F_friction = g_grav
             self.pos[0] = self.pos[0] + (self.velocity[0] + 0.5*F_friction)*Window.size[0]/800.
-            self.velocity[0] = self.velocity[0] + F_friction
+            self.velocity[0] = self.velocity[0] + 0.5*F_friction
+        else:
+            self.velocity[0] = 0
 
         self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
         self.velocity[1] = self.velocity[1] + g_grav

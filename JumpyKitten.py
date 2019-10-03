@@ -30,6 +30,8 @@ from random import uniform
 
 from os.path import join
 
+import time
+
 
 class endGamePopup(Popup):
     def __init__(self, **kwargs):
@@ -115,10 +117,17 @@ class JumpyKittenGame(Widget):
 
         self.score += 0.05
 
+
+    def update_death(self, dt):
+        self.mcnay.update_after_death(self.g_grav)
+        print(self.mcnay.velocity[0], self.mcnay.velocity[1])
+        if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground:
+            self.process.cancel()
+
     def obstacle_collision(self):
         self.process.cancel()
         self.mcnay.death()
-        # elf.process = Clock.schedule_interval(self.mcnay.update_after_death(self.g_grav), 1.0/60.0)   
+        self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)   
 
         if platform == 'ios':
             user_data_dir = App.get_running_app().user_data_dir
