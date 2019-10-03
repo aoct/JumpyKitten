@@ -16,7 +16,7 @@ class Log(Widget):
     def __init__(self, score, **kwargs):
         super(Log, self).__init__(**kwargs)
 
-        self.type = 'log'
+        self.type = 'ground steady'
         image_num = randint(1,3)
 
         self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
@@ -26,7 +26,7 @@ class Log(Widget):
             self.height = (1+0.01*log(score+1))*uniform(1, 1.3)*Window.size[1]/6.
         else:
             self.height = (1+0.01*log(score+1))*uniform(1.3, 1.45)*Window.size[1]/6.
-        
+
         self.base_velocity = Vector(-Window.size[0]/200., 0)
         self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
 

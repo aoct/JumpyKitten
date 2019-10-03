@@ -4,6 +4,7 @@ Version 0:
 - Ranking page: layout e primi 3 & 3 attorno alla tua posizione
 - New pre - splash image
 - in settings page, add username for the user, controllando che non ci sia gia sullo spreadsheet e mette subito il tuo username a 0
+- Add "Touch to start" label
 
 
 Version 1:
@@ -13,6 +14,8 @@ Version 1:
 
 
 Whenver:
+- Try to add flower in the grass
+- Change back legs position to make it more natural
 - Add reward video for redemption when you die
 - double jump recharge
 - Add jump height dependence with press time
