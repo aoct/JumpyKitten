@@ -18,10 +18,10 @@ class mainPage(Screen):
         super(mainPage, self).__init__(**kwargs)
 
         if not platform == 'ios':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
 
             print('Requesting interstitial')
             self.ads.request_interstitial()
@@ -78,13 +78,13 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png" 
+            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-    Label: 
-        text: "Press to Start" 
+    Label:
+        text: "Press to Start"
         pos_hint: {'x':.35, 'y':.25}
         size_hint: (0.3, 0.1)
         halign: 'center'
