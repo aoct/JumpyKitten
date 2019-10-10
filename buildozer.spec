@@ -91,7 +91,7 @@ android.permissions = INTERNET, ACCESS_NETWORK_STATE
 android.api = 28
 
 # (int) Minimum API your APK will support.
-android.minapi = 21
+android.minapi = 28
 
 # (int) Android SDK version to use
 # android.sdk = 20
