@@ -3,8 +3,7 @@ Version 0:
 	- RANKING DOES NOT UNDATE SCORE!! -- FIXED
 	- RANKING RELOAD AND ADDS EACH TIME THE PAGE IS OPENED - IF YOU OPEN CONSECUTIVE TIMES NAMES APPEAR MULTIPLE TIMES ON THE LIST -- FIXED
 - in settings page, add username for the user, controllando che non ci sia gia sullo spreadsheet e mette subito il tuo username a 0
-- Add "Touch to start" label - added writing but need to fix positioning /
-- Icona 512x512
+- Reduce birds y range to avoid too low birds (ideally probably above the max hight for the single jump)
 
 Version 1:
 - Add in app purchases (no ads version of the game)
@@ -14,7 +13,6 @@ Version 1:
 
 Whenver:
 - Try to add flower in the grass
-- Change back legs position to make it more natural
 - Add reward video for redemption when you die
 - double jump recharge
 - Add jump height dependence with press time
