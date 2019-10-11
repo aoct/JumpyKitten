@@ -26,8 +26,24 @@ from settingsPage import settingsPage
 from rankPageUser import rankPageUser
 from rankPageWorld import rankPageWorld
 
+if platform == 'android':
+	from android_libraries import gs_android
+
+from kivy.uix.popup import Popup
+class GooglePlayPopup(Popup):
+	pass
+
 class JumpyKittenApp(App):
+	def build_config(self, config):
+		if platform == 'android':
+			config.setdefaults('play', {'use_google_play': '0'})
+
 	def build(self):
+		global app
+		app = self
+
+		self.leaderboard_topscore = 'CgkI8dS1q5oFEAIQAA'
+
 		print('Building the main App')
 		self.sm = ScreenManager()
 
@@ -52,7 +68,40 @@ class JumpyKittenApp(App):
 		self.rankPageWorld = rankPageWorld(name='RankPageWorld')
 		self.sm.add_widget(self.rankPageWorld)
 
+		if platform == 'android':
+			self.use_google_play = self.config.getint('play', 'use_google_play')
+			if self.use_google_play:
+			    gs_android.setup(self)
+			else:
+			    Clock.schedule_once(self.ask_google_play, .5)
+
 		return self.sm
+
+	def gs_score(self, score):
+		print('[DEBUG]: if on android send scores to google play')
+		if platform == 'android' and self.use_google_play:
+			gs_android.leaderboard(self.leaderboard_topscore, score)
+
+	def gs_show_leaderboard(self):
+		print('[DEBUG]: Showing leaderboard')
+		if platform == 'android':
+			if self.use_google_play:
+				gs_android.show_leaderboard(leaderboard_highscore)
+		else:
+			self.ask_google_play()
+
+	def ask_google_play(self, *args):
+		popup = GooglePlayPopup()
+		popup.open()
+
+	def activate_google_play(self):
+		if platform == 'android':
+			self.config.set('play', 'use_google_play', '1')
+			self.config.write()
+			self.use_google_play = 1
+			gs_android.setup(self)
+		else:
+			print("[DEBUG]: Google play only available on android")
 
 
 if __name__ =="__main__":

@@ -14,9 +14,6 @@ from components.background import Background
 
 from os.path import join
 
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-
 class rankPageUser(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
@@ -59,7 +56,6 @@ class rankPageUser(Screen):
 			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
 			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
 
-		
 
 Builder.load_string("""
 <rankPageUser>:
@@ -95,7 +91,7 @@ Builder.load_string("""
     	text: 'World'
     	size_hint: (.1, .1)
 		pos_hint: {'x':0.55, 'y':.89}
-		on_release: app.sm.current = 'RankPageWorld'
+		on_release: app.gs_show_leaderboard()
         background_color: 0, 0, 0, .0
 		Image:
             source: "images/icons/rankingWorld.png"
@@ -104,11 +100,3 @@ Builder.load_string("""
             size: self.parent.size
             allow_stretch: True
 """)
-
-
-"""
-Ranking Page will be a page where the user see's two things:
-1. his overall ranking compared to other players
-2. the achievements he accomplished during the game (ex. average score, etc)
-		--> the more achievements a player accomplishes the more stuff he unlocks
-"""

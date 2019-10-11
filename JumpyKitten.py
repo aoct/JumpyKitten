@@ -150,6 +150,8 @@ class JumpyKittenGame(Widget):
         except:
             Logger.exception("Problem saving file")
 
+        App.get_running_app().gs_score(self.score)
+
         popup = endGamePopup(auto_dismiss=False)
         popup.open()
 
