@@ -28,7 +28,7 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.2.1
+version = 0.2.2
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -91,7 +91,7 @@ android.permissions = INTERNET, ACCESS_NETWORK_STATE
 android.api = 28
 
 # (int) Minimum API your APK will support.
-android.minapi = 28
+android.minapi = 21
 
 # (int) Android SDK version to use
 # android.sdk = 20
