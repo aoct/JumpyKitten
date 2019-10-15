@@ -1,6 +1,6 @@
 from kivy.logger import Logger
 from kivy.utils import platform
-import settings
+from android_libraries import settings
 
 
 class AbstractGoogleClient(object):
@@ -183,7 +183,7 @@ if platform == 'android':
             if self.client and self.is_connected():
                 try:
                     Games.signOut(self.client)
-                except JavaException, ex:
+                except JavaException:
                     Logger.error("Google: error while logout")
 
         def is_connected(self):
