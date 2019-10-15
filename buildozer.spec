@@ -141,11 +141,11 @@ android.ndk = 17c
 # their classes. Don't add jars that you do not need, since extra jars can slow
 # down the build process. Allows wildcards matching, for example:
 # OUYA-ODK/libs/*.jar
-#android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
+android.add_jars = android_libraries/*.jar
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)
-#android.add_src =
+android.add_src = android_libraries/basegameutils/java
 
 # (list) Android AAR archives to add (currently works only with sdl2_gradle
 # bootstrap)
@@ -194,7 +194,7 @@ android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
-#android.library_references =
+android.library_references = android_libraries/google-play-services_lib
 
 # (str) Android logcat filters to use
 #android.logcat_filters = *:S python:D

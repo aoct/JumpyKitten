@@ -27,8 +27,8 @@ from rankPageUser import rankPageUser
 from rankPageWorld import rankPageWorld
 
 if platform == 'android':
-	# from android_libraries import gs_android
-	from android_libraries.gplay import GoogleClient
+	from android_libraries import gs_android
+	# from android_libraries.gplay import GoogleClient
 
 from kivy.uix.popup import Popup
 class GooglePlayPopup(Popup):
@@ -43,7 +43,7 @@ class JumpyKittenApp(App):
 		# global app
 		# app = self
 		#
-		# self.leaderboard_topscore = 'CgkI8dS1q5oFEAIQAA'
+		self.leaderboard_topscore = 'CgkI8dS1q5oFEAIQAA'
 
 		print('Building the main App')
 		self.sm = ScreenManager()
@@ -72,8 +72,8 @@ class JumpyKittenApp(App):
 		if platform == 'android':
 			self.use_google_play = self.config.getint('play', 'use_google_play')
 			if self.use_google_play:
-			    # gs_android.setup(self)
-				self.gs_android = GoogleClient()
+			    gs_android.setup(self)
+				# self.gs_android = GoogleClient()
 			else:
 			    Clock.schedule_once(self.ask_google_play, .5)
 
@@ -87,15 +87,15 @@ class JumpyKittenApp(App):
 	def gs_score(self, score):
 		print('[DEBUG]: if on android send scores to google play')
 		if platform == 'android' and self.use_google_play:
-			# gs_android.leaderboard(self.leaderboard_topscore, score)
-			self.gs_android.submit_score('top_score', score)
+			gs_android.leaderboard(self.leaderboard_topscore, score)
+			# self.gs_android.submit_score('top_score', score)
 
 	def gs_show_leaderboard(self):
 		print('[DEBUG]: Showing leaderboard')
 		if platform == 'android':
 			if self.use_google_play:
-				# gs_android.show_leaderboard(leaderboard_highscore)
-				self.gs_android.show_leaderboard('top_score')
+				gs_android.show_leaderboard(leaderboard_highscore)
+				# self.gs_android.show_leaderboard('top_score')
 		else:
 			self.ask_google_play()
 
@@ -109,6 +109,7 @@ class JumpyKittenApp(App):
 			self.config.write()
 			self.use_google_play = 1
 			gs_android.setup(self)
+			# self.create_gs()
 		else:
 			print("[DEBUG]: Google play only available on android")
 
