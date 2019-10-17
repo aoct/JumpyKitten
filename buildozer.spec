@@ -194,7 +194,7 @@ android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
-android.library_references = android_libraries/google-play-services_lib
+android.library_references = android_libraries/googlePlayServicesLib
 
 # (str) Android logcat filters to use
 #android.logcat_filters = *:S python:D
