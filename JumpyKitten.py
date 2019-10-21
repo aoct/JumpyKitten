@@ -152,8 +152,9 @@ class JumpyKittenGame(Widget):
             Logger.exception("Problem saving file")
 
         popup = endGamePopup(auto_dismiss=False)
-        self.interstitial_ad.show_ads()
-        self.interstitial_ad.hide_ads()
+        if platform == 'ios':
+            self.interstitial_ad.show_ads()
+            self.interstitial_ad.hide_ads()
         popup.open()
 
 
