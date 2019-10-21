@@ -32,6 +32,12 @@ class mainPage(Screen):
                     break
                 counter += 1
 
+        if platform == 'ios':
+            from pyobjus import autoclass
+            # self.banner_ad = autoclass('adSwitchBanner').alloc().init()
+            # self.banner_ad.show_ads()
+            self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+
         self.bind(size=self.size_callback)
 
     def size_callback(self, instance, value):
@@ -40,9 +46,11 @@ class mainPage(Screen):
 
     def on_enter(self):
         if platform == 'ios':
-        	from pyobjus import autoclass
-        	self.banner_ad = autoclass('adSwitch').alloc().init()
-        	self.banner_ad.show_ads()
+            # from pyobjus import autoclass
+            # self.banner_ad = autoclass('adSwitchBanner').alloc().init()
+            # self.banner_ad.show_ads()
+            # self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+            self.interstitial_ad.show_ads()
         else:
             counter = 0
             while counter < 2:
@@ -56,8 +64,9 @@ class mainPage(Screen):
 
     def on_leave(self):
         if platform == 'ios':
-        	print('showing banner')
-        	self.banner_ad.hide_ads()
+            print('showing banner')
+            # self.banner_ad.hide_ads()
+            # self.interstitial_ad.hide_ads()
         else:
             if self.ads.is_interstitial_loaded():
                 print('Destroying interstitial and requesting new')
