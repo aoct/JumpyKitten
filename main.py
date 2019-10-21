@@ -21,7 +21,6 @@ sys.path.append("iOS_libraries")
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
 from infoPage import infoPage
-from rankPage import rankPage
 from settingsPage import settingsPage
 from rankPageUser import rankPageUser
 from rankPageWorld import rankPageWorld
@@ -39,9 +38,6 @@ class JumpyKittenApp(App):
 
 		self.infoPage = infoPage(name = 'InfoPage')
 		self.sm.add_widget(self.infoPage)
-
-		self.rankPage = rankPage(name='RankPage')
-		self.sm.add_widget(self.rankPage)
 
 		self.settingsPage = settingsPage(name='SettingsPage')
 		self.sm.add_widget(self.settingsPage)
