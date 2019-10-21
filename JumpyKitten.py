@@ -56,9 +56,10 @@ class JumpyKittenGame(Widget):
         if platform == 'ios':
             print('requesting banner')
             from pyobjus import autoclass
-            self.banner_ad = autoclass('adSwitch').alloc().init()
+            self.banner_ad = autoclass('adSwitchBanner').alloc().init()
             self.banner_ad.show_ads()
-            print(self.banner_ad.hidden_ad())
+            self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+
 
     def start(self):
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
@@ -151,6 +152,8 @@ class JumpyKittenGame(Widget):
             Logger.exception("Problem saving file")
 
         popup = endGamePopup(auto_dismiss=False)
+        self.interstitial_ad.show_ads()
+        self.interstitial_ad.hide_ads()
         popup.open()
 
 
@@ -162,7 +165,7 @@ class JumpyKittenPage(Screen):
 
         # if platform == 'ios':
         #     from pyobjus import autoclass
-        #     self.banner_ad = autoclass('adSwitch').alloc().init()
+        #     self.banner_ad = autoclass('adSwitchBanner').alloc().init()
         if platform != 'ios':
             # self.ads = KivMob(TestIds.APP)
             # self.ads.new_banner(TestIds.BANNER)
@@ -175,9 +178,8 @@ class JumpyKittenPage(Screen):
         if platform == 'ios':
             print('requesting banner')
             from pyobjus import autoclass
-            self.banner_ad = autoclass('adSwitch').alloc().init()
+            self.banner_ad = autoclass('adSwitchBanner').alloc().init()
             self.banner_ad.show_ads()
-            print(self.banner_ad.hidden_ad())
         elif platform != 'ios':
             print('Requesting banner')
             self.ads.request_banner()
