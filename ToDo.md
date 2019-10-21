@@ -9,6 +9,7 @@ Version 0 - Time frame (7-10 days):
 2. Settings page:
 	- add username for the user + check that username has not already been taken
 3. Obstacles:
+	- Clear obstacles upon death. Sometimes when you are reborn there are obstacles infront of you and you die immediately, fix that
 	- Randomly obstacles lag (see video) - I suspect its is because of the background image restarting. 
 	- Fix obstacle speed (bird become too fast) - set max upper speed	
 	- Avoid obstacles being created too close to one another
