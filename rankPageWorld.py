@@ -72,11 +72,11 @@ class rankPageWorld(Screen):
 
 		# try:
 		scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-		# if platform == 'ios':
-		credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/creds.json', scope)
-		# else:
-			# credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/JumpyKittenRanking-f5221457c329.json', scope)
+		print('[DEBUG] Retrieving credentials')
+		credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', scope)
+		print('[DEBUG] Getting the file')
 		file = gspread.authorize(credentials)
+		print('[DEBUG] Fetching content')
 		sheet = file.open('JumpyKitten_Ranking').sheet1
 		# except:
 		# 	print('[Warning] No Internet Connection. Ranking will not be loaded')
