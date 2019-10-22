@@ -80,7 +80,7 @@ Builder.load_string("""
             allow_stretch: True
 
     Button:
-    	text: 'World'
+    	text: ''
     	size_hint: (.1, .1)
 		pos_hint: {'x':0.45, 'y':.89}
 		on_release: app.sm.current = 'RankPageWorld'
