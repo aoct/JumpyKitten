@@ -16,7 +16,7 @@ from kivy.utils import platform
 if platform == 'ios':
 	sys.path.append("_applibs")
 sys.path.append(".")
-sys.path.append("iOS_libraries")
+# sys.path.append("iOS_libraries")
 
 from JumpyKitten import JumpyKittenPage
 from mainPage import mainPage
