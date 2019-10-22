@@ -45,7 +45,7 @@ class rankPageWorld(Screen):
 		row = GridLayout(cols=3, size_hint_y=0.25)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
 		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text='Score', halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text='Best Distance', halign='right', valign='center', font_size=60))
 		self.world_ranking.add_widget(row)
 		self.onlineUsers = GridLayout(cols=1, spacing=15, size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
@@ -118,11 +118,11 @@ class rankPageWorld(Screen):
 
 	def get_gsheet(self):
 		try:
-			print('[DEBUG] Retrieving credentials')
+			# print('[DEBUG] Retrieving credentials')
 			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/worldRanking_private.json', gs_scope)
-			print('[DEBUG] Getting the file')
+			# print('[DEBUG] Getting the file')
 			file = gspread.authorize(credentials)
-			print('[DEBUG] Fetching content')
+			# print('[DEBUG] Fetching content')
 			sheet = file.open('JumpyKitten_Ranking').sheet1
 		except:
 			print('[Warning] Cannot load the google sheet')
@@ -160,7 +160,7 @@ class rankPageWorld(Screen):
 				self.addUserToScroll(str(i_rank), uname, str(score))
 			if i_rank == 10:
 				break
-		self.addUserToScroll(3*'-', 40*'-', 3*'-')
+		self.addUserToScroll(7*'-', 40*'-', 7*'-')
 		if not self_present:
 			for i_rank, (uname, score) in enumerate(users, 1):
 				if uname == my_uname:

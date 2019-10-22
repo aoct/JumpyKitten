@@ -25,15 +25,15 @@ class rankPageUser(Screen):
 		self.background.remove_clouds()
 
 		self.master_grid = GridLayout(cols=1,
-									   size_hint=(1.,.8),
-									   pos_hint={'x':0., 'y':.05},
+									   size_hint=(1.,.7),
+									   pos_hint={'x':0., 'y':.15},
 									   spacing=10
 									   )
 		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
 		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=90))
-		self.score_report.add_widget(Label(text='Best: 0', font_size=60))
-		self.score_report.add_widget(Label(text='Last: 0', font_size=60))
-		self.score_report.add_widget(Label(text='Number of games: 0', font_size=60))
+		self.score_report.add_widget(Label(text='Best Distance: 0', font_size=70))
+		self.score_report.add_widget(Label(text='Last Distance: 0', font_size=70))
+		self.score_report.add_widget(Label(text='Games Played: 0', font_size=70))
 		self.master_grid.add_widget(self.score_report)
 
 		self.add_widget(self.master_grid)
@@ -54,9 +54,9 @@ class rankPageUser(Screen):
 		if os.path.isfile(filename) :
 			score_history = pickle.load(open(filename, 'rb'))
 			best_score = max(score_history)
-			self.score_report.children[2].text = 'Best: {:.0f}'.format(best_score)
-			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
-			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
+			self.score_report.children[2].text = 'Best Distance: {:.0f}'.format(best_score)
+			self.score_report.children[1].text = 'Last Distance: {:.0f}'.format(score_history[-1])
+			self.score_report.children[0].text = 'Games Played: {:.0f}'.format(len(score_history))
 
 
 
