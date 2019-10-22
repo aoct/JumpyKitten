@@ -50,9 +50,7 @@ class JumpyKittenGame(Widget):
         self.obstacles = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
-
-        self.reset()
-        self.bind(size=self.size_callback)
+        self.bind(size=self.size_callback) # for bkg sizing
 
         if platform == 'ios':
             print('requesting banner')
@@ -60,8 +58,22 @@ class JumpyKittenGame(Widget):
             self.banner_ad = autoclass('adSwitchBanner').alloc().init()
             self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+        if platform == 'android':
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_banner(TestIds.BANNER)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+            # slef.ads.new_interstial('ca-app-pub-8564280870740386/8985921895')
+            
+        self.reset()
 
     def start(self):
+        if platform == 'android':
+            print('Requesting banner')
+            self.ads.request_banner()
+            self.ads.request_interstitial()
+            self.ads.show_banner()
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
@@ -73,9 +85,8 @@ class JumpyKittenGame(Widget):
             self.remove_widget(obstacle)
         self.obstacles = []
 
-    def remove_obstacle(self, ob):
-        self.remove_widget(ob)
-        self.obstacles.remove(ob)
+        if platform == 'android':
+            self.ads.destroy_interstitial()
 
     def new_obstacle(self):
         if self.score > 30 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
@@ -104,7 +115,8 @@ class JumpyKittenGame(Widget):
             if o.type == 'ground steady' and o.x > furtherst_obstacle:
                 furtherst_obstacle = o.x
             if o.x + o.width < 0:
-                self.remove_obstacle(o)
+                self.remove_widget(o)
+                self.obstacles.remove(o)
             else:
                 if self.mcnay.collision_with_obstacle(o):
                     self.obstacle_collision()
@@ -136,6 +148,11 @@ class JumpyKittenGame(Widget):
         self.mcnay.death()
         if platform == 'ios':
             self.banner_ad.hide_ads()
+        if platform == 'android':
+            self.ads.hide_banner()
+            self.ads.destroy_banner()
+            self.ads.show_interstitial()
+
         self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)
 
         if platform == 'ios':
@@ -169,22 +186,9 @@ class JumpyKittenPage(Screen):
         self.game = JumpyKittenGame()
         self.add_widget(self.game)
 
-        if platform == 'android':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_banner(TestIds.BANNER)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-
     def on_enter(self):
         self.game.reset()
-        if platform != 'ios':
-            print('Requesting banner')
-            self.ads.request_banner()
-            self.ads.show_banner()
         self.game.start()
 
     def on_leave(self):
-        if platform != 'ios':
-            self.ads.hide_banner()
-            self.ads.destroy_banner()
         self.game.reset()

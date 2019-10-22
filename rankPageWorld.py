@@ -185,7 +185,7 @@ class UsernamePopup(Popup):
 		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6)
 		addBox.add_widget(self.input)
 
-		self.set_button = Button(text='set', size_hint_x=0.2)
+		self.set_button = Button(text='Enter', size_hint_x=0.2)
 		self.set_button.bind(on_release=self.set_username)
 		addBox.add_widget(self.set_button)
 		self.master.add_widget(addBox)
@@ -287,7 +287,7 @@ Builder.load_string("""
             size: self.parent.size
             allow_stretch: True
     Button:
-    	text: 'User'
+    	text: ''
     	size_hint: (.1, .1)
 		pos_hint: {'x':0.45, 'y':.89}
 		on_release: app.sm.current = 'RankPageUser'
@@ -300,7 +300,7 @@ Builder.load_string("""
             allow_stretch: True
 
 	Button:
-    	text: 'Settings'
+    	text: ''
     	size_hint: (.1, .1)
 		pos_hint: {'x':0.89, 'y':.89}
         background_color: 0, 0, 0, .0
@@ -313,17 +313,17 @@ Builder.load_string("""
             allow_stretch: True
 
 <UsernamePopup>:
-	size_hint: None, None
 	title: 'Leaderboard Username'
-	size: '300dp', '200dp'
+	size_hint: (0.36, 0.4)
+	pos_hint: {'x': 0.32, 'y': 0.55}
     background_color: 0, 0, 0, .0
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
 
 <LabelPopup>:
-	size_hint: None, None
 	title: ''
-	size: '300dp', '200dp'
+	size_hint: (0.36, 0.4)
+	pos_hint: {'x': 0.32, 'y': 0.55}
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
 """)

@@ -17,20 +17,23 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        if not platform == 'ios':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+        if platform == 'android':
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads.new_banner(TestIds.BANNER)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
 
-            print('Requesting interstitial')
+            # print('Requesting interstitial')
             self.ads.request_interstitial()
-            counter = 0
-            while counter < 2:
-                time.sleep(0.5)
-                if self.ads.is_interstitial_loaded():
-                    break
-                counter += 1
+            self.ads.request_banner()
+            # counter = 0
+            # while counter < 2:
+            #     time.sleep(0.5)
+            #     if self.ads.is_interstitial_loaded():
+            #         break
+            #     counter += 1
         elif platform == 'ios':
             from pyobjus import autoclass
             self.banner_ad = autoclass('adSwitchBanner').alloc().init()
@@ -47,26 +50,24 @@ class mainPage(Screen):
             # if self.interstitial_ad.is_loaded():
             self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
-        elif platform != 'ios':
-            counter = 0
-            while counter < 2:
-                time.sleep(0.5)
-                if self.ads.is_interstitial_loaded():
-                    print('Interstitial loaded')
-                    break
-                counter += 1
+        if platform == 'android':
+            # counter = 0
+            # while counter < 2:
+            #     time.sleep(0.5)
+            #     if self.ads.is_interstitial_loaded():
+            #         print('Interstitial loaded')
+            #         break
+            #     counter += 1
             self.ads.show_interstitial()
-            print('Interstitial shown')
+            self.ads.show_banner()
+            # print('Interstitial shown')
 
     def on_leave(self):
         if platform == 'ios':
             self.banner_ad.hide_ads()
             self.interstitial_ad.hide_ads()
-        else:
-            if self.ads.is_interstitial_loaded():
-                print('Destroying interstitial and requesting new')
-                self.ads.destroy_interstitial()
-                self.ads.request_interstitial()
+        elif platform == 'android':
+            self.ads.hide_banner()
 
 
 
