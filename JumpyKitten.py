@@ -65,7 +65,7 @@ class JumpyKittenGame(Widget):
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
             # slef.ads.new_interstial('ca-app-pub-8564280870740386/8985921895')
-            
+
         self.reset()
 
     def start(self):

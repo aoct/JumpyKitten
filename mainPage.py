@@ -25,15 +25,9 @@ class mainPage(Screen):
             # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
             # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
 
-            # print('Requesting interstitial')
             self.ads.request_interstitial()
             self.ads.request_banner()
-            # counter = 0
-            # while counter < 2:
-            #     time.sleep(0.5)
-            #     if self.ads.is_interstitial_loaded():
-            #         break
-            #     counter += 1
+
         elif platform == 'ios':
             from pyobjus import autoclass
             self.banner_ad = autoclass('adSwitchBanner').alloc().init()
@@ -51,16 +45,8 @@ class mainPage(Screen):
             self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
         if platform == 'android':
-            # counter = 0
-            # while counter < 2:
-            #     time.sleep(0.5)
-            #     if self.ads.is_interstitial_loaded():
-            #         print('Interstitial loaded')
-            #         break
-            #     counter += 1
             self.ads.show_interstitial()
             self.ads.show_banner()
-            # print('Interstitial shown')
 
     def on_leave(self):
         if platform == 'ios':
@@ -68,7 +54,8 @@ class mainPage(Screen):
             self.interstitial_ad.hide_ads()
         elif platform == 'android':
             self.ads.hide_banner()
-
+            self.ads.destroy_interstitial()
+            self.ads.request_interstitial()
 
 
 Builder.load_string("""
