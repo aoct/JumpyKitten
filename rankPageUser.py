@@ -33,9 +33,6 @@ class rankPageUser(Screen):
 		self.score_report.add_widget(Label(text='Number of games: 0', font_size=60))
 		self.master_grid.add_widget(self.score_report)
 
-		self.userDevice_ID = '{} ({})'.format(getpass.getuser().capitalize()[:10], socket.gethostname()[:10])
-		print('Username for the ranking', self.userDevice_ID)
-
 		self.add_widget(self.master_grid)
 
 		self.bind(size=self.size_callback)
@@ -103,11 +100,3 @@ Builder.load_string("""
             size: self.parent.size
             allow_stretch: True
 """)
-
-
-"""
-Ranking Page will be a page where the user see's two things:
-1. his overall ranking compared to other players
-2. the achievements he accomplished during the game (ex. average score, etc)
-		--> the more achievements a player accomplishes the more stuff he unlocks
-"""
