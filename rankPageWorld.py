@@ -73,6 +73,21 @@ class rankPageWorld(Screen):
 		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=60))
 		self.onlineUsers.add_widget(row)
 
+	def lounch_usernamePopup(self, instance=None, may_exist=True):
+		username = 'Not set'
+		if may_exist:
+			sheet = self.get_gsheet()
+			if not sheet == None:
+				for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
+					if i_row == 1: continue
+					if deviceID == self.userDevice_ID:
+						username = uname
+
+
+		popup = UsernamePopup(auto_dismiss=True, uname=username)
+		popup.open()
+		popup.bind(on_dismiss=self.reset_ranking)
+
 	def on_enter(self):
 		if platform == 'ios':
 			user_data_dir = App.get_running_app().user_data_dir
@@ -97,9 +112,7 @@ class rankPageWorld(Screen):
 						score = best_score
 
 			if not device_already_present:
-				popup = UsernamePopup(auto_dismiss=True)
-				popup.open()
-				popup.bind(on_dismiss=self.reset_ranking)
+				self.lounch_usernamePopup(may_exist=False)
 
 		self.reset_ranking(None)
 
@@ -158,21 +171,21 @@ class rankPageWorld(Screen):
 
 
 class UsernamePopup(Popup):
-	def __init__(self, **kwargs):
+	def __init__(self, uname='Not set', **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
 		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
 
 		self.master = BoxLayout(orientation='vertical', spacing='10dp', padding='10dp')
 
-		self.current_uname_label = Label(text='Current username: Not set', bold=True, halign='left')
+		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left')
 		self.master.add_widget(self.current_uname_label)
 
 		addBox = GridLayout(cols=2, size_hint = (1., 0.3))
 		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6)
 		addBox.add_widget(self.input)
 
-		self.set_button = Button(text='set', size_hint_x=0.2)
+		self.set_button = Button(text='Enter', size_hint_x=0.2)
 		self.set_button.bind(on_release=self.set_username)
 		addBox.add_widget(self.set_button)
 		self.master.add_widget(addBox)
@@ -274,9 +287,9 @@ Builder.load_string("""
             size: self.parent.size
             allow_stretch: True
     Button:
-    	text: 'User'
+    	text: ''
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.4, 'y':.89}
+		pos_hint: {'x':0.45, 'y':.89}
 		on_release: app.sm.current = 'RankPageUser'
         background_color: 0, 0, 0, .0
 		Image:
@@ -285,31 +298,32 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-    Button:
-    	text: 'World'
+
+	Button:
+    	text: ''
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.5, 'y':.89}
-		# on_release: app.sm.current = 'RankPageWorld'
+		pos_hint: {'x':0.89, 'y':.89}
         background_color: 0, 0, 0, .0
+		on_release: root.lounch_usernamePopup()
 		Image:
-            source: "images/icons/rankingWorld.png"
+            source: "images/icons/settings.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
 
 <UsernamePopup>:
-	size_hint: None, None
 	title: 'Leaderboard Username'
-	size: '300dp', '200dp'
+	size_hint: (0.36, 0.4)
+	pos_hint: {'x': 0.32, 'y': 0.55}
     background_color: 0, 0, 0, .0
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
 
 <LabelPopup>:
-	size_hint: None, None
 	title: ''
-	size: '300dp', '200dp'
+	size_hint: (0.36, 0.4)
+	pos_hint: {'x': 0.32, 'y': 0.55}
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
 """)
