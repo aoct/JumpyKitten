@@ -67,15 +67,15 @@ class rankPageWorld(Screen):
 			filename = 'data/score_history.pickle'
 
 		best_score = 0
-		if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+		if os.path.isfile(filename) :
 			best_score = max(pickle.load(open(filename, 'rb')))
 
 		# try:
 		scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-		if platform == 'ios':
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/creds.json', scope)
-		else:
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/JumpyKittenRanking-f5221457c329.json', scope)
+		# if platform == 'ios':
+		credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/creds.json', scope)
+		# else:
+			# credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/JumpyKittenRanking-f5221457c329.json', scope)
 		file = gspread.authorize(credentials)
 		sheet = file.open('JumpyKitten_Ranking').sheet1
 		# except:

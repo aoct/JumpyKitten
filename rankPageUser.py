@@ -51,15 +51,14 @@ class rankPageUser(Screen):
 			filename = 'data/score_history.pickle'
 
 		best_score = 0
-		if os.path.getsize(filename) > 0 and os.path.isfile(filename) :
+		if os.path.isfile(filename) :
 			score_history = pickle.load(open(filename, 'rb'))
-
 			best_score = max(score_history)
 			self.score_report.children[2].text = 'Best: {:.0f}'.format(best_score)
 			self.score_report.children[1].text = 'Last: {:.0f}'.format(score_history[-1])
 			self.score_report.children[0].text = 'Number of Games: {:.0f}'.format(len(score_history))
 
-		
+
 
 Builder.load_string("""
 <rankPageUser>:
