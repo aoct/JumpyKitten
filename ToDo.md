@@ -1,21 +1,4 @@
 Version 0 - Time frame (7-10 days):
-1.  Ranking page:
-	- restore google sheet for ranking.
-		- Layout: 1st line is user's info (world ranking, username, score).
-		- Below scroll view for top 10 scores worldwide.
-	-Additional issues with ranking (should be fixed)
-		- RANKING DOES NOT UNDATE SCORE!! -- FIXED
-		- RANKING RELOAD AND ADDS EACH TIME THE PAGE IS OPENED - IF YOU OPEN CONSECUTIVE TIMES NAMES APPEAR MULTIPLE TIMES ON THE LIST -- FIXED
-2. Settings page:
-	- add username for the user + check that username has not already been taken - DONE
-3. Obstacles:
-	- Clear obstacles upon death. Sometimes when you are reborn there are obstacles infront of you and you die immediately, fix that -- FIXED
-	- Randomly obstacles lag (see video) - I suspect its is because of the background image restarting.
-	- Fix obstacle speed (bird become too fast) - set max upper speed	-- FIXED
-	- Avoid obstacles being created too close to one another -- THINK I FIXED IT
-4. Ads:
-	- refresh banner every approx 10s while playing. Currently we display a single banner for the entire race.
-	- interstitials: avoid over advertising. Make sure interstitial are not shown too often when dieing.
 
 Version 1 - (20 days from Version 0):
 1. Ads:

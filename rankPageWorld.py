@@ -314,8 +314,8 @@ Builder.load_string("""
 
 <UsernamePopup>:
 	title: 'Leaderboard Username'
-	size_hint: (0.36, 0.4)
-	pos_hint: {'x': 0.32, 'y': 0.55}
+	size_hint: (0.36, 0.5)
+	pos_hint: {'x': 0.32, 'y': 0.45}
     background_color: 0, 0, 0, .0
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
