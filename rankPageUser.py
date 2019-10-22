@@ -21,13 +21,16 @@ class rankPageUser(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
 		super(rankPageUser, self).__init__(**kwargs)
+
+		self.background.remove_clouds()
+
 		self.master_grid = GridLayout(cols=1,
-									   size_hint=(1.,.9),
+									   size_hint=(1.,.8),
 									   pos_hint={'x':0., 'y':.05},
 									   spacing=10
 									   )
 		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
-		self.score_report.add_widget(Label(text='Your scores', font_size=90))
+		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=90))
 		self.score_report.add_widget(Label(text='Best: 0', font_size=60))
 		self.score_report.add_widget(Label(text='Last: 0', font_size=60))
 		self.score_report.add_widget(Label(text='Number of games: 0', font_size=60))
@@ -78,7 +81,7 @@ Builder.load_string("""
     Button:
     	text: 'User'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.45, 'y':.89}
+		pos_hint: {'x':0.4, 'y':.89}
 		# on_release: app.sm.current = 'RankPageUser'
         background_color: 0, 0, 0, .0
 		Image:
@@ -90,7 +93,7 @@ Builder.load_string("""
     Button:
     	text: 'World'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.55, 'y':.89}
+		pos_hint: {'x':0.5, 'y':.89}
 		on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
 		Image:

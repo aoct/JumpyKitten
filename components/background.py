@@ -18,6 +18,11 @@ class Background(Widget):
         # self.velocity = [-Window.size[0]/400., 0] #pxl*frame_rate
         self.base_velocity = Vector(-Window.size[0]/200., 0)
 
+    def remove_clouds(self):
+        self.image_1.source = 'images/background/blueSky_fence_greenGrass.png'
+        self.image_2.source = 'images/background/blueSky_fence_greenGrass.png'
+        self.image_3.source = 'images/background/blueSky_fence_greenGrass.png'
+
     def update(self, score):
         self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
 
@@ -47,16 +52,16 @@ Builder.load_string("""
     Image:
         id: image_1
         allow_stretch: True
-        source: "images/background/blueSky_fence_greenGrass.png"
+        source: "images/background/blueSky_fence_greenGrass_whiteClouds.png"
         size: root.height * self.image_ratio, root.height
     Image:
         id: image_2
         allow_stretch: True
-        source: "images/background/blueSky_fence_greenGrass.png"
+        source: "images/background/blueSky_fence_greenGrass_whiteClouds.png"
         size: root.height * self.image_ratio, root.height
     Image:
         id: image_3
         allow_stretch: True
-        source: "images/background/blueSky_fence_greenGrass.png"
+        source: "images/background/blueSky_fence_greenGrass_whiteClouds.png"
         size: root.height * self.image_ratio, root.height
 """)
