@@ -57,7 +57,7 @@ class rankPageWorld(Screen):
 
 		self.add_widget(self.master_grid)
 
-		self.userDevice_ID = plyer.uniqueid.id.decode('ascii')
+		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
 		print('Device ID:', self.userDevice_ID)
 
 		self.bind(size=self.size_callback)
@@ -161,7 +161,7 @@ class UsernamePopup(Popup):
 	def __init__(self, **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
-		self.userDevice_ID = plyer.uniqueid.id.decode('ascii')
+		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
 
 		self.master = BoxLayout(orientation='vertical', spacing='10dp', padding='10dp')
 
