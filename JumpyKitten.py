@@ -143,8 +143,8 @@ class JumpyKittenGame(Widget):
             self.process.cancel()
 
         if platform == 'ios' and not self.interstitial_ad.is_showing() :
-            print('showing')
-            self.interstitial_ad.show_ads()
+            if self.score > 30 and uniform(0,1) < 0.5:
+                self.interstitial_ad.show_ads()
 
 
     def obstacle_collision(self):

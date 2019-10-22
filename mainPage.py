@@ -44,7 +44,9 @@ class mainPage(Screen):
     def on_enter(self):
         if platform == 'ios':
             # if self.interstitial_ad.is_loaded():
-            self.interstitial_ad.show_ads()
+            if platform == 'ios' and not self.interstitial_ad.is_showing() :
+                if uniform(0,1) < 0.5:
+                    self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
         if platform == 'android':
             if uniform(0,1) < 0.5:
