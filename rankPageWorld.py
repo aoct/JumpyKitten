@@ -106,7 +106,7 @@ class rankPageWorld(Screen):
 	def get_gsheet(self):
 		try:
 			print('[DEBUG] Retrieving credentials')
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', gs_scope)
+			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/worldRanking_private.json', gs_scope)
 			print('[DEBUG] Getting the file')
 			file = gspread.authorize(credentials)
 			print('[DEBUG] Fetching content')
@@ -206,7 +206,7 @@ class UsernamePopup(Popup):
 		self.pause_popup = LabelPopup('Checking checking username availability', auto_dismiss=False)
 		self.pause_popup.open()
 		try:
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', gs_scope)
+			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/worldRanking_private.json', gs_scope)
 			file = gspread.authorize(credentials)
 			sheet = file.open('JumpyKitten_Ranking').sheet1
 			isAvailable = self.check_availability(sheet)
