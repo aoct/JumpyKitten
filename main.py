@@ -10,7 +10,7 @@ if os.name == 'posix':
 	Config.set('graphics', 'height', '540')
 
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, NoTransition
 from kivy.utils import platform
 
 sys.path.append(".")
@@ -28,7 +28,7 @@ from rankPageWorld import rankPageWorld
 class JumpyKittenApp(App):
 	def build(self):
 		print('Building the main App')
-		self.sm = ScreenManager()
+		self.sm = ScreenManager(transition = NoTransition())
 
 		self.mainPage = mainPage(name = 'MainPage')
 		self.sm.add_widget(self.mainPage)
