@@ -1,5 +1,7 @@
 import time
 
+from random import uniform
+
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
@@ -45,7 +47,8 @@ class mainPage(Screen):
             self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
         if platform == 'android':
-            self.ads.show_interstitial()
+            if uniform(0,1) < 0.5:
+                self.ads.show_interstitial()
             self.ads.show_banner()
 
     def on_leave(self):

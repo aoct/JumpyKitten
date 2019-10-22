@@ -155,7 +155,8 @@ class JumpyKittenGame(Widget):
         if platform == 'android':
             self.ads.hide_banner()
             self.ads.destroy_banner()
-            self.ads.show_interstitial()
+            if self.score > 30 and uniform(0,1) < 0.5:
+                self.ads.show_interstitial()
 
         self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)
 
