@@ -36,7 +36,7 @@ version = 0.2.2
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = kivy, python3, android, jnius, gspread, requests, oauth2client, httplib2, pyopenssl, pyasn1, pyasn1_modules, rsa
+requirements = kivy, plyer, python3, android, jnius, gspread, requests, oauth2client, httplib2, pyopenssl, pyasn1, pyasn1_modules, rsa
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
