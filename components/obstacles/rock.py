@@ -24,8 +24,9 @@ class Rock(Widget):
 
         self.marked = False
 
-    def update(self):
-        self.pos[0] += self.velocity[0]
+    def update(self, score):
+        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.pos[0] = self.velocity[0]  + self.pos[0]
 
 Builder.load_string("""
 <Rock>:

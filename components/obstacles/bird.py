@@ -24,14 +24,14 @@ class Bird(Widget):
         self.width = self.height
 
         self.base_velocity = Vector(-1e-2*Window.size[0], 0)
-        self.velocity = self.base_velocity * min(1.5, (1 + 0.05*score/10))
+        self.velocity = self.base_velocity * min(1.5, (1 + 0.002*score))
 
         self.y = triangular(0.15*Window.size[1], 0.7*Window.size[1], 0.45*Window.size[1])
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 0
 
-    def update(self):
+    def update(self, score):
         self.pos[0] += self.velocity[0]
 
         if self.updatesSinceLastImageChange > 8:

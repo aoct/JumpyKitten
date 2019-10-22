@@ -89,7 +89,7 @@ class JumpyKittenGame(Widget):
             self.ads.destroy_interstitial()
 
     def new_obstacle(self):
-        if self.score > 30 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
+        if self.score > 100 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
             new_obstacle = Bird(self.score)
         else:
             if uniform(0,1) > 0.8:
@@ -108,18 +108,22 @@ class JumpyKittenGame(Widget):
     def update(self, dt):
         self.mcnay.update(self.g_grav)
         self.background.update(self.score)
+
         # Loop through and update obstacles. Replace obstacles which went off the screen.
         furtherst_obstacle = -999999.
-        for o in self.obstacles:
-            o.update()
+        idx_to_pop = None
+        for i, o in enumerate(self.obstacles):
+            o.update(self.score)
             if o.type == 'ground steady' and o.x > furtherst_obstacle:
                 furtherst_obstacle = o.x
             if o.x + o.width < 0:
                 self.remove_widget(o)
-                self.obstacles.remove(o)
+                idx_to_pop = i
             else:
                 if self.mcnay.collision_with_obstacle(o):
                     self.obstacle_collision()
+        if not idx_to_pop is None:
+            self.obstacles.pop(idx_to_pop)
 
         if len(self.obstacles) == 0:
             self.new_obstacle()
