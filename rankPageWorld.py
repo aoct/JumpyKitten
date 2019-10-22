@@ -31,15 +31,18 @@ class rankPageWorld(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
 		super(rankPageWorld, self).__init__(**kwargs)
+
+		self.background.remove_clouds()
+
 		self.master_grid = GridLayout(cols=1,
-									   size_hint=(1.,.9),
+									   size_hint=(1.,.8),
 									   pos_hint={'x':0., 'y':.05},
 									   spacing=10
 									   )
 
 		self.world_ranking = GridLayout(cols=1, size_hint_x=1.)#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
-		self.world_ranking.add_widget(Label(text='World Ranking', font_size=90))
-		row = GridLayout(cols=3)
+		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=90, size_hint_y=0.25))
+		row = GridLayout(cols=3, size_hint_y=0.25)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
 		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
 		row.add_widget(Label(text='Score', halign='right', valign='center', font_size=60))
@@ -63,11 +66,11 @@ class rankPageWorld(Screen):
 	    self.background.size = value
 	    self.background.update_position()
 
-	def addUserToScroll(self, rank, uname, score):
+	def addUserToScroll(self, rank, uname, score, itsMe=False):
 		row = GridLayout(cols=3)
-		row.add_widget(Label(text=rank, halign='center', valign='center', font_size=60))
-		row.add_widget(Label(text=uname, halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text=score, halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=60))
+		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=60))
+		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=60))
 		self.onlineUsers.add_widget(row)
 
 	def on_enter(self):
@@ -96,7 +99,7 @@ class rankPageWorld(Screen):
 			if not device_already_present:
 				popup = UsernamePopup(auto_dismiss=True)
 				popup.open()
-				# popup.bind(on_dismiss=self.reset_ranking)
+				popup.bind(on_dismiss=self.reset_ranking)
 
 		self.reset_ranking(None)
 
@@ -126,16 +129,30 @@ class rankPageWorld(Screen):
 			return
 
 		users = []
+		my_uname = None
 		for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
 			if i_row == 1: continue
 			users.append([uname, int(score)])
+			if deviceID == self.userDevice_ID:
+				my_uname = uname
 
 		users.sort(reverse=True, key=lambda x: x[1])
 
-		if not self.onlineUsers.children:
-			self.addUserToScroll('','------------------','')
-			for rank, (uname, score) in enumerate(users, 1):
-				self.addUserToScroll(str(rank), uname, str(score))
+		self_present = False
+		for i_rank, (uname, score) in enumerate(users, 1):
+			if uname == my_uname:
+				self_present == True
+				self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
+			else:
+				self.addUserToScroll(str(i_rank), uname, str(score))
+			if i_rank == 10:
+				break
+		self.addUserToScroll(3*'-', 40*'-', 3*'-')
+		if not self_present:
+			for i_rank, (uname, score) in enumerate(users, 1):
+				if uname == my_uname:
+					self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
+					break
 
 
 
@@ -259,7 +276,7 @@ Builder.load_string("""
     Button:
     	text: 'User'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.45, 'y':.89}
+		pos_hint: {'x':0.4, 'y':.89}
 		on_release: app.sm.current = 'RankPageUser'
         background_color: 0, 0, 0, .0
 		Image:
@@ -271,7 +288,7 @@ Builder.load_string("""
     Button:
     	text: 'World'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.55, 'y':.89}
+		pos_hint: {'x':0.5, 'y':.89}
 		# on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
 		Image:
@@ -295,17 +312,4 @@ Builder.load_string("""
 	size: '300dp', '200dp'
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
-
-	# Button:
-	# 	text: ''
-	# 	size_hint: (.1, .1)
-	# 	pos_hint: {'x':0.01, 'y':.95}
-	# 	on_release: root.dismiss()
-	# 	background_color: 0, 0, 0, .0
-	# 	Image:
-	# 		source: "images/icons/close.png"
-	# 		y: self.parent.y
-	# 		x: self.parent.x
-	# 		size: self.parent.size
-	# 		allow_stretch: True
 """)
