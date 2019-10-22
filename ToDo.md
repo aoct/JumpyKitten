@@ -9,10 +9,10 @@ Version 0 - Time frame (7-10 days):
 2. Settings page:
 	- add username for the user + check that username has not already been taken
 3. Obstacles:
-	- Clear obstacles upon death. Sometimes when you are reborn there are obstacles infront of you and you die immediately, fix that
+	- Clear obstacles upon death. Sometimes when you are reborn there are obstacles infront of you and you die immediately, fix that -- FIXED
 	- Randomly obstacles lag (see video) - I suspect its is because of the background image restarting. 
-	- Fix obstacle speed (bird become too fast) - set max upper speed	
-	- Avoid obstacles being created too close to one another
+	- Fix obstacle speed (bird become too fast) - set max upper speed	-- FIXED
+	- Avoid obstacles being created too close to one another -- THINK I FIXED IT
 4. Ads:
 	- refresh banner every approx 10s while playing. Currently we display a single banner for the entire race. 
 	- interstitials: avoid over advertising. Make sure interstitial are not shown too often when dieing. 
@@ -29,6 +29,7 @@ Version 1 - (20 days from Version 0):
 	- fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
 	- design AOCT Dev logo
 	- Try to add flower in the grass
+5. Change username
 
 Version 2 - (7 days from Version 1):
 1. Gameplay:
