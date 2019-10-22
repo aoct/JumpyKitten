@@ -59,12 +59,12 @@ class JumpyKittenGame(Widget):
             self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_banner(TestIds.BANNER)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_banner(TestIds.BANNER)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
         self.reset()
 
