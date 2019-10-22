@@ -1,5 +1,6 @@
 .buildozer
 data/score_history.pickle
+credentials/*.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
