@@ -59,12 +59,12 @@ class JumpyKittenGame(Widget):
             self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
         if platform == 'android':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_banner(TestIds.BANNER)
-            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-            self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_banner(TestIds.BANNER)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+            # self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
         self.reset()
 
@@ -85,8 +85,8 @@ class JumpyKittenGame(Widget):
             self.remove_widget(obstacle)
         self.obstacles = []
 
-        if platform == 'android':
-            self.ads.destroy_interstitial()
+        # if platform == 'android':
+        #     self.ads.destroy_interstitial()
 
     def new_obstacle(self):
         if self.score > 100 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
