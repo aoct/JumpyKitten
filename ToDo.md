@@ -13,6 +13,8 @@ Version 1 - (20 days from Version 0):
 	- design AOCT Dev logo
 	- Try to add flower in the grass
 5. Change username
+6. Fix ranking page layout:
+	- if you are in top 10, no need to show again below
 
 Version 2 - (7 days from Version 1):
 1. Gameplay:
