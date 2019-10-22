@@ -153,8 +153,10 @@ android.ndk = 17c
 
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
-android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
-# android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
+# Test Ads service
+# android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+# Jumpy kitten Ads service
+android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
 
 # (list) Java classes to add as activities to the manifest.
 #android.add_activites = com.example.ExampleActivity
@@ -188,9 +190,9 @@ p4a.branch = master
 # (list) Android application meta-data to set (key=value format)
 
 # Test ID
-android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
+# android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-3940256099942544~3347511713
 #Jumpy Kitten ID
-# android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280870740386~8534172049
+android.meta_data = com.google.android.gms.ads.APPLICATION_ID=ca-app-pub-8564280870740386~8534172049
 
 # (list) Android library project to add (will be added in the
 # project.properties automatically.)
@@ -253,7 +255,7 @@ ios.ios_deploy_branch = 1.7.0
 [buildozer]
 
 # (int) Log level (0 = error only, 1 = info, 2 = debug (with command output))
-log_level = 2
+log_level = 0
 
 # (int) Display warning if buildozer is run as root (0 = False, 1 = True)
 warn_on_root = 1

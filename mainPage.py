@@ -18,12 +18,12 @@ class mainPage(Screen):
         super(mainPage, self).__init__(**kwargs)
 
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads.new_banner(TestIds.BANNER)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads.new_banner(TestIds.BANNER)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
 
             self.ads.request_interstitial()
             self.ads.request_banner()
