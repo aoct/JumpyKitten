@@ -78,22 +78,11 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-    Button:
-    	text: 'User'
-    	size_hint: (.1, .1)
-		pos_hint: {'x':0.4, 'y':.89}
-		# on_release: app.sm.current = 'RankPageUser'
-        background_color: 0, 0, 0, .0
-		Image:
-            source: "images/icons/rankingUser.png"
-            y: self.parent.y
-            x: self.parent.x
-            size: self.parent.size
-            allow_stretch: True
+
     Button:
     	text: 'World'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.5, 'y':.89}
+		pos_hint: {'x':0.45, 'y':.89}
 		on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
 		Image:
