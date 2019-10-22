@@ -181,7 +181,7 @@ class UsernamePopup(Popup):
 		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left')
 		self.master.add_widget(self.current_uname_label)
 
-		addBox = GridLayout(cols=2, size_hint = (1., 0.3))
+		addBox = GridLayout(cols=2, size_hint = (1., 0.4))
 		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6)
 		addBox.add_widget(self.input)
 
