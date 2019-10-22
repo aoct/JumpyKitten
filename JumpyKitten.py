@@ -50,9 +50,7 @@ class JumpyKittenGame(Widget):
         self.obstacles = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
-
-        self.reset()
-        self.bind(size=self.size_callback)
+        self.bind(size=self.size_callback) # for bkg sizing
 
         if platform == 'ios':
             print('requesting banner')
@@ -67,6 +65,8 @@ class JumpyKittenGame(Widget):
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
             # slef.ads.new_interstial('ca-app-pub-8564280870740386/8985921895')
+            
+        self.reset()
 
     def start(self):
         if platform == 'android':
