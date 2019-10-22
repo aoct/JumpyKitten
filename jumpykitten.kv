@@ -17,76 +17,42 @@
         text: "[u][color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color][/u]"
 
 <endGamePopup>:
-    title: 'End Game'
-    # separator_height: 0
-    # background_color: 0, 0, 0, .0
-    # size_hint: (.25, .6)
-    # pos_hint: {'x':.375, 'y':.2}
-    size_hint: None, None
-    size: '300dp', '300dp'
-    halign: 'center'
-    # background: 'data/popup.png'
+    title: "End Game - Distance: " + '{:.0f}'.format(self.score)
+    bold: True
+    separator_height: 2
     separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+    background_color: 0, 0, 0, .0
+    size_hint: (.4, .4)
+    pos_hint: {'x':.3, 'y':.35}
     title_size: '20sp'
-
-    BoxLayout:
-        # cols: 1
+    GridLayout:
+        cols: 3
+        Button:
+            size_hint: (.3, .3)
+            pos: (.15, .4)
+            on_release:
+                root.dismiss()
+                app.sm.current = 'MainPage'
+                app.sm.current = 'GamePage'
+            background_color: 0, 0, 0, .0
+            Image:
+                source: "images/icons/retry.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True
         Label:
-            font_size: '20sp'
-            color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-            bold: True
-            text: "Score" #+ '{:.0f}'.format(root.score)
-            text_size: self.width - dp(20), None
-            halign: 'center'
-            valign: 'center'
-
-        BoxLayout:
-            size_hint_y: None
-            height: '68dp'
-            spacing: '10dp'
-            size: '280dp', '50dp'
-            Button:
-                text: 'Home'
-                size: '120dp', '50dp'
-                on_release:
-                    root.dismiss()
-                    app.sm.current = 'MainPage'
-
-            Button:
-                text: 'Replay'
-                size: '120dp', '50dp'
-                on_release:
-                    root.dismiss()
-                    app.sm.current = 'MainPage'
-                    app.sm.current = 'GamePage'
-
-        # Button:
-        #     size_hint: (.7, .7)
-        #     pos: (.15, .4)
-        #     on_release:
-        #         root.dismiss()
-        #         app.sm.current = 'MainPage'
-        #         app.sm.current = 'GamePage'
-        #     background_color: 0, 0, 0, .0
-        #     Image:
-        #         source: "images/icons/retry.png"
-        #         y: self.parent.y
-        #         x: self.parent.x
-        #         size: self.parent.size
-        #         allow_stretch: True
-        # Label:
-        #     text: ''
-        #     size_hint: (.05, .05)
-        # Button:
-        #     size_hint: (.3, .3)
-        #     # pos: (.1, .1)
-        #     on_release:
-        #         root.dismiss()
-        #         app.sm.current = 'MainPage'
-        #     background_color: 0, 0, 0, .0
-        #     Image:
-        #         source: "images/icons/home.png"
-        #         y: self.parent.y
-        #         x: self.parent.x
-        #         size: self.parent.size
-        #         allow_stretch: True
+            text: ''
+            size_hint: (.05, .05)
+        Button:
+            size_hint: (.3, .3)
+            on_release:
+                root.dismiss()
+                app.sm.current = 'MainPage'
+            background_color: 0, 0, 0, .0
+            Image:
+                source: "images/icons/home.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True
