@@ -126,8 +126,10 @@ class JumpyKittenGame(Widget):
         if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground:
             self.process.cancel()
 
-        if platform == 'ios' and self.interstitial_ad.is_loaded():
+        if platform == 'ios' and not self.interstitial_ad.is_showing() :
+            print('showing')
             self.interstitial_ad.show_ads()
+
 
     def obstacle_collision(self):
         self.process.cancel()

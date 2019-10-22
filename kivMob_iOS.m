@@ -132,6 +132,7 @@ static myBanner *vbanner = nil;
 
 @interface myInterstitial : NSObject <GADInterstitialDelegate>
 @property (nonatomic, strong) GADInterstitial *interstitial;
+@property (nonatomic) BOOL show_ads_interstitial;
 @end
 
 static myInterstitial *vinterstitial = nil;
@@ -152,8 +153,17 @@ static myInterstitial *vinterstitial = nil;
     UIViewController* vc = [win rootViewController];
     if (self.interstitial.isReady){
         [self.interstitial presentFromRootViewController:vc];
+        self.show_ads_interstitial = TRUE
     }   else {
         NSLog(@"Ad wasn't ready");
+    }
+}
+
+-(int) isloaded{
+    if (self.interstitial.isReady){
+        return 1;
+    } else {
+        return 0;
     }
 }
 @end
@@ -179,8 +189,13 @@ static myInterstitial *vinterstitial = nil;
 -(void) hide_ads {
     if (vinterstitial) {
         [vinterstitial release];
+        vinterstitial.show_ads_interstitial = FALSE
         vinterstitial = nil;
     }
+}
+
+-(int) is_loaded {
+    return vinterstitial.isloaded;
 }
 @end
 
