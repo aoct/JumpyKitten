@@ -1,14 +1,18 @@
-import os, pickle, getpass, socket
+import os, pickle, time
 
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.properties import ObjectProperty
+from kivy.uix.popup import Popup
 from kivy.app import App
 from kivy.utils import platform
+from kivy.uix.textinput import TextInput
 
 from components.background import Background
 
@@ -17,19 +21,28 @@ from os.path import join
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+import plyer
+
+gs_scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+username = None
+best_score = 0
+
 class rankPageWorld(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
 		super(rankPageWorld, self).__init__(**kwargs)
+
+		self.background.remove_clouds()
+
 		self.master_grid = GridLayout(cols=1,
-									   size_hint=(1.,.9),
+									   size_hint=(1.,.8),
 									   pos_hint={'x':0., 'y':.05},
 									   spacing=10
 									   )
 
 		self.world_ranking = GridLayout(cols=1, size_hint_x=1.)#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
-		self.world_ranking.add_widget(Label(text='World ranking', font_size=90))
-		row = GridLayout(cols=3)
+		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=90, size_hint_y=0.25))
+		row = GridLayout(cols=3, size_hint_y=0.25)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
 		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
 		row.add_widget(Label(text='Score', halign='right', valign='center', font_size=60))
@@ -44,8 +57,8 @@ class rankPageWorld(Screen):
 
 		self.add_widget(self.master_grid)
 
-		self.userDevice_ID = '{} ({})'.format(getpass.getuser().capitalize()[:10], socket.gethostname()[:10])
-		print('Username for the ranking', self.userDevice_ID)
+		self.userDevice_ID = plyer.uniqueid.id.decode('ascii')
+		print('Device ID:', self.userDevice_ID)
 
 		self.bind(size=self.size_callback)
 
@@ -53,59 +66,194 @@ class rankPageWorld(Screen):
 	    self.background.size = value
 	    self.background.update_position()
 
-	def addUserToScroll(self, rank, uname, score):
+	def addUserToScroll(self, rank, uname, score, itsMe=False):
 		row = GridLayout(cols=3)
-		row.add_widget(Label(text=rank, halign='center', valign='center', font_size=60))
-		row.add_widget(Label(text=uname, halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text=score, halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=60))
+		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=60))
+		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=60))
 		self.onlineUsers.add_widget(row)
 
 	def on_enter(self):
 		if platform == 'ios':
-			filename = join(App.get_running_app().user_data_dir, "score_history.pickle")
+			user_data_dir = App.get_running_app().user_data_dir
 		else:
-			filename = 'data/score_history.pickle'
+			user_data_dir = 'data'
+		score_history_filename = join(user_data_dir, 'score_history.pickle')
 
-		best_score = 0
-		if os.path.isfile(filename) :
-			best_score = max(pickle.load(open(filename, 'rb')))
+		if os.path.isfile(score_history_filename) :
+			global best_score
+			best_score = max(pickle.load(open(score_history_filename, 'rb')))
 
+
+		sheet = self.get_gsheet()
+		if not sheet == None:
+			device_already_present = False
+			for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
+				if i_row == 1: continue
+				if deviceID == self.userDevice_ID:
+					device_already_present = True
+					if float(score) < best_score:
+						sheet.update_cell(i_row, 3, '{:.0f}'.format(best_score))
+						score = best_score
+
+			if not device_already_present:
+				popup = UsernamePopup(auto_dismiss=True)
+				popup.open()
+				popup.bind(on_dismiss=self.reset_ranking)
+
+		self.reset_ranking(None)
+
+	def get_gsheet(self):
 		try:
-			scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 			print('[DEBUG] Retrieving credentials')
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', scope)
+			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', gs_scope)
 			print('[DEBUG] Getting the file')
 			file = gspread.authorize(credentials)
 			print('[DEBUG] Fetching content')
 			sheet = file.open('JumpyKitten_Ranking').sheet1
 		except:
-			print('[Warning] No Internet Connection. Ranking will not be loaded')
+			print('[Warning] Cannot load the google sheet')
+			return None
 		else:
-			uname_already_present = False
-			users = []
-
-			for i_row, (uname, score) in enumerate(sheet.get_all_values(), 1):
-				if i_row == 1: continue
-				if uname == self.userDevice_ID:
-					uname_already_present = True
-					if float(score) < best_score:
-						sheet.update_cell(i_row, 2, '{:.0f}'.format(best_score))
-						score = best_score
-				users.append([uname, int(score)])
-
-			if not uname_already_present:
-				sheet.update_cell(i_row+1, 1, self.userDevice_ID)
-				sheet.update_cell(i_row+1, 2, str(int(best_score)))
-
-			users.sort(reverse=True, key=lambda x: x[1])
-
-			if not self.onlineUsers.children:
-				self.addUserToScroll('','------------------','')
-				for rank, (uname, score) in enumerate(users, 1):
-					self.addUserToScroll(str(rank), uname, str(score))
+			return sheet
 
 	def on_leave(self):
 		self.onlineUsers.clear_widgets()
+
+	def reset_ranking(self, instance):
+		if self.onlineUsers.children:
+			self.onlineUsers.clear_widgets()
+
+		sheet = self.get_gsheet()
+		if sheet == None:
+			return
+
+		users = []
+		my_uname = None
+		for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
+			if i_row == 1: continue
+			users.append([uname, int(score)])
+			if deviceID == self.userDevice_ID:
+				my_uname = uname
+
+		users.sort(reverse=True, key=lambda x: x[1])
+
+		self_present = False
+		for i_rank, (uname, score) in enumerate(users, 1):
+			if uname == my_uname:
+				self_present == True
+				self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
+			else:
+				self.addUserToScroll(str(i_rank), uname, str(score))
+			if i_rank == 10:
+				break
+		self.addUserToScroll(3*'-', 40*'-', 3*'-')
+		if not self_present:
+			for i_rank, (uname, score) in enumerate(users, 1):
+				if uname == my_uname:
+					self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
+					break
+
+
+
+
+class UsernamePopup(Popup):
+	def __init__(self, **kwargs):
+		super(Popup, self).__init__(**kwargs)
+
+		self.userDevice_ID = plyer.uniqueid.id.decode('ascii')
+
+		self.master = BoxLayout(orientation='vertical', spacing='10dp', padding='10dp')
+
+		self.current_uname_label = Label(text='Current username: Not set', bold=True, halign='left')
+		self.master.add_widget(self.current_uname_label)
+
+		addBox = GridLayout(cols=2, size_hint = (1., 0.3))
+		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6)
+		addBox.add_widget(self.input)
+
+		self.set_button = Button(text='set', size_hint_x=0.2)
+		self.set_button.bind(on_release=self.set_username)
+		addBox.add_widget(self.set_button)
+		self.master.add_widget(addBox)
+
+		self.add_widget(self.master)
+
+	def check_availability(self, sheet):
+		desired_uname = self.input.text
+		print('desired_uname='+desired_uname)
+		isAvailable = True
+		for deviceID, uname, _ in sheet.get_all_values():
+			print(uname)
+			if uname == desired_uname:
+				isAvailable = False
+				break
+
+		if isAvailable:
+			print('[DEBUG]: Username available')
+			self.pause_popup.dismiss()
+			return True
+		else:
+			print('[DEBUG]: Username unvailable')
+			self.pause_popup.dismiss()
+			self.input.text = ''
+			self.failure_popup = LabelPopup('Username unavailable', auto_dismiss=True)
+			self.failure_popup.open()
+			return False
+
+	def set_username(self, instance):
+		print('[DEBUG]: Contacting the server')
+		self.pause_popup = LabelPopup('Checking checking username availability', auto_dismiss=False)
+		self.pause_popup.open()
+		try:
+			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/ranking_private.json', gs_scope)
+			file = gspread.authorize(credentials)
+			sheet = file.open('JumpyKitten_Ranking').sheet1
+			isAvailable = self.check_availability(sheet)
+		except:
+			self.pause_popup.dismiss()
+			self.input.text = ''
+			self.failure_popup = LabelPopup('Unable to set username', auto_dismiss=True)
+			return
+
+		if not isAvailable:
+			return
+
+		new_uname = self.input.text
+		print('[DEBUG]: Setting username:'+new_uname)
+		set_popup = LabelPopup('Setting username', auto_dismiss=False)
+		set_popup.open()
+		preExisting = False
+		for i_row, (deviceID, uname, _) in enumerate(sheet.get_all_values()):
+			if deviceID == self.userDevice_ID:
+				preExisting = True
+				break
+		i_row += 1
+
+		if not preExisting:
+			i_row += 1
+			sheet.update_cell(i_row, 1, self.userDevice_ID)
+			sheet.update_cell(i_row, 3, '{:.0f}'.format(best_score))
+		sheet.update_cell(i_row, 2, new_uname)
+
+		global username
+		username = new_uname
+
+		self.current_uname_label.text = 'Current username: ' + new_uname
+		self.input.text = ''
+		set_popup.dismiss()
+
+		self.done_popup = LabelPopup('New username set', auto_dismiss=True)
+		self.done_popup.open()
+
+
+class LabelPopup(Popup):
+	def __init__(self, text, **kwargs):
+		super(Popup, self).__init__(**kwargs)
+
+		l = Label(text=text)
+		self.add_widget(l)
+
 
 Builder.load_string("""
 <rankPageWorld>:
@@ -128,7 +276,7 @@ Builder.load_string("""
     Button:
     	text: 'User'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.45, 'y':.89}
+		pos_hint: {'x':0.4, 'y':.89}
 		on_release: app.sm.current = 'RankPageUser'
         background_color: 0, 0, 0, .0
 		Image:
@@ -140,7 +288,7 @@ Builder.load_string("""
     Button:
     	text: 'World'
     	size_hint: (.1, .1)
-		pos_hint: {'x':0.55, 'y':.89}
+		pos_hint: {'x':0.5, 'y':.89}
 		# on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
 		Image:
@@ -149,12 +297,19 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+
+<UsernamePopup>:
+	size_hint: None, None
+	title: 'Leaderboard Username'
+	size: '300dp', '200dp'
+    background_color: 0, 0, 0, .0
+	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	title_size: '20sp'
+
+<LabelPopup>:
+	size_hint: None, None
+	title: ''
+	size: '300dp', '200dp'
+	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	title_size: '20sp'
 """)
-
-
-"""
-Ranking Page will be a page where the user see's two things:
-1. his overall ranking compared to other players
-2. the achievements he accomplished during the game (ex. average score, etc)
-		--> the more achievements a player accomplishes the more stuff he unlocks
-"""
