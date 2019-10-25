@@ -15,6 +15,18 @@
         markup: True
         bold: True
         text: "[u][color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color][/u]"
+    Image:
+        source: "images/coin_HD.png"
+        right: 1.55*root.center_x
+        top: 0.7*root.top
+        size_hint: 0.1, 0.1
+    Label:
+        font_size: 75
+        right: 1.61*root.center_x
+        top: 0.7*root.top
+        markup: True
+        bold: True
+        text: "[u][color=e29ea3]: " + '{:.0f}'.format(root.collected_coins) + "[/color][/u]"
 
 <endGamePopup>:
     title: "Distance: " + '{:.0f}'.format(self.score)

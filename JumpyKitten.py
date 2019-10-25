@@ -22,6 +22,7 @@ from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
 from components.mcnay import Mcnay
+from components.coin import Coin
 from components.obstacles.rock import Rock
 from components.obstacles.bird import Bird
 from components.obstacles.log import Log
@@ -31,6 +32,11 @@ from random import uniform
 from os.path import join
 
 import time
+
+if platform == 'ios':
+    user_data_dir = App.get_running_app().user_data_dir
+else:
+    user_data_dir = 'data'
 
 
 class endGamePopup(Popup):
@@ -42,12 +48,14 @@ class endGamePopup(Popup):
 class JumpyKittenGame(Widget):
     background = ObjectProperty(Background())
     score = NumericProperty(0)
+    collected_coins = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(JumpyKittenGame, self).__init__(**kwargs)
 
         self.g_grav = -0.5 #pizel * frame_rate^2
         self.obstacles = []
+        self.coins = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
         self.bind(size=self.size_callback) # for bkg sizing
@@ -79,14 +87,21 @@ class JumpyKittenGame(Widget):
     def reset(self):
         if hasattr(self, 'process'):
             self.process.cancel()
+        self.updates = 0
         self.score = 0
         self.mcnay.reset()
         for obstacle in self.obstacles:
             self.remove_widget(obstacle)
         self.obstacles = []
 
-        # if platform == 'android':
-        #     self.ads.destroy_interstitial()
+        for coin in self.coins:
+            self.remove_widget(coin)
+        self.coins = []
+
+        self.collected_coins = 0
+        filename = join(user_data_dir, 'collected_coins.pickle')
+        if os.path.isfile(filename):
+            self.collected_coins = pickle.load(open(filename, 'rb'))
 
     def new_obstacle(self):
         if self.score > 100 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
@@ -131,13 +146,27 @@ class JumpyKittenGame(Widget):
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
-<<<<<<< HEAD
-        if platform == 'ios' and self.banner_ad.hidden_ad() == 0:
-            self.banner_ad.show_ads()
+        idx_to_pop = None
+        for i, c in enumerate(self.coins):
+            c.update(self.score)
+            if c.x + c.width < 0:
+                self.remove_widget(c)
+                idx_to_pop = i
+            elif self.mcnay.collision_with_obstacle(c):
+                self.remove_widget(c)
+                idx_to_pop = i
+                self.collected_coins += 1
+        if not idx_to_pop is None:
+            self.coins.pop(idx_to_pop)
 
-=======
->>>>>>> 103227d90147e91bde0c6e99fbeb013f9d6527d3
-        self.score += 0.05
+        if self.score%10 == 0 and uniform(0,1) > 0.6:
+            c = Coin(self.score)
+            c.x = self.width
+            self.add_widget(c)
+            self.coins.append(c)
+
+        self.updates += 1
+        self.score = self.updates/20.
 
 
     def update_death(self, dt):
@@ -165,25 +194,19 @@ class JumpyKittenGame(Widget):
 
         self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)
 
-        if platform == 'ios':
-            user_data_dir = App.get_running_app().user_data_dir
-            filename = join(user_data_dir, "score_history.pickle")
+        filename = join(user_data_dir, 'score_history.pickle')
+        if os.path.isfile(filename) :
+            self.score_history = pickle.load(open(filename, 'rb'))
         else:
-            user_data_dir = 'data'
-            filename = 'data/score_history.pickle'
+            self.score_history = []
+            if not os.path.isdir(user_data_dir):
+                os.mkdir(user_data_dir)
 
-        try:
-            if os.path.isfile(filename) :
-                self.score_history = pickle.load(open(filename, 'rb'))
-            else:
-                self.score_history = []
-                if not os.path.isdir(user_data_dir):
-                    os.mkdir(user_data_dir)
+        self.score_history += [self.score]
+        pickle.dump(self.score_history, open(filename, 'wb'))
 
-            self.score_history += [self.score]
-            pickle.dump(self.score_history, open(filename, 'wb'))
-        except:
-            Logger.exception("Problem saving file")
+        filename = join(user_data_dir, 'collected_coins.pickle')
+        pickle.dump(self.collected_coins, open(filename, 'wb'))
 
         popup = endGamePopup(self.score, auto_dismiss=False)
         popup.open()
