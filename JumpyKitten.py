@@ -55,8 +55,8 @@ class JumpyKittenGame(Widget):
         if platform == 'ios':
             print('requesting banner')
             from pyobjus import autoclass
-            # self.banner_ad = autoclass('adSwitchBanner').alloc().init()
-            # self.banner_ad.show_ads()
+            self.banner_ad = autoclass('adSwitchBanner').alloc().init()
+            self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
         if platform == 'android':
             # self.ads = KivMob(TestIds.APP)
@@ -131,8 +131,8 @@ class JumpyKittenGame(Widget):
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
-        # if platform == 'ios' and self.banner_ad.hidden_ad() == 0:
-            # self.banner_ad.show_ads()
+        if platform == 'ios' and self.banner_ad.hidden_ad() == 0:
+            self.banner_ad.show_ads()
 
         self.score += 0.05
 
@@ -150,8 +150,8 @@ class JumpyKittenGame(Widget):
     def obstacle_collision(self):
         self.process.cancel()
         self.mcnay.death()
-        # if platform == 'ios':
-            # self.banner_ad.hide_ads()
+        if platform == 'ios':
+            self.banner_ad.hide_ads()
         if platform == 'android':
             self.ads.hide_banner()
             self.ads.destroy_banner()

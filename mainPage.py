@@ -32,8 +32,8 @@ class mainPage(Screen):
 
         elif platform == 'ios':
             from pyobjus import autoclass
-            # self.banner_ad = autoclass('adSwitchBanner').alloc().init()
-            self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+            self.banner_ad = autoclass('adSwitchBanner').alloc().init()
+            # self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
 
         self.bind(size=self.size_callback)
 
@@ -43,11 +43,11 @@ class mainPage(Screen):
 
     def on_enter(self):
         if platform == 'ios':
-            # if self.interstitial_ad.is_loaded():
-            if platform == 'ios' and not self.interstitial_ad.is_showing() :
-                if uniform(0,1) < 0.5:
-                    self.interstitial_ad.show_ads()
-            # self.banner_ad.show_ads()
+            from pyobjus import autoclass
+            self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
+            if self.interstitial_ad.is_loaded():
+                self.interstitial_ad.show_ads()
+            self.banner_ad.show_ads()
         if platform == 'android':
             if uniform(0,1) < 0.5:
                 self.ads.show_interstitial()
@@ -55,7 +55,7 @@ class mainPage(Screen):
 
     def on_leave(self):
         if platform == 'ios':
-            # self.banner_ad.hide_ads()
+            self.banner_ad.hide_ads()
             self.interstitial_ad.hide_ads()
         elif platform == 'android':
             self.ads.hide_banner()
