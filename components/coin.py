@@ -9,8 +9,6 @@ from random import uniform
 from math import log
 
 class Coin(Widget):
-    obstacle_base =  NumericProperty(Window.size[1]*0.10)
-
     def __init__(self, score, **kwargs):
         super(Coin, self).__init__(**kwargs)
 
@@ -20,7 +18,6 @@ class Coin(Widget):
         self.height = self.width
 
         self.y = uniform(0.1*Window.size[1], 0.7*Window.size[1])
-        self.x = 1.1*Window.size[1]
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
         self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
@@ -33,7 +30,7 @@ Builder.load_string("""
 <Coin>:
     Image:
         source: "images/coin_HD.png"
-        center_x: root.x
+        center_x: root.center_x
         y: root.y
         size: root.width, root.height
 """)
