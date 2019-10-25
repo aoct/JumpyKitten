@@ -22,6 +22,7 @@ from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
 from components.mcnay import Mcnay
+from components.coin import Coin
 from components.obstacles.rock import Rock
 from components.obstacles.bird import Bird
 from components.obstacles.log import Log
@@ -48,6 +49,7 @@ class JumpyKittenGame(Widget):
 
         self.g_grav = -0.5 #pizel * frame_rate^2
         self.obstacles = []
+        self.coins = []
         self.mcnay = Mcnay()
         self.add_widget(self.mcnay)
         self.bind(size=self.size_callback) # for bkg sizing
@@ -84,6 +86,10 @@ class JumpyKittenGame(Widget):
         for obstacle in self.obstacles:
             self.remove_widget(obstacle)
         self.obstacles = []
+
+        for coin in self.coins:
+            self.remove_widget(coin)
+        self.coins = []
 
         # if platform == 'android':
         #     self.ads.destroy_interstitial()
@@ -130,6 +136,14 @@ class JumpyKittenGame(Widget):
         elif furtherst_obstacle < Window.size[0]*0.65:
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
+
+        for c in self.coins:
+            c.update(self.score)
+
+        if uniform(0,1) > 0.99:
+            c = Coin(self.score)
+            self.add_widget(c)
+            self.coins.append(c)
 
         self.score += 0.05
 
