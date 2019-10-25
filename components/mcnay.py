@@ -2,6 +2,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
 from kivy.uix.image import Image
+from kivy.core.audio import SoundLoader
 
 from kivy.config import Config
 from kivy.core.window import Window
@@ -27,6 +28,7 @@ class Mcnay(Widget):
         self.imageFrame = 5
 
         self.doubleJump = 0
+        self.sound = SoundLoader.load('sounds/jump.wav')
 
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
@@ -34,6 +36,7 @@ class Mcnay(Widget):
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
 
     def jump(self):
+        self.sound.play()
         self.imageFrame = 0
         self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
         self.velocity[1] = self.impulse / self.mass
