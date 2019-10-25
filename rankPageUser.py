@@ -53,9 +53,9 @@ class rankPageUser(Screen):
 		best_score = 0
 		if os.path.isfile(filename) :
 			score_history = pickle.load(open(filename, 'rb'))
-			best_score = max(score_history)
+			best_score = int(max(score_history))
 			self.score_report.children[2].text = 'Best Distance: {:.0f}'.format(best_score)
-			self.score_report.children[1].text = 'Last Distance: {:.0f}'.format(score_history[-1])
+			self.score_report.children[1].text = 'Last Distance: {:.0f}'.format(int(score_history[-1]))
 			self.score_report.children[0].text = 'Games Played: {:.0f}'.format(len(score_history))
 
 

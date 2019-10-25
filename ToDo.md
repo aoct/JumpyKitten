@@ -5,7 +5,7 @@ Version 1 - (20 days from Version 0):
 	- Add reward video for redemption when you die
 2. In app purchases:
 	- Add in app purchases (no ads version of the game)
-3. API:
+3. API: -- Abandoned for now
 	- Google leaderboard connectivity
 	- Game Center connectivity
 4. Graphics:

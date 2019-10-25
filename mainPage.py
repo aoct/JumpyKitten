@@ -106,7 +106,7 @@ Builder.load_string("""
     Button:
     	size_hint: (.2, .2)
 		pos_hint: {'x':.02, 'y':.4}
-        on_release: app.sm.current = 'RankPageUser'
+        on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
         Image:
             source: "images/icons/ranking.png"

@@ -25,7 +25,13 @@ import plyer
 
 gs_scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 username = None
+my_raw = None
 best_score = 0
+
+if platform == 'ios':
+	user_data_dir = App.get_running_app().user_data_dir
+else:
+	user_data_dir = 'data'
 
 class rankPageWorld(Screen):
 	background = ObjectProperty(Background())
@@ -62,6 +68,18 @@ class rankPageWorld(Screen):
 
 		self.bind(size=self.size_callback)
 
+		filename = join(user_data_dir, 'uname.pickle')
+		if os.path.isfile(filename) :
+			global username
+			username = pickle.load(open(filename, 'rb'))
+
+		filename = join(user_data_dir, 'my_row_worldRanking.pickle')
+		if os.path.isfile(filename) :
+			global my_row
+			my_row = pickle.load(open(filename, 'rb'))
+
+		self.reset_ranking()
+
 	def size_callback(self, instance, value):
 	    self.background.size = value
 	    self.background.update_position()
@@ -73,48 +91,47 @@ class rankPageWorld(Screen):
 		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=60))
 		self.onlineUsers.add_widget(row)
 
-	def lounch_usernamePopup(self, instance=None, may_exist=True):
-		username = 'Not set'
-		if may_exist:
-			sheet = self.get_gsheet()
-			if not sheet == None:
-				for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
-					if i_row == 1: continue
-					if deviceID == self.userDevice_ID:
-						username = uname
+	def lounch_usernamePopup(self, instance=None):
+		uname = 'Not set'
+		if not username is None:
+			uname = username
 
-
-		popup = UsernamePopup(auto_dismiss=True, uname=username)
+		popup = UsernamePopup(auto_dismiss=True, uname=uname)
 		popup.open()
-		popup.bind(on_dismiss=self.reset_ranking)
 
 	def on_enter(self):
-		if platform == 'ios':
-			user_data_dir = App.get_running_app().user_data_dir
-		else:
-			user_data_dir = 'data'
-		score_history_filename = join(user_data_dir, 'score_history.pickle')
+		uname_filename = join(user_data_dir, 'uname.pickle')
+		if username is None:
+			self.lounch_usernamePopup()
+		# score_history_filename = join(user_data_dir, 'score_history.pickle')
+		#
+		# if os.path.isfile(score_history_filename) :
+		# 	global best_score
+		# 	best_score = max(pickle.load(open(score_history_filename, 'rb')))
+		#
+		# sheet = self.get_gsheet()
+		# if not sheet == None:
+		# 	device_already_present = False
+		# 	for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
+		# 		if i_row == 1: continue
+		# 		if deviceID == self.userDevice_ID:
+		# 			device_already_present = True
+		# 			if float(score) < best_score:
+		# 				sheet.update_cell(i_row, 3, '{:.0f}'.format(best_score))
+		# 				score = best_score
 
-		if os.path.isfile(score_history_filename) :
-			global best_score
-			best_score = max(pickle.load(open(score_history_filename, 'rb')))
+			# if not device_already_present:
+			# 	self.lounch_usernamePopup(may_exist=False)
 
+		# self.reset_ranking()
 
-		sheet = self.get_gsheet()
-		if not sheet == None:
-			device_already_present = False
-			for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
-				if i_row == 1: continue
-				if deviceID == self.userDevice_ID:
-					device_already_present = True
-					if float(score) < best_score:
-						sheet.update_cell(i_row, 3, '{:.0f}'.format(best_score))
-						score = best_score
+	def update_score(self, new_score):
+		if not (my_row is None):
+			sheet = self.get_gsheet()
+			if not sheet == None:
+				print('[DEBUG] Sending new scores')
+				sheet.update_cell(my_row, 3, '{:.0f}'.format(new_score))
 
-			if not device_already_present:
-				self.lounch_usernamePopup(may_exist=False)
-
-		self.reset_ranking(None)
 
 	def get_gsheet(self):
 		try:
@@ -131,9 +148,16 @@ class rankPageWorld(Screen):
 			return sheet
 
 	def on_leave(self):
-		self.onlineUsers.clear_widgets()
+		pass
+		# self.onlineUsers.clear_widgets()
 
-	def reset_ranking(self, instance):
+	def reset_ranking(self):
+		my_best_score = 0
+		filename = join(user_data_dir, "score_history.pickle")
+		if os.path.isfile(filename):
+			score_history = pickle.load(open(filename, 'rb'))
+			my_best_score = max(score_history)
+
 		if self.onlineUsers.children:
 			self.onlineUsers.clear_widgets()
 
@@ -142,19 +166,26 @@ class rankPageWorld(Screen):
 			return
 
 		users = []
-		my_uname = None
 		for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
-			if i_row == 1: continue
-			users.append([uname, int(score)])
+			if i_row == 1:
+				continue
+			score = int(score)
 			if deviceID == self.userDevice_ID:
-				my_uname = uname
+				global username
+				username = uname
+				global my_row
+				my_row = i_row
+				if score < my_best_score:
+					self.update_score(my_best_score)
+					score = int(my_best_score)
+			users.append([uname, score])
 
 		users.sort(reverse=True, key=lambda x: x[1])
 
 		self_present = False
 		for i_rank, (uname, score) in enumerate(users, 1):
-			if uname == my_uname:
-				self_present == True
+			if uname == username:
+				self_present = True
 				self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
 			else:
 				self.addUserToScroll(str(i_rank), uname, str(score))
@@ -163,11 +194,9 @@ class rankPageWorld(Screen):
 		self.addUserToScroll(7*'-', 40*'-', 7*'-')
 		if not self_present:
 			for i_rank, (uname, score) in enumerate(users, 1):
-				if uname == my_uname:
+				if uname == username:
 					self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
 					break
-
-
 
 
 class UsernamePopup(Popup):
@@ -197,8 +226,7 @@ class UsernamePopup(Popup):
 		print('desired_uname='+desired_uname)
 		isAvailable = True
 		for deviceID, uname, _ in sheet.get_all_values():
-			print(uname)
-			if uname == desired_uname:
+			if uname == desired_uname and deviceID != self.userDevice_ID:
 				isAvailable = False
 				break
 
@@ -215,7 +243,6 @@ class UsernamePopup(Popup):
 			return False
 
 	def set_username(self, instance):
-		print('[DEBUG]: Contacting the server')
 		self.pause_popup = LabelPopup('Checking checking username availability', auto_dismiss=False)
 		self.pause_popup.open()
 		try:
@@ -233,7 +260,7 @@ class UsernamePopup(Popup):
 			return
 
 		new_uname = self.input.text
-		print('[DEBUG]: Setting username:'+new_uname)
+		# print('[DEBUG]: Setting username:'+new_uname)
 		set_popup = LabelPopup('Setting username', auto_dismiss=False)
 		set_popup.open()
 		preExisting = False
@@ -251,6 +278,13 @@ class UsernamePopup(Popup):
 
 		global username
 		username = new_uname
+		filename = join(user_data_dir, 'uname.pickle')
+		pickle.dump(new_uname, open(filename, 'wb'))
+
+		global my_row
+		my_row = i_row
+		filename = join(user_data_dir, 'my_row_worldRanking.pickle')
+		pickle.dump(i_row, open(filename, 'wb'))
 
 		self.current_uname_label.text = 'Current username: ' + new_uname
 		self.input.text = ''
@@ -258,6 +292,8 @@ class UsernamePopup(Popup):
 
 		self.done_popup = LabelPopup('New username set', auto_dismiss=True)
 		self.done_popup.open()
+
+		App.get_running_app().rankPageWorld.reset_ranking()
 
 
 class LabelPopup(Popup):
@@ -302,6 +338,20 @@ Builder.load_string("""
 	Button:
     	text: ''
     	size_hint: (.1, .1)
+		pos_hint: {'x':0.82, 'y':.89}
+        background_color: 0, 0, 0, .0
+		on_release: root.reset_ranking()
+		Image:
+            source: "images/icons/retry.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
+
+
+	Button:
+    	text: ''
+    	size_hint: (.1, .1)
 		pos_hint: {'x':0.89, 'y':.89}
         background_color: 0, 0, 0, .0
 		on_release: root.lounch_usernamePopup()
@@ -314,7 +364,7 @@ Builder.load_string("""
 
 <UsernamePopup>:
 	title: 'Leaderboard Username'
-	size_hint: (0.36, 0.5)
+	size_hint: (0.36, 0.45)
 	pos_hint: {'x': 0.32, 'y': 0.45}
     background_color: 0, 0, 0, .0
 	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
