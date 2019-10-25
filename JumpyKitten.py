@@ -139,7 +139,7 @@ class JumpyKittenGame(Widget):
 
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
-        if self.mcnay.velocity[0] == 0 and self.mcnay.pos[1] == self.mcnay.ground:
+        if self.mcnay.velocity[0] <= 10 and self.mcnay.pos[1] == self.mcnay.ground*0.4:
             self.process.cancel()
 
         if platform == 'ios' and not self.interstitial_ad.is_showing() :

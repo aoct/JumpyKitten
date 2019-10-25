@@ -99,7 +99,6 @@ class rankPageWorld(Screen):
 			global best_score
 			best_score = max(pickle.load(open(score_history_filename, 'rb')))
 
-
 		sheet = self.get_gsheet()
 		if not sheet == None:
 			device_already_present = False
@@ -131,7 +130,8 @@ class rankPageWorld(Screen):
 			return sheet
 
 	def on_leave(self):
-		self.onlineUsers.clear_widgets()
+		pass
+		# self.onlineUsers.clear_widgets()
 
 	def reset_ranking(self, instance):
 		if self.onlineUsers.children:
@@ -154,7 +154,7 @@ class rankPageWorld(Screen):
 		self_present = False
 		for i_rank, (uname, score) in enumerate(users, 1):
 			if uname == my_uname:
-				self_present == True
+				self_present = True
 				self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
 			else:
 				self.addUserToScroll(str(i_rank), uname, str(score))
