@@ -1,5 +1,5 @@
 .buildozer
-data/score_history.pickle
+data/*.pickle
 credentials/*.json
 
 # Byte-compiled / optimized / DLL files

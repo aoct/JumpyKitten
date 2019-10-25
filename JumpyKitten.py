@@ -131,16 +131,15 @@ class JumpyKittenGame(Widget):
             if uniform(0, 1 + log(1. + self.score*1e-5)) > 0.995:
                 self.new_obstacle()
 
-        # if platform == 'ios' and self.banner_ad.hidden_ad() == 0:
-            # self.banner_ad.show_ads()
-
         self.score += 0.05
 
 
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
-        if self.mcnay.velocity[0] <= 10 and self.mcnay.pos[1] == self.mcnay.ground*0.4:
+        if self.mcnay.velocity[0] <= 1 and self.mcnay.pos[1] == self.mcnay.ground*0.4:
             self.process.cancel()
+            if len(self.score_history) == 1 or self.score > max(self.score_history[:-1]):
+                App.get_running_app().rankPageWorld.reset_ranking()
 
         if platform == 'ios' and not self.interstitial_ad.is_showing() :
             if self.score > 30 and uniform(0,1) < 0.5:
@@ -169,20 +168,19 @@ class JumpyKittenGame(Widget):
 
         try:
             if os.path.isfile(filename) :
-                score_history = pickle.load(open(filename, 'rb'))
+                self.score_history = pickle.load(open(filename, 'rb'))
             else:
-                score_history = []
+                self.score_history = []
                 if not os.path.isdir(user_data_dir):
                     os.mkdir(user_data_dir)
 
-            score_history += [self.score]
-            pickle.dump(score_history, open(filename, 'wb'))
+            self.score_history += [self.score]
+            pickle.dump(self.score_history, open(filename, 'wb'))
         except:
             Logger.exception("Problem saving file")
+
         popup = endGamePopup(self.score, auto_dismiss=False)
         popup.open()
-
-
 
 
 class JumpyKittenPage(Screen):
