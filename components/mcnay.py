@@ -1,13 +1,26 @@
+import os, pickle
+
 from kivy.properties import ObjectProperty
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
 from kivy.uix.image import Image
 from kivy.core.audio import SoundLoader
+from kivy.utils import platform
+from kivy.app import App
 
 from kivy.config import Config
 from kivy.core.window import Window
 
 from kivy.lang import Builder
+
+from os.path import join
+
+kittenColor = ''
+
+if platform == 'ios': 
+    user_data_dir = App.get_running_app().user_data_dir
+else: 
+    user_data_dir = 'data'
 
 class Mcnay(Widget):
     mcnay_image = ObjectProperty(Image())
@@ -30,15 +43,26 @@ class Mcnay(Widget):
         self.doubleJump = 0
         self.sound = SoundLoader.load('sounds/jump.wav')
 
+        filename = join(user_data_dir, 'kittenColor.pickle')
+        if os.path.isfile(filename):
+            global kittenColor
+            kittenColor = pickle.load(open(filename, 'rb'))
+
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
+
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
         self.velocity = Vector(0, 0)
-        self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
+        filename = join(user_data_dir, 'kittenColor.pickle')
+        if os.path.isfile(filename):
+            global kittenColor
+            kittenColor = pickle.load(open(filename, 'rb'))
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
 
     def jump(self):
         self.sound.play()
         self.imageFrame = 0
-        self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         self.velocity[1] = self.impulse / self.mass
 
     def on_touch_down(self, touch):
@@ -60,7 +84,7 @@ class Mcnay(Widget):
 
         if self.updatesSinceLastImageChange > 4 and self.pos[1] <= self.ground:
             self.imageFrame += 1
-            self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_{}_HD.png'.format(self.imageFrame%4)
+            self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_{1}_HD.png'.format(kittenColor, self.imageFrame%4)
             self.updatesSinceLastImageChange = 0
         else:
             self.updatesSinceLastImageChange += 1
@@ -84,7 +108,7 @@ class Mcnay(Widget):
     def death(self):
         self.velocity[1] = 0.8*self.impulse / self.mass
         self.velocity[0] = 0.6*Window.size[0]/200.
-        self.mcnay_image.source = 'images/cats/basePinkCat_aoct/CAT_FRAME_DEATH_HD.png'
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_DEATH_HD.png'.format(kittenColor)
 
     def update_after_death(self, g_grav):
         if self.velocity[0] > 0:
@@ -107,7 +131,7 @@ Builder.load_string("""
     mcnay_image: image
     Image:
         id: image
-        source: 'images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png'
+        # source: 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         size: root.size
         pos: root.pos
 """)

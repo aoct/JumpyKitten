@@ -1,4 +1,4 @@
-import time
+import os, pickle, time
 
 from random import uniform
 
@@ -8,10 +8,20 @@ from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 from kivy.utils import platform
 from kivy.logger import Logger
+from kivy.app import App
 
 from commercial.kivmob import KivMob, TestIds
 
 from components.background import Background
+
+from os.path import join
+
+kittenColor = ''
+
+if platform == 'ios': 
+    user_data_dir = App.get_running_app().user_data_dir
+else: 
+    user_data_dir = 'data'
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -42,6 +52,13 @@ class mainPage(Screen):
 
         self.bind(size=self.size_callback)
 
+        filename = join(user_data_dir, 'kittenColor.pickle')
+        if os.path.isfile(filename):
+            global kittenColor
+            kittenColor = pickle.load(open(filename, 'rb'))
+
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
+
     def size_callback(self, instance, value):
         self.background.size = value
         self.background.update_position()
@@ -57,6 +74,13 @@ class mainPage(Screen):
             if uniform(0,1) < 0.5:
                 self.ads.show_interstitial()
             self.ads.show_banner()
+
+        filename = join(user_data_dir, 'kittenColor.pickle')
+        if os.path.isfile(filename):
+            global kittenColor
+            kittenColor = pickle.load(open(filename, 'rb'))
+
+        self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
 
     def on_leave(self):
         if platform == 'ios':
@@ -76,6 +100,7 @@ class mainPage(Screen):
 Builder.load_string("""
 <mainPage>:
     background: background
+    mcnay_image: image
     Background:
         id: background
         pos: root.pos
@@ -85,7 +110,8 @@ Builder.load_string("""
         pos_hint: {'x':.35, 'y':.35}
         background_color: 0, 0, 0, .0
         Image:
-            source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
+            id: image
+            # source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
@@ -115,7 +141,7 @@ Builder.load_string("""
   #           allow_stretch: True
     Button:
     	size_hint: (.2, .2)
-		pos_hint: {'x':.02, 'y':.4}
+		pos_hint: {'x':.02, 'y':.25}
         on_release: app.sm.current = 'RankPageWorld'
         background_color: 0, 0, 0, .0
         Image:
@@ -142,6 +168,18 @@ Builder.load_string("""
         background_color: 0, 0, 0, .0
         Image:
             source: "images/icons/video.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
+
+    Button:
+        size_hint: (.2, .2)
+        pos_hint: {'x':.02, 'y':.55}
+        on_release: app.sm.current = 'KittenPage'
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/icons/kittens.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size

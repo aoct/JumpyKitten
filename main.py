@@ -24,6 +24,7 @@ from infoPage import infoPage
 from settingsPage import settingsPage
 from rankPageUser import rankPageUser
 from rankPageWorld import rankPageWorld
+from kittenPage import kittenPage
 
 class JumpyKittenApp(App):
 	def build(self):
@@ -47,6 +48,9 @@ class JumpyKittenApp(App):
 
 		self.rankPageWorld = rankPageWorld(name='RankPageWorld')
 		self.sm.add_widget(self.rankPageWorld)
+
+		self.kittenPage = kittenPage(name='KittenPage')
+		self.sm.add_widget(self.kittenPage)
 
 		return self.sm
 
