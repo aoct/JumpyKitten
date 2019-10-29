@@ -20,12 +20,17 @@ class mainPage(Screen):
         super(mainPage, self).__init__(**kwargs)
 
         if platform == 'android':
-            # self.ads = KivMob(TestIds.APP)
-            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            # self.ads.new_banner(TestIds.BANNER)
-            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-            self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
+            self.ads = KivMob(TestIds.APP)
+            self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads.new_banner(TestIds.BANNER)
+            self.ads.new_banner(TestIds.BANNER)
+            self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
+            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
+            # self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            # self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
 
             self.ads.request_interstitial()
             self.ads.request_banner()
@@ -61,6 +66,11 @@ class mainPage(Screen):
             self.ads.hide_banner()
             # self.ads.destroy_interstitial()
             self.ads.request_interstitial()
+
+    def show_reward_video(self):
+        print('Show reward video')
+        if platform == 'android':
+            app.ads.show_rewarded_ad()
 
 
 Builder.load_string("""
@@ -114,26 +124,24 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-  #   Button:
-  #   	size_hint: (.1, .1)
-		# pos_hint: {'x':.85, 'y':.45}
-  #       background_color: 0, 0, 0, .0
-  #       on_release:
-  #           root.ads.request_interstitial()
-  #           root.ads.show_interstitial()
-  #       Image:
-  #           source: "images/icons/noads.png"
-  #           y: self.parent.y
-  #           x: self.parent.x
-  #           size: self.parent.size
-  #           allow_stretch: True
     Button:
     	size_hint: (.2, .2)
-		pos_hint: {'x':.78, 'y':.4}
+		pos_hint: {'x':.78, 'y':.25}
         on_release: app.sm.current = 'InfoPage'
         background_color: 0, 0, 0, .0
         Image:
             source: "images/icons/info.png"
+            y: self.parent.y
+            x: self.parent.x
+            size: self.parent.size
+            allow_stretch: True
+    Button:
+    	size_hint: (.2, .2)
+		pos_hint: {'x':.78, 'y':.55}
+        on_release: root.show_reward_video()
+        background_color: 0, 0, 0, .0
+        Image:
+            source: "images/icons/video.png"
             y: self.parent.y
             x: self.parent.x
             size: self.parent.size
