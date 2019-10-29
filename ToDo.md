@@ -2,11 +2,10 @@ Version 1 - (7 days from now):
 1. Ads:
 	- Add reward video for redemption when you die and get additional coins
 2. Graphics:
-	- fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
-	- Presplash
-3. Add page to change cats:
-	- Create new class for each cat
-	- Create the page to change cat and manage coins
+	- Presplash - put AOCT logo
+	- Lower cat when dead
+3. Fix page to change cats:
+	- Scroll change cat and manage coins
 4. Add link to review page in play store:
 	- Notification after N games
 	- info page
@@ -20,6 +19,7 @@ Version 2 - (7 days from Version 1):
 	- Add jump height dependence with press time
 2. Graphics:
 	- background that changes with the weather
+	- fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
 
 
 Examples of how to use pyobjus:
