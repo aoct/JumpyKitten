@@ -1,32 +1,56 @@
 #:kivy 1.10.0
+#:import Window kivy.core.window.Window
 
 <JumpyKittenGame>:
     background: background
-    canvas:
-        Color:
-            rgb: 137 / 255.0, 228 / 255.0, 135 / 255.0
     Background:
         id: background
         pos: root.pos
+    Image:
+        source: "images/pinkBox.png"
+        height: 0.035*Window.size[0]
+        width: 0.53*Window.size[0]
+        x: 0.54*Window.size[0]
+        center_y: 0.8*Window.size[1]
+    Image:
+        source: "images/pinkBox.png"
+        height: 0.035*Window.size[0]
+        width: 0.59*Window.size[0]
+        x: 0.54*Window.size[0]
+        center_y: 0.8*Window.size[1]
+    Image:
+        source: "images/pinkBox.png"
+        height: 0.035*Window.size[0]
+        width: 0.53*Window.size[0]
+        x: 0.64*Window.size[0]
+        center_y: 0.8*Window.size[1]
     Label:
-        font_size: 75
-        right: 1.65*root.center_x
-        top: 0.8*root.top
+        background_color: 230,219,220,0.9
+        font_size: 60
         markup: True
         bold: True
-        text: "[u][color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color][/u]"
+        text: "[color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color]"
+        center_x: 0.85*Window.size[0]
+        center_y: 0.8*Window.size[1]
+    Image:
+        source: "images/pinkBox.png"
+        height: 0.035*Window.size[0]
+        width: 0.13*Window.size[0]
+        x: -0.015*Window.size[0]
+        center_y: 0.8*Window.size[1]
     Image:
         source: "images/coin_HD.png"
-        right: 1.55*root.center_x
-        top: 0.7*root.top
-        size_hint: 0.1, 0.1
+        height: 0.03*Window.size[0]
+        width: 0.03*Window.size[0]
+        center_y: 0.8*Window.size[1]
+        right: 0.036*Window.size[0]
     Label:
-        font_size: 75
-        right: 1.61*root.center_x
-        top: 0.7*root.top
+        font_size: 60
+        x: 0.037*Window.size[0]
+        center_y: 0.8*Window.size[1]
         markup: True
         bold: True
-        text: "[u][color=e29ea3]: " + '{:.0f}'.format(root.collected_coins) + "[/color][/u]"
+        text: "[color=e29ea3]: " + '{:.0f}'.format(root.collected_coins) + "[/color]"
 
 <endGamePopup>:
     title: "Distance: " + '{:.0f}'.format(self.score)
