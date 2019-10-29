@@ -52,13 +52,13 @@ class kittenPage(Screen):
 		self.kitten_preview.add_widget(self.image)
 		self.master_grid.add_widget(self.kitten_preview)
 
-		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=0.3, row_force_default=False, row_default_height=0.2*Window.size[1])
+		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.2*Window.size[1])
 		self.kittens.bind(minimum_height=self.kittens.setter('height'))
 		colors = ['Beige','Brown', 'Gold', 'Gray','Pink', 'Beige','Brown', 'Gold', 'Gray','Pink']
 		for c in colors:
 			self.addKittensToScroll(c)
-
-		self.scrollKittens = ScrollView(size=(.3,.9))
+		
+		self.scrollKittens = ScrollView(size=(.9,.9))
 		self.scrollKittens.add_widget(self.kittens)
 		self.master_grid.add_widget(self.scrollKittens)
 
@@ -72,9 +72,9 @@ class kittenPage(Screen):
 
 	def addKittensToScroll(self, color):
 		row = GridLayout(cols=1)
-		self.kittenButton = Button(text='', background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
-		self.kittenButton.bind(on_release=self.setColor)
-		row.add_widget(self.kittenButton)
+		kittenButton = Button(background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
+		kittenButton.bind(on_release=self.setColor)
+		row.add_widget(kittenButton)
 		self.kittens.add_widget(row)
 
 	def setColor(self, instance):
