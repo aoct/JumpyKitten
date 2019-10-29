@@ -3,6 +3,7 @@ import os, pickle, time
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 
+from kivy.core.window import Window
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -51,8 +52,12 @@ class kittenPage(Screen):
 		self.kitten_preview.add_widget(self.image)
 		self.master_grid.add_widget(self.kitten_preview)
 
-		self.kittens = GridLayout(cols=1, spacing=15, size_hint_y=0.3, row_force_default=True, row_default_height=60)	
-		self.kittens.bind(minimum_height=self.kittens.setter('height'))	
+		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=0.3, row_force_default=False, row_default_height=0.2*Window.size[1])
+		self.kittens.bind(minimum_height=self.kittens.setter('height'))
+		colors = ['Beige','Brown', 'Gold', 'Gray','Pink', 'Beige','Brown', 'Gold', 'Gray','Pink']
+		for c in colors:
+			self.addKittensToScroll(c)
+
 		self.scrollKittens = ScrollView(size=(.3,.9))
 		self.scrollKittens.add_widget(self.kittens)
 		self.master_grid.add_widget(self.scrollKittens)
@@ -67,7 +72,7 @@ class kittenPage(Screen):
 
 	def addKittensToScroll(self, color):
 		row = GridLayout(cols=1)
-		self.kittenButton = Button(text='', size_hint_y=0.3, background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
+		self.kittenButton = Button(text='', background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
 		self.kittenButton.bind(on_release=self.setColor)
 		row.add_widget(self.kittenButton)
 		self.kittens.add_widget(row)
@@ -75,7 +80,7 @@ class kittenPage(Screen):
 	def setColor(self, instance):
 		#this function will open the txt file and save the current cat color
 		color = (instance.background_normal.split('/')[2])
-		
+
 		## hardcoded solution for now --> needs to become more modular once I implement classes for each cat
 		color = color.split('C')[0][4:]
 
@@ -88,9 +93,7 @@ class kittenPage(Screen):
 		self.image.reload()
 
 	def on_enter(self):
-		colors = ['Beige','Brown', 'Gold', 'Gray','Pink', 'Beige','Brown', 'Gold', 'Gray','Pink']
-		for c in colors:
-			self.addKittensToScroll(c)
+		pass
 
 
 Builder.load_string("""

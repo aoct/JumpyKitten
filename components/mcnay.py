@@ -15,11 +15,11 @@ from kivy.lang import Builder
 
 from os.path import join
 
-kittenColor = ''
+kittenColor = 'Pink'
 
-if platform == 'ios': 
+if platform == 'ios':
     user_data_dir = App.get_running_app().user_data_dir
-else: 
+else:
     user_data_dir = 'data'
 
 class Mcnay(Widget):
