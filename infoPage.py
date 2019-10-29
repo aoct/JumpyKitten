@@ -21,10 +21,16 @@ Builder.load_string("""
     Background:
         id: background
         pos: root.pos
+	Image:
+        source: "images/logo.png"
+		size_hint: (.8, .8)
+		pos_hint: {'x':0.1, 'y':0.15}
 	Label:
 		font_size: 60
 		bold: True
-		text: 'Jumpy Kitten game developed by Cerri O. & Tamborini A.'
+		text: 'Jumpy Kitten game developed by AOCTdev'
+		center_y: -0.25*Window.size[1]
+	# Rate our app here: https://play.google.com/store/apps/details?id=org.aoct.jumpykitten.jumpykitten
 	Button:
 		size_hint: (.1, .1)
 		pos_hint: {'x':0.01, 'y':.89}

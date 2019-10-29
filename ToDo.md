@@ -1,15 +1,15 @@
 Version 1 - (7 days from now):
 1. Ads:
 	- Add reward video for redemption when you die and get additional coins
-4. Graphics:
-	- Add box for score and coins in game screen
+2. Graphics:
 	- fix aesthetics of project - choose a color palate + stick with those colors all round - set screen to match that of the current phone you are on
-	- design AOCT Dev logo
-	- Try to add flower in the grass
 	- Presplash
-6. Add page to change cats:
+3. Add page to change cats:
 	- Create new class for each cat
 	- Create the page to change cat and manage coins
+4. Add link to review page in play store:
+	- Notification after N games
+	- info page
 
 Version 2 - (7 days from Version 1):
 2. In app purchases:
