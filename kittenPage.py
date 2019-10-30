@@ -29,6 +29,8 @@ if platform == 'ios':
 else:
 	user_data_dir = 'data'
 
+kittenValue = {'Pink': 0, 'Beige': 50,'Brown': 100, 'Gray': 250, 'Gold': 500}
+
 class kittenPage(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
@@ -37,8 +39,8 @@ class kittenPage(Screen):
 		self.background.remove_clouds()
 
 		self.master_grid = GridLayout(cols=2,
-									   size_hint=(1.,.8),
-									   pos_hint={'x':0., 'y':.05},
+									   size_hint=(0.95,.8),
+									   pos_hint={'x':0.02, 'y':.05},
 									   spacing=10
 									   )
 
@@ -54,11 +56,11 @@ class kittenPage(Screen):
 
 		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.2*Window.size[1])
 		self.kittens.bind(minimum_height=self.kittens.setter('height'))
-		colors = ['Beige','Brown', 'Gold', 'Gray','Pink', 'Beige','Brown', 'Gold', 'Gray','Pink']
-		for c in colors:
+
+		for c in ['Pink', 'Beige','Brown', 'Gray', 'Gold']:
 			self.addKittensToScroll(c)
-		
-		self.scrollKittens = ScrollView(size=(.9,.9))
+
+		self.scrollKittens = ScrollView(size=(.3,.9))
 		self.scrollKittens.add_widget(self.kittens)
 		self.master_grid.add_widget(self.scrollKittens)
 
@@ -71,10 +73,21 @@ class kittenPage(Screen):
 	    self.background.update_position()
 
 	def addKittensToScroll(self, color):
-		row = GridLayout(cols=1)
-		kittenButton = Button(background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
-		kittenButton.bind(on_release=self.setColor)
-		row.add_widget(kittenButton)
+		row = GridLayout(cols=3, size_hint_y=0.35)
+		l = Label(text='Price', size_hint_x=0.4,
+        		  halign='left', valign='center',
+			      font_size=40,
+			      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
+		row.add_widget(l)
+		l = Label(text='{} cat coins'.format(kittenValue[color]), size_hint_x=0.4,
+        		  halign='left', valign='center',
+			      font_size=40,
+			      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
+		row.add_widget(l)
+		self.kittenButton = Button(text='', size_hint_x=0.2,
+		 						   background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
+		self.kittenButton.bind(on_release=self.setColor)
+		row.add_widget(self.kittenButton)
 		self.kittens.add_widget(row)
 
 	def setColor(self, instance):
