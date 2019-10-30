@@ -9,6 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.scrollview import ScrollView
 from kivy.properties import ObjectProperty
 from kivy.uix.popup import Popup
@@ -73,37 +74,39 @@ class kittenPage(Screen):
 	    self.background.update_position()
 
 	def addKittensToScroll(self, color):
-		row = GridLayout(cols=3, size_hint_y=0.35)
-		l = Label(text='Price', size_hint_x=0.4,
+		row = GridLayout(cols=3, size_hint_y=0.35*Window.size[1], col_default_width=0.175*Window.size[0])
+		box = GridLayout(cols=2, col_default_width=0.1*Window.size[0], col_force_default=True)
+		coins = Image(source="images/coin_HD.png", size=(0.01*Window.size[0], 0.01*Window.size[0]), allow_stretch = True)
+		l = Label(text='{}x'.format(kittenValue[color]), size_hint_x=0.2,
         		  halign='left', valign='center',
 			      font_size=40,
 			      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
-		row.add_widget(l)
-		l = Label(text='{} cat coins'.format(kittenValue[color]), size_hint_x=0.4,
-        		  halign='left', valign='center',
-			      font_size=40,
-			      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
-		row.add_widget(l)
-		self.kittenButton = Button(text='', size_hint_x=0.2,
-		 						   background_normal='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color))
-		self.kittenButton.bind(on_release=self.setColor)
+		box.add_widget(l)
+		box.add_widget(coins)
+		row.add_widget(box)
+
+		self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color), size_hint_x = 0.3)
+		row.add_widget(self.kittenImage)
+		self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.05*Window.size[0], size_hint_y = 0.05*Window.size[1], group='cat_select')
+		self.kittenButton.bind(on_press=lambda kittenButton: self.setColor(color))
 		row.add_widget(self.kittenButton)
 		self.kittens.add_widget(row)
 
-	def setColor(self, instance):
-		#this function will open the txt file and save the current cat color
-		color = (instance.background_normal.split('/')[2])
-
-		## hardcoded solution for now --> needs to become more modular once I implement classes for each cat
-		color = color.split('C')[0][4:]
-
+	def setColor(self, color):
+		#this function will open the txt file and save the current cat color		
 		global kittenColor
+		oldColor = kittenColor
 		kittenColor = color
 		filename = join(self.user_data_dir, 'kittenColor.pickle')
 		pickle.dump(color, open(filename, 'wb'))
 
 		self.image.source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
 		self.image.reload()
+
+		for i in App.get_running_app().kittenPage.kittens.children:
+			if i.children[0].state == 'down': i.children[0].text = 'Selected'
+			else: i.children[0].text = 'Select'
+
 
 	def on_enter(self):
 		pass
