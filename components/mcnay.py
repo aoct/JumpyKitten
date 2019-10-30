@@ -17,11 +17,6 @@ from os.path import join
 
 kittenColor = 'Pink'
 
-if platform == 'ios':
-    user_data_dir = App.get_running_app().user_data_dir
-else:
-    user_data_dir = 'data'
-
 class Mcnay(Widget):
     mcnay_image = ObjectProperty(Image())
 
@@ -43,7 +38,12 @@ class Mcnay(Widget):
         self.doubleJump = 0
         self.sound = SoundLoader.load('sounds/jump.wav')
 
-        filename = join(user_data_dir, 'kittenColor.pickle')
+        if platform == 'ios':
+            self.user_data_dir = App.get_running_app().user_data_dir
+        else:
+            self.user_data_dir = 'data'
+
+        filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))
@@ -53,7 +53,7 @@ class Mcnay(Widget):
     def reset(self):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
         self.velocity = Vector(0, 0)
-        filename = join(user_data_dir, 'kittenColor.pickle')
+        filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))

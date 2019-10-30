@@ -18,11 +18,6 @@ from os.path import join
 
 kittenColor = 'Pink'
 
-if platform == 'ios':
-    user_data_dir = App.get_running_app().user_data_dir
-else:
-    user_data_dir = 'data'
-
 class mainPage(Screen):
     background = ObjectProperty(Background())
 
@@ -52,7 +47,12 @@ class mainPage(Screen):
 
         self.bind(size=self.size_callback)
 
-        filename = join(user_data_dir, 'kittenColor.pickle')
+        if platform == 'ios':
+            self.user_data_dir = App.get_running_app().user_data_dir
+        else:
+            self.user_data_dir = 'data'
+
+        filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))
@@ -75,7 +75,7 @@ class mainPage(Screen):
                 self.ads.show_interstitial()
             self.ads.show_banner()
 
-        filename = join(user_data_dir, 'kittenColor.pickle')
+        filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))

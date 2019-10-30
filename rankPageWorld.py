@@ -28,11 +28,6 @@ username = None
 my_raw = None
 best_score = 0
 
-if platform == 'ios':
-	user_data_dir = App.get_running_app().user_data_dir
-else:
-	user_data_dir = 'data'
-
 class rankPageWorld(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
@@ -68,12 +63,18 @@ class rankPageWorld(Screen):
 
 		self.bind(size=self.size_callback)
 
-		filename = join(user_data_dir, 'uname.pickle')
+		if platform == 'ios':
+			self.user_data_dir = App.get_running_app().user_data_dir
+			print(self.user_data_dir)
+		else:
+			self.user_data_dir = 'data'
+
+		filename = join(self.user_data_dir, 'uname.pickle')
 		if os.path.isfile(filename) :
 			global username
 			username = pickle.load(open(filename, 'rb'))
 
-		filename = join(user_data_dir, 'my_row_worldRanking.pickle')
+		filename = join(self.user_data_dir, 'my_row_worldRanking.pickle')
 		if os.path.isfile(filename) :
 			global my_row
 			my_row = pickle.load(open(filename, 'rb'))
@@ -100,10 +101,10 @@ class rankPageWorld(Screen):
 		popup.open()
 
 	def on_enter(self):
-		uname_filename = join(user_data_dir, 'uname.pickle')
+		uname_filename = join(self.user_data_dir, 'uname.pickle')
 		if username is None:
 			self.lounch_usernamePopup()
-		# score_history_filename = join(user_data_dir, 'score_history.pickle')
+		# score_history_filename = join(self.user_data_dir, 'score_history.pickle')
 		#
 		# if os.path.isfile(score_history_filename) :
 		# 	global best_score
@@ -153,7 +154,7 @@ class rankPageWorld(Screen):
 
 	def reset_ranking(self):
 		my_best_score = 0
-		filename = join(user_data_dir, "score_history.pickle")
+		filename = join(self.user_data_dir, "score_history.pickle")
 		if os.path.isfile(filename):
 			score_history = pickle.load(open(filename, 'rb'))
 			my_best_score = max(score_history)
@@ -221,6 +222,8 @@ class UsernamePopup(Popup):
 
 		self.add_widget(self.master)
 
+
+
 	def check_availability(self, sheet):
 		desired_uname = self.input.text
 		print('desired_uname='+desired_uname)
@@ -278,12 +281,12 @@ class UsernamePopup(Popup):
 
 		global username
 		username = new_uname
-		filename = join(user_data_dir, 'uname.pickle')
+		filename = join(App.get_running_app().rankPageWorld.user_data_dir, 'uname.pickle')
 		pickle.dump(new_uname, open(filename, 'wb'))
 
 		global my_row
 		my_row = i_row
-		filename = join(user_data_dir, 'my_row_worldRanking.pickle')
+		filename = join(App.get_running_app().rankPageWorld.user_data_dir, 'my_row_worldRanking.pickle')
 		pickle.dump(i_row, open(filename, 'wb'))
 
 		self.current_uname_label.text = 'Current username: ' + new_uname

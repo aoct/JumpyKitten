@@ -33,11 +33,6 @@ from os.path import join
 
 import time
 
-if platform == 'ios':
-    user_data_dir = App.get_running_app().user_data_dir
-else:
-    user_data_dir = 'data'
-
 
 class endGamePopup(Popup):
     score = NumericProperty()
@@ -74,6 +69,11 @@ class JumpyKittenGame(Widget):
             # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
             # self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
+        if platform == 'ios':
+            self.user_data_dir = App.get_running_app().user_data_dir
+        else:
+            self.user_data_dir = 'data'
+
         self.reset()
 
     def start(self):
@@ -99,7 +99,7 @@ class JumpyKittenGame(Widget):
         self.coins = []
 
         self.collected_coins = 0
-        filename = join(user_data_dir, 'collected_coins.pickle')
+        filename = join(self.user_data_dir, 'collected_coins.pickle')
         if os.path.isfile(filename):
             self.collected_coins = pickle.load(open(filename, 'rb'))
 
@@ -194,18 +194,18 @@ class JumpyKittenGame(Widget):
 
         self.process = Clock.schedule_interval(self.update_death, 1.0/60.0)
 
-        filename = join(user_data_dir, 'score_history.pickle')
+        filename = join(self.user_data_dir, 'score_history.pickle')
         if os.path.isfile(filename) :
             self.score_history = pickle.load(open(filename, 'rb'))
         else:
             self.score_history = []
-            if not os.path.isdir(user_data_dir):
-                os.mkdir(user_data_dir)
+            if not os.path.isdir(self.user_data_dir):
+                os.mkdir(self.user_data_dir)
 
         self.score_history += [self.score]
         pickle.dump(self.score_history, open(filename, 'wb'))
 
-        filename = join(user_data_dir, 'collected_coins.pickle')
+        filename = join(self.user_data_dir, 'collected_coins.pickle')
         pickle.dump(self.collected_coins, open(filename, 'wb'))
 
         popup = endGamePopup(self.score, auto_dismiss=False)

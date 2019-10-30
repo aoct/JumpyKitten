@@ -24,11 +24,6 @@ import plyer
 
 kittenColor = 'Pink'
 
-if platform == 'ios':
-	user_data_dir = App.get_running_app().user_data_dir
-else:
-	user_data_dir = 'data'
-
 kittenValue = {'Pink': 0, 'Beige': 50,'Brown': 100, 'Gray': 250, 'Gold': 500}
 
 class kittenPage(Screen):
@@ -44,7 +39,12 @@ class kittenPage(Screen):
 									   spacing=10
 									   )
 
-		filename = join(user_data_dir, 'kittenColor.pickle')
+		if platform == 'ios':
+			self.user_data_dir = App.get_running_app().user_data_dir
+		else:
+			self.user_data_dir = 'data'
+
+		filename = join(self.user_data_dir, 'kittenColor.pickle')
 		if os.path.isfile(filename):
 			global kittenColor
 			kittenColor = pickle.load(open(filename, 'rb'))
@@ -99,7 +99,7 @@ class kittenPage(Screen):
 
 		global kittenColor
 		kittenColor = color
-		filename = join(user_data_dir, 'kittenColor.pickle')
+		filename = join(self.user_data_dir, 'kittenColor.pickle')
 		pickle.dump(color, open(filename, 'wb'))
 
 		self.image.source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
