@@ -89,6 +89,10 @@ class kittenPage(Screen):
 		row.add_widget(self.kittenImage)
 		self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.05*Window.size[0], size_hint_y = 0.05*Window.size[1], group='cat_select')
 		self.kittenButton.bind(on_press=lambda kittenButton: self.setColor(color))
+		global kittenColor
+		if color == kittenColor: 
+			self.kittenButton.state ='down'
+			self.kittenButton.text = 'Selected'
 		row.add_widget(self.kittenButton)
 		self.kittens.add_widget(row)
 
