@@ -94,7 +94,8 @@ class mainPage(Screen):
     def show_reward_video(self):
         print('Show reward video')
         if platform == 'android':
-            app.ads.show_rewarded_ad()
+            aux = self.ads.show_rewarded_ad()
+            print(aux)
 
 
 Builder.load_string("""
