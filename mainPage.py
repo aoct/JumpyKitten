@@ -5,7 +5,7 @@ from random import uniform
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.app import App
@@ -22,6 +22,7 @@ kittenColor = 'Pink'
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
+    collected_coins = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
@@ -60,6 +61,7 @@ class mainPage(Screen):
             kittenColor = pickle.load(open(filename, 'rb'))
 
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
+        self.collected_coins = 0
 
     def size_callback(self, instance, value):
         self.background.size = value
@@ -83,6 +85,10 @@ class mainPage(Screen):
             kittenColor = pickle.load(open(filename, 'rb'))
 
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
+
+        filename = join(self.user_data_dir, 'collected_coins.pickle')
+        if os.path.isfile(filename):
+            self.collected_coins = pickle.load(open(filename, 'rb'))
 
     def on_leave(self):
         if platform == 'ios':
@@ -121,6 +127,7 @@ class LabelPopup(Popup):
 		self.add_widget(l)
 
 Builder.load_string("""
+#:import Window kivy.core.window.Window
 <mainPage>:
     background: background
     mcnay_image: image
@@ -149,19 +156,6 @@ Builder.load_string("""
         color: [226/255.0, 158/255.0, 163/255.0, 1]
         markup: True
         bold: True
-
-
-  #   Button:
-  #   	size_hint: (.1, .1)
-		# pos_hint: {'x':.85, 'y':.45}
-  #       on_release: app.sm.current = 'SettingsPage'
-  #       background_color: 0, 0, 0, .0
-  #       Image:
-  #           source: "images/icons/settings.png"
-  #           y: self.parent.y
-  #           x: self.parent.x
-  #           size: self.parent.size
-  #           allow_stretch: True
     Button:
     	size_hint: (.2, .2)
 		pos_hint: {'x':.02, 'y':.25}
@@ -195,7 +189,6 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-
     Button:
         size_hint: (.2, .2)
         pos_hint: {'x':.02, 'y':.55}
@@ -207,6 +200,25 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+        Image:
+            source: "images/pinkBox.png"
+            height: 0.035*Window.size[0]
+            width: 0.13*Window.size[0]
+            x: 0.065*Window.size[0]
+            center_y: 0.8*Window.size[1]
+        Image:
+            source: "images/coin_HD.png"
+            height: 0.03*Window.size[0]
+            width: 0.03*Window.size[0]
+            center_y: 0.8*Window.size[1]
+            right: 0.12*Window.size[0]
+        Label:
+            font_size: 60
+            x: 0.125*Window.size[0]
+            center_y: 0.8*Window.size[1]
+            markup: True
+            bold: True
+            text: '[color=e29ea3]: {:.0f}[/color]'.format(root.collected_coins)
 
 <LabelPopup>:
 	# title: ''

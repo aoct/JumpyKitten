@@ -136,7 +136,11 @@ class JumpyKittenGame(Widget):
                 idx_to_pop = i
             else:
                 if self.mcnay.collision_with_obstacle(o):
-                    self.obstacle_collision()
+                    if self.collected_coins > 2:
+                        print('Lounch revive popup')
+                        self.obstacle_collision()
+                    else:
+                        self.obstacle_collision()
         if not idx_to_pop is None:
             self.obstacles.pop(idx_to_pop)
 
