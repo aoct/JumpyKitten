@@ -13,10 +13,10 @@ package.domain = org.aoct.JumpyKitten
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,atlas,json,wav
+# source.include_exts = py,png,jpg,kv,atlas,json,wav
 
 # (list) List of inclusions using pattern matching
-#source.include_patterns = assets/*,images/*.png
+source.include_patterns = commercial/*.py,components/*.py,credentials/*,images/*.png,sounds/*.wav
 
 # (list) Source files to exclude (let empty to not exclude anything)
 #source.exclude_exts = spec

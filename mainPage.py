@@ -10,7 +10,7 @@ from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.app import App
 
-from commercial.kivmob import KivMob, TestIds
+from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 
 from components.background import Background
 
