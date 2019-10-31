@@ -29,6 +29,7 @@ class Mcnay(Widget):
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
         self.ground = Window.size[1]*0.05
+        self.ground_dead = -Window.size[1]*0.02
 
         self.size = (Window.size[0]/7., Window.size[0]/7.)
 
@@ -121,8 +122,8 @@ class Mcnay(Widget):
         self.pos[1] = self.pos[1] + (self.velocity[1] + 0.5*g_grav)*Window.size[1]/600.
         self.velocity[1] = self.velocity[1] + g_grav
 
-        if self.pos[1] <= self.ground*0.4:
-            self.pos[1] = self.ground*0.4
+        if self.pos[1] <= self.ground_dead:
+            self.pos[1] = self.ground_dead
             self.velocity[1] = -0.5*self.velocity[1]
 
 

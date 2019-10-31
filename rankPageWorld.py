@@ -59,7 +59,6 @@ class rankPageWorld(Screen):
 		self.add_widget(self.master_grid)
 
 		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
-		print('Device ID:', self.userDevice_ID)
 
 		self.bind(size=self.size_callback)
 

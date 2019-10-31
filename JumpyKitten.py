@@ -171,7 +171,7 @@ class JumpyKittenGame(Widget):
 
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
-        if self.mcnay.velocity[0] <= 1 and self.mcnay.pos[1] == self.mcnay.ground*0.4:
+        if self.mcnay.velocity[0] <= 1 and self.mcnay.pos[1] == self.mcnay.ground_dead:
             self.process.cancel()
             if len(self.score_history) == 1 or self.score > max(self.score_history[:-1]):
                 App.get_running_app().rankPageWorld.reset_ranking()

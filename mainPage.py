@@ -9,6 +9,8 @@ from kivy.properties import ObjectProperty
 from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.app import App
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 
@@ -92,11 +94,31 @@ class mainPage(Screen):
             self.ads.request_interstitial()
 
     def show_reward_video(self):
-        print('Show reward video')
         if platform == 'android':
-            aux = self.ads.show_rewarded_ad()
-            print(aux)
+            hasShown = self.ads.show_rewarded_ad()
+            if hasShown:
+                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+                self.popup.open()
+                filename = join(self.user_data_dir, 'collected_coins.pickle')
+                if os.path.isfile(filename):
+                    collected_coins = pickle.load(open(filename, 'rb'))
+                else:
+                    collected_coins = 0
+                collected_coins += 25
+                pickle.dump(collected_coins, open(filename, 'wb'))
+            else:
+                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+                self.popup.open()
+        else:
+            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+            self.popup.open()
 
+class LabelPopup(Popup):
+	def __init__(self, text, **kwargs):
+		super(Popup, self).__init__(**kwargs)
+
+		l = Label(text=text)
+		self.add_widget(l)
 
 Builder.load_string("""
 <mainPage>:
@@ -185,4 +207,11 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+
+<LabelPopup>:
+	# title: ''
+	size_hint: (0.36, 0.5)
+	pos_hint: {'x': 0.32, 'y': 0.45}
+	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	# title_size: '20sp'
 """)
