@@ -40,6 +40,10 @@ class endGamePopup(Popup):
         super(Popup, self).__init__(**kwargs)
         self.score = score
 
+class revivePopup(Popup):
+    def __init__(self, **kwargs):
+        super(Popup, self).__init__(**kwargs)
+
 class JumpyKittenGame(Widget):
     background = ObjectProperty(Background())
     score = NumericProperty(0)
@@ -137,6 +141,7 @@ class JumpyKittenGame(Widget):
             else:
                 if self.mcnay.collision_with_obstacle(o):
                     if self.collected_coins > 2:
+                        #DEBUG
                         print('Lounch revive popup')
                         self.obstacle_collision()
                     else:
@@ -172,7 +177,6 @@ class JumpyKittenGame(Widget):
         self.updates += 1
         self.score = self.updates/20.
 
-
     def update_death(self, dt):
         self.mcnay.update_after_death(self.g_grav)
         if self.mcnay.velocity[0] <= 1 and self.mcnay.pos[1] == self.mcnay.ground_dead:
@@ -183,7 +187,6 @@ class JumpyKittenGame(Widget):
         if platform == 'ios' and not self.interstitial_ad.is_showing() :
             if self.score > 30 and uniform(0,1) < 0.5:
                 self.interstitial_ad.show_ads()
-
 
     def obstacle_collision(self):
         self.process.cancel()

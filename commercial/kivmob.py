@@ -262,9 +262,10 @@ class AndroidBridge(AdMobBridge):
     @run_on_ui_thread
     def show_rewarded_ad(self):
         if self._rewarded.isLoaded():
+            print('[DEBUG]: Showing video')
             self._rewarded.show()
             return True
-        else:
+        elif not self._rewarded.isLoaded():
             return False
 
     @run_on_ui_thread
