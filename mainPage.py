@@ -13,7 +13,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
-from commercial.kivmob27 import KivMob27
+from commercial.kivmob27 import KivMob as KivMob27
 
 from components.background import Background
 
