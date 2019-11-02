@@ -102,7 +102,7 @@ class mainPage(Screen):
     def show_reward_video(self):
         if platform == 'android':
             hasShown = False
-            if ads.bridge._rewarded.isLoaded():
+            if self.ads.bridge._rewarded.isLoaded():
                 hasShown = self.ads.show_rewarded_ad()
             if hasShown:
                 self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
