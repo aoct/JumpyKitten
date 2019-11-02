@@ -154,7 +154,8 @@ android.ndk = 17c
 # (list) Gradle dependencies to add (currently works only with sdl2_gradle
 # bootstrap)
 # Test Ads service
-android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+# android.gradle_dependencies = 'com.google.firebase:firebase-ads:10.2.0'
+android.gradle_dependencies = 'com.google.android.gms:play-services-ads:16.0.0','com.android.support:appcompat-v7:26.1.0'
 # Jumpy kitten Ads service
 # android.gradle_dependencies = 'com.google.android.gms:play-services-ads:17.2.1'
 
