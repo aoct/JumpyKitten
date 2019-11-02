@@ -22,12 +22,14 @@ kittenColor = 'Pink'
 if platform == 'android':
     class mpRewardedListenerInterface(RewardedListenerInterface):
         def __init__(self, **kwargs):
-            self.hasShown = False
+            self.giveReward = False
+            self.hasOpened = False
+            self.Closed = False
             self.userRewarded = False
 
         def on_rewarded(self, reward_name, reward_amount):
             print('[DEBUG]: On_rewarded')
-            self.hasShown = True
+            self.giveReward = True
             print(reward_name)
             print(reward_amount)
 
@@ -35,7 +37,7 @@ if platform == 'android':
             pass
 
         def on_rewarded_video_ad_closed(self):
-            print('[DEBUG]: on_rewarded_video_ad_closed')
+            self.Closed = True
 
         def on_rewarded_video_ad_failed_to_load(self, error_code):
             print('[DEBUG]: on_rewarded_video_ad_started')
@@ -45,7 +47,7 @@ if platform == 'android':
             pass
 
         def on_rewarded_video_ad_opened(self):
-            pass
+            self.hasOpened = True
 
         def on_rewarded_video_ad_started(self):
             print('[DEBUG]: on_rewarded_video_ad_started')
@@ -139,22 +141,31 @@ class mainPage(Screen):
         if platform == 'android':
             self.ads.show_rewarded_ad()
             self.loadingPopup.open()
-            for i in range(50):
+            for i in range(20):
                 time.sleep(0.1)
-                print('waiting...')
-            self.loadingPopup.dismiss()
 
-            if self.ads_listener.hasShown:
-                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
-                self.popup.open()
-                filename = join(self.user_data_dir, 'collected_coins.pickle')
-                if os.path.isfile(filename):
-                    collected_coins = pickle.load(open(filename, 'rb'))
+            if self.ads_listener.hasOpened:
+                while not self.ads_listener.Closed:
+                    time.sleep(0.1)
+                self.ads_listener.Closed = False
+                self.loadingPopup.dismiss()
+                if self.ads_listener.giveReward:
+                    self.ads_listener.giveReward = False
+                    self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+                    self.popup.open()
+                    filename = join(self.user_data_dir, 'collected_coins.pickle')
+                    if os.path.isfile(filename):
+                        collected_coins = pickle.load(open(filename, 'rb'))
+                    else:
+                        collected_coins = 0
+                    collected_coins += 25
+                    pickle.dump(collected_coins, open(filename, 'wb'))
                 else:
-                    collected_coins = 0
-                collected_coins += 25
-                pickle.dump(collected_coins, open(filename, 'wb'))
+                    self.popup = LabelPopup('No coins earned', auto_dismiss=True)
+                    self.popup.open()
+                self.ads_listener.hasOpened = False
             else:
+                self.loadingPopup.dismiss()
                 self.popup = LabelPopup('Reward video not available now.', auto_dismiss=True)
                 self.popup.open()
         else:
