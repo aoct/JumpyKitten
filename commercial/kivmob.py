@@ -153,30 +153,39 @@ class AdMobBridge():
 
 
 class RewardedListenerInterface():
+    def __init__(self, **kwargs):
+        self.giveReward = False
+        self.hasOpened = False
+        self.Closed = False
+        self.userRewarded = False
 
     def on_rewarded(self, reward_name, reward_amount):
-        pass
+        print('[DEBUG]: On_rewarded')
+        self.giveReward = True
+        self.reward_name = reward_name
+        self.reward_amount = reward_amount
 
     def on_rewarded_video_ad_left_application(self):
         pass
 
     def on_rewarded_video_ad_closed(self):
-        pass
+        self.Closed = True
 
     def on_rewarded_video_ad_failed_to_load(self, error_code):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_started')
+        print('Error code:', error_code)
 
     def on_rewarded_video_ad_loaded(self):
         pass
 
     def on_rewarded_video_ad_opened(self):
-        pass
+        self.hasOpened = True
 
     def on_rewarded_video_ad_started(self):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_started')
 
     def on_rewarded_video_ad_completed(self):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_completed')
 
 
 class AndroidBridge(AdMobBridge):

@@ -19,42 +19,6 @@ from os.path import join
 
 kittenColor = 'Pink'
 
-if platform == 'android':
-    class mpRewardedListenerInterface(RewardedListenerInterface):
-        def __init__(self, **kwargs):
-            self.giveReward = False
-            self.hasOpened = False
-            self.Closed = False
-            self.userRewarded = False
-
-        def on_rewarded(self, reward_name, reward_amount):
-            print('[DEBUG]: On_rewarded')
-            self.giveReward = True
-            print(reward_name)
-            print(reward_amount)
-
-        def on_rewarded_video_ad_left_application(self):
-            pass
-
-        def on_rewarded_video_ad_closed(self):
-            self.Closed = True
-
-        def on_rewarded_video_ad_failed_to_load(self, error_code):
-            print('[DEBUG]: on_rewarded_video_ad_started')
-            print('Error code:', error_code)
-
-        def on_rewarded_video_ad_loaded(self):
-            pass
-
-        def on_rewarded_video_ad_opened(self):
-            self.hasOpened = True
-
-        def on_rewarded_video_ad_started(self):
-            print('[DEBUG]: on_rewarded_video_ad_started')
-
-        def on_rewarded_video_ad_completed(self):
-            print('[DEBUG]: on_rewarded_video_ad_completed')
-
 class mainPage(Screen):
     background = ObjectProperty(Background())
     collected_coins = NumericProperty(0)
@@ -69,7 +33,7 @@ class mainPage(Screen):
             self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads.new_banner(TestIds.BANNER)
             self.ads.new_banner(TestIds.BANNER)
-            self.ads_listener = mpRewardedListenerInterface()
+            self.ads_listener = RewardedListenerInterface()
             self.ads.set_rewarded_ad_listener(self.ads_listener)
             self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
@@ -171,20 +135,6 @@ class mainPage(Screen):
         else:
             self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
             self.popup.open()
-
-    def on_resume(self):
-        print('[DEBUG]: resume')
-        print('[DEBUG]: ', self.ads.out)
-
-    #     res = self.ads27.get_reward_type()
-    #     print(res)
-    #     if res != "No reward":
-    #         #Give reward based on reward_type
-    #         self.reward(res)
-
-    # def reward(self, reward_type):
-    #     #reward the player
-    #     self.ads27.playerRewarded() #reset the reward so it is not triggered again
 
 class LabelPopup(Popup):
 	def __init__(self, text, **kwargs):
