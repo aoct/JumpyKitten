@@ -28,7 +28,6 @@ from kittenPage import kittenPage
 
 class JumpyKittenApp(App):
 	def build(self):
-		print('Building the main App')
 		self.sm = ScreenManager(transition = NoTransition())
 
 		self.mainPage = mainPage(name = 'MainPage')

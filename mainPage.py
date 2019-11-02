@@ -5,12 +5,14 @@ from random import uniform
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.app import App
+from kivy.uix.popup import Popup
+from kivy.uix.label import Label
 
-from commercial.kivmob import KivMob, TestIds
+from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 
 from components.background import Background
 
@@ -20,6 +22,7 @@ kittenColor = 'Pink'
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
+    collected_coins = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
@@ -58,6 +61,7 @@ class mainPage(Screen):
             kittenColor = pickle.load(open(filename, 'rb'))
 
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
+        self.collected_coins = 0
 
     def size_callback(self, instance, value):
         self.background.size = value
@@ -82,6 +86,10 @@ class mainPage(Screen):
 
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
 
+        filename = join(self.user_data_dir, 'collected_coins.pickle')
+        if os.path.isfile(filename):
+            self.collected_coins = pickle.load(open(filename, 'rb'))
+
     def on_leave(self):
         if platform == 'ios':
             self.banner_ad.hide_ads()
@@ -92,12 +100,49 @@ class mainPage(Screen):
             self.ads.request_interstitial()
 
     def show_reward_video(self):
-        print('Show reward video')
         if platform == 'android':
-            app.ads.show_rewarded_ad()
+            hasShown = self.ads.show_rewarded_ad()
+            print('[DEBUG]: hasShown =',hasShown)
+            if hasShown:
+                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+                self.popup.open()
+                filename = join(self.user_data_dir, 'collected_coins.pickle')
+                if os.path.isfile(filename):
+                    collected_coins = pickle.load(open(filename, 'rb'))
+                else:
+                    collected_coins = 0
+                collected_coins += 25
+                pickle.dump(collected_coins, open(filename, 'wb'))
+            else:
+                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+                self.popup.open()
+        else:
+            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+            self.popup.open()
 
+    def on_resume(self):
+        print('[DEBUG]: resume')
+        print('[DEBUG]: ', self.ads.out)
+
+    #     res = self.ads27.get_reward_type()
+    #     print(res)
+    #     if res != "No reward":
+    #         #Give reward based on reward_type
+    #         self.reward(res)
+
+    # def reward(self, reward_type):
+    #     #reward the player
+    #     self.ads27.playerRewarded() #reset the reward so it is not triggered again
+
+class LabelPopup(Popup):
+	def __init__(self, text, **kwargs):
+		super(Popup, self).__init__(**kwargs)
+
+		l = Label(text=text)
+		self.add_widget(l)
 
 Builder.load_string("""
+#:import Window kivy.core.window.Window
 <mainPage>:
     background: background
     mcnay_image: image
@@ -126,19 +171,6 @@ Builder.load_string("""
         color: [226/255.0, 158/255.0, 163/255.0, 1]
         markup: True
         bold: True
-
-
-  #   Button:
-  #   	size_hint: (.1, .1)
-		# pos_hint: {'x':.85, 'y':.45}
-  #       on_release: app.sm.current = 'SettingsPage'
-  #       background_color: 0, 0, 0, .0
-  #       Image:
-  #           source: "images/icons/settings.png"
-  #           y: self.parent.y
-  #           x: self.parent.x
-  #           size: self.parent.size
-  #           allow_stretch: True
     Button:
     	size_hint: (.2, .2)
 		pos_hint: {'x':.02, 'y':.25}
@@ -172,7 +204,6 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-
     Button:
         size_hint: (.2, .2)
         pos_hint: {'x':.02, 'y':.55}
@@ -184,4 +215,30 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+        Image:
+            source: "images/pinkBox.png"
+            height: 0.035*Window.size[0]
+            width: 0.13*Window.size[0]
+            x: 0.065*Window.size[0]
+            center_y: 0.8*Window.size[1]
+        Image:
+            source: "images/coin_HD.png"
+            height: 0.03*Window.size[0]
+            width: 0.03*Window.size[0]
+            center_y: 0.8*Window.size[1]
+            right: 0.12*Window.size[0]
+        Label:
+            font_size: 60
+            x: 0.125*Window.size[0]
+            center_y: 0.8*Window.size[1]
+            markup: True
+            bold: True
+            text: '[color=e29ea3]: {:.0f}[/color]'.format(root.collected_coins)
+
+<LabelPopup>:
+	# title: ''
+	size_hint: (0.36, 0.5)
+	pos_hint: {'x': 0.32, 'y': 0.45}
+	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	# title_size: '20sp'
 """)
