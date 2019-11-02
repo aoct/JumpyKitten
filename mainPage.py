@@ -122,6 +122,8 @@ class mainPage(Screen):
 
     def on_resume(self):
         print('[DEBUG]: resume')
+        print('[DEBUG]: ', self.ads.out)
+
     #     res = self.ads27.get_reward_type()
     #     print(res)
     #     if res != "No reward":

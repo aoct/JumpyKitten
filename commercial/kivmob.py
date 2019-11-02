@@ -408,10 +408,10 @@ class KivMob():
         ''' Display rewarded video ad.
         '''
         Logger.info('KivMob: show_rewarded_ad() called.')
-        out = [False, False]
-        self.bridge.show_rewarded_ad(out)
-        print('[DEBUG]: out =', out[-1])
-        return out[-1]
+        self.out = [False, False]
+        self.bridge.show_rewarded_ad(self.out)
+        print('[DEBUG]: out =', self.out)
+        return self.out[-1]
 
 
 if __name__ == '__main__':
