@@ -27,6 +27,7 @@ if platform == 'android':
 
         def on_rewarded(self, reward_name, reward_amount):
             print('[DEBUG]: On_rewarded')
+            self.hasShown = True
             print(reward_name)
             print(reward_amount)
 
@@ -59,12 +60,15 @@ class mainPage(Screen):
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
+        self.loadingPopup = LabelPopup('Loading...', auto_dismiss=False)
+
         if platform == 'android':
             self.ads = KivMob(TestIds.APP)
             self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads.new_banner(TestIds.BANNER)
             self.ads.new_banner(TestIds.BANNER)
-            self.ads.set_rewarded_ad_listener(mpRewardedListenerInterface())
+            self.ads_listener = mpRewardedListenerInterface()
+            self.ads.set_rewarded_ad_listener(self.ads_listener)
             self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
@@ -134,23 +138,28 @@ class mainPage(Screen):
     def show_reward_video(self):
         if platform == 'android':
             self.ads.show_rewarded_ad()
-        #     print('[DEBUG]: hasShown =',hasShown)
-        #     if hasShown:
-        #         self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
-        #         self.popup.open()
-        #         filename = join(self.user_data_dir, 'collected_coins.pickle')
-        #         if os.path.isfile(filename):
-        #             collected_coins = pickle.load(open(filename, 'rb'))
-        #         else:
-        #             collected_coins = 0
-        #         collected_coins += 25
-        #         pickle.dump(collected_coins, open(filename, 'wb'))
-        #     else:
-        #         self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
-        #         self.popup.open()
-        # else:
-        #     self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
-        #     self.popup.open()
+            self.loadingPopup.open()
+            for i in range(30):
+                time.sleep(0.1)
+            self.loadingPopup.dismiss()
+
+            print('[DEBUG]: hasShown =',hasShown)
+            if self.ads_listener.hasShown:
+                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+                self.popup.open()
+                filename = join(self.user_data_dir, 'collected_coins.pickle')
+                if os.path.isfile(filename):
+                    collected_coins = pickle.load(open(filename, 'rb'))
+                else:
+                    collected_coins = 0
+                collected_coins += 25
+                pickle.dump(collected_coins, open(filename, 'wb'))
+            else:
+                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+                self.popup.open()
+        else:
+            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+            self.popup.open()
 
     def on_resume(self):
         print('[DEBUG]: resume')
