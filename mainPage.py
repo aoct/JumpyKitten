@@ -141,9 +141,9 @@ class mainPage(Screen):
             self.loadingPopup.open()
             for i in range(30):
                 time.sleep(0.1)
+                print('waiting...')
             self.loadingPopup.dismiss()
 
-            print('[DEBUG]: hasShown =',hasShown)
             if self.ads_listener.hasShown:
                 self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
                 self.popup.open()
