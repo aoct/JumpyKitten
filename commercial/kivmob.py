@@ -5,6 +5,7 @@ from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.button import Button
 from kivy.uix.modalview import ModalView
 
+rewarded_ad_shown = False
 
 if platform == 'android':
     try:
@@ -265,9 +266,10 @@ class AndroidBridge(AdMobBridge):
             print('[DEBUG]: Showing video')
             self._rewarded.show()
             print('[DEBUG]: Returning true')
-            return True
+            global rewarded_ad_shown
+            rewarded_ad_shown = True
         elif not self._rewarded.isLoaded():
-            return False
+            rewarded_ad_shown = False
 
     @run_on_ui_thread
     def destroy_banner(self):
@@ -409,7 +411,9 @@ class KivMob():
         ''' Display rewarded video ad.
         '''
         Logger.info('KivMob: show_rewarded_ad() called.')
-        out = self.bridge.show_rewarded_ad()
+        self.bridge.show_rewarded_ad()
+        global rewarded_ad_shown
+        out = rewarded_ad_shown
         print('[DEBUG]: out =', out)
         return out
 
