@@ -155,11 +155,11 @@ class mainPage(Screen):
                     self.popup.open()
                     filename = join(self.user_data_dir, 'collected_coins.pickle')
                     if os.path.isfile(filename):
-                        collected_coins = pickle.load(open(filename, 'rb'))
+                        self.collected_coins = pickle.load(open(filename, 'rb'))
                     else:
-                        collected_coins = 0
-                    collected_coins += 25
-                    pickle.dump(collected_coins, open(filename, 'wb'))
+                        self.collected_coins = 0
+                    self.collected_coins += 25
+                    pickle.dump(self.collected_coins, open(filename, 'wb'))
                 else:
                     self.popup = LabelPopup('No coins earned', auto_dismiss=True)
                     self.popup.open()
