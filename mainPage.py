@@ -13,12 +13,44 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
-
 from components.background import Background
 
 from os.path import join
 
 kittenColor = 'Pink'
+
+if platform == 'android':
+    class mpRewardedListenerInterface(RewardedListenerInterface):
+        def __init__(self, **kwargs):
+            self.hasShown = False
+            self.userRewarded = False
+
+        def on_rewarded(self, reward_name, reward_amount):
+            print('[DEBUG]: On_rewarded')
+            print(reward_name)
+            print(reward_amount)
+
+        def on_rewarded_video_ad_left_application(self):
+            pass
+
+        def on_rewarded_video_ad_closed(self):
+            print('[DEBUG]: on_rewarded_video_ad_closed')
+
+        def on_rewarded_video_ad_failed_to_load(self, error_code):
+            print('[DEBUG]: on_rewarded_video_ad_started')
+            print('Error code:', error_code)
+
+        def on_rewarded_video_ad_loaded(self):
+            pass
+
+        def on_rewarded_video_ad_opened(self):
+            pass
+
+        def on_rewarded_video_ad_started(self):
+            print('[DEBUG]: on_rewarded_video_ad_started')
+
+        def on_rewarded_video_ad_completed(self):
+            print('[DEBUG]: on_rewarded_video_ad_completed')
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -32,7 +64,7 @@ class mainPage(Screen):
             self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads.new_banner(TestIds.BANNER)
             self.ads.new_banner(TestIds.BANNER)
-            self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            self.ads.set_rewarded_ad_listener(mpRewardedListenerInterface())
             self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
@@ -101,24 +133,24 @@ class mainPage(Screen):
 
     def show_reward_video(self):
         if platform == 'android':
-            hasShown = self.ads.show_rewarded_ad()
-            print('[DEBUG]: hasShown =',hasShown)
-            if hasShown:
-                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
-                self.popup.open()
-                filename = join(self.user_data_dir, 'collected_coins.pickle')
-                if os.path.isfile(filename):
-                    collected_coins = pickle.load(open(filename, 'rb'))
-                else:
-                    collected_coins = 0
-                collected_coins += 25
-                pickle.dump(collected_coins, open(filename, 'wb'))
-            else:
-                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
-                self.popup.open()
-        else:
-            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
-            self.popup.open()
+            self.ads.show_rewarded_ad()
+        #     print('[DEBUG]: hasShown =',hasShown)
+        #     if hasShown:
+        #         self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+        #         self.popup.open()
+        #         filename = join(self.user_data_dir, 'collected_coins.pickle')
+        #         if os.path.isfile(filename):
+        #             collected_coins = pickle.load(open(filename, 'rb'))
+        #         else:
+        #             collected_coins = 0
+        #         collected_coins += 25
+        #         pickle.dump(collected_coins, open(filename, 'wb'))
+        #     else:
+        #         self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+        #         self.popup.open()
+        # else:
+        #     self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+        #     self.popup.open()
 
     def on_resume(self):
         print('[DEBUG]: resume')

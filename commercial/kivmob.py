@@ -259,14 +259,9 @@ class AndroidBridge(AdMobBridge):
         self._rewarded.loadAd(unitID, builder.build())
 
     @run_on_ui_thread
-    def show_rewarded_ad(self, out):
+    def show_rewarded_ad(self):
         if self._rewarded.isLoaded():
-            print('[DEBUG]: Showing video')
             self._rewarded.show()
-            print('[DEBUG]: Returning true')
-            out.append(True)
-        elif not self._rewarded.isLoaded():
-            out.append(False)
 
     @run_on_ui_thread
     def destroy_banner(self):
@@ -408,10 +403,7 @@ class KivMob():
         ''' Display rewarded video ad.
         '''
         Logger.info('KivMob: show_rewarded_ad() called.')
-        self.out = [False, False]
-        self.bridge.show_rewarded_ad(self.out)
-        print('[DEBUG]: out =', self.out)
-        return self.out[-1]
+        self.bridge.show_rewarded_ad()
 
 
 if __name__ == '__main__':
