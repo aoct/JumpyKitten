@@ -139,7 +139,7 @@ class mainPage(Screen):
         if platform == 'android':
             self.ads.show_rewarded_ad()
             self.loadingPopup.open()
-            for i in range(30):
+            for i in range(50):
                 time.sleep(0.1)
                 print('waiting...')
             self.loadingPopup.dismiss()
@@ -155,7 +155,7 @@ class mainPage(Screen):
                 collected_coins += 25
                 pickle.dump(collected_coins, open(filename, 'wb'))
             else:
-                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+                self.popup = LabelPopup('Reward video not available now.', auto_dismiss=True)
                 self.popup.open()
         else:
             self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
