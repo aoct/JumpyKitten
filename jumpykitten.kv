@@ -92,3 +92,45 @@
                 x: self.parent.x
                 size: self.parent.size
                 allow_stretch: True
+
+<revivePopup>:
+    title: "Second chance"
+    bold: True
+    separator_height: 2
+    separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+    background_color: 0, 0, 0, .0
+    size_hint: (.4, .4)
+    pos_hint: {'x':.3, 'y':.35}
+    title_size: '20sp'
+    GridLayout:
+        cols: 3
+        Button:
+            size_hint: (.3, .3)
+            pos: (.15, .4)
+            on_release:
+                root.dismiss()
+                app.gamePage.game.revive(root.i_ob)
+            background_color: 0, 0, 0, .0
+            text: '2 coins'
+            # Image:
+            #     source: "images/icons/retry.png"
+            #     y: self.parent.y
+            #     x: self.parent.x
+            #     size: self.parent.size
+            #     allow_stretch: True
+        Label:
+            text: ''
+            size_hint: (.05, .05)
+        Button:
+            size_hint: (.3, .3)
+            on_release:
+                root.dismiss()
+                app.gamePage.game.obstacle_collision(cancel_process=False)
+            background_color: 0, 0, 0, .0
+            text: 'Die'
+            # Image:
+            #     source: "images/icons/home.png"
+            #     y: self.parent.y
+            #     x: self.parent.x
+            #     size: self.parent.size
+            #     allow_stretch: True

@@ -41,8 +41,10 @@ class endGamePopup(Popup):
         self.score = score
 
 class revivePopup(Popup):
-    def __init__(self, **kwargs):
+    i_ob = NumericProperty()
+    def __init__(self, i_ob, **kwargs):
         super(Popup, self).__init__(**kwargs)
+        self.i_ob = i_ob
 
 class JumpyKittenGame(Widget):
     background = ObjectProperty(Background())
@@ -141,9 +143,7 @@ class JumpyKittenGame(Widget):
             else:
                 if self.mcnay.collision_with_obstacle(o):
                     if self.collected_coins > 2:
-                        #DEBUG
-                        print('Lounch revive popup')
-                        self.obstacle_collision()
+                        self.revive_chance(i)
                     else:
                         self.obstacle_collision()
         if not idx_to_pop is None:
@@ -188,8 +188,9 @@ class JumpyKittenGame(Widget):
             if self.score > 30 and uniform(0,1) < 0.5:
                 self.interstitial_ad.show_ads()
 
-    def obstacle_collision(self):
-        self.process.cancel()
+    def obstacle_collision(self, cancel_process=True):
+        if cancel_process:
+            self.process.cancel()
         self.mcnay.death()
         if platform == 'ios':
             self.banner_ad.hide_ads()
@@ -217,6 +218,17 @@ class JumpyKittenGame(Widget):
 
         popup = endGamePopup(self.score, auto_dismiss=False)
         popup.open()
+
+    def revive_chance(self, i_ob):
+        self.process.cancel()
+        popup = revivePopup(i_ob)
+        popup.open()
+
+    def revive(self, i_ob):
+        obstacle = self.obstacles[i_ob]
+        self.remove_widget(obstacle)
+        self.obstacles.pop(i_ob)
+        self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
 
 class JumpyKittenPage(Screen):
