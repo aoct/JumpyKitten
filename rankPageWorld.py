@@ -178,6 +178,10 @@ class rankPageWorld(Screen):
 				if score < my_best_score:
 					self.update_score(my_best_score)
 					score = int(my_best_score)
+				elif score > my_best_score:
+					score_history = pickle.load(open(filename, 'rb'))
+					score_history += [score]
+					pickle.dump(score_history, open(filename, 'wb'))
 			users.append([uname, score])
 
 		users.sort(reverse=True, key=lambda x: x[1])
