@@ -13,6 +13,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
+from commercial.kivmob27 import KivMob27
 
 from components.background import Background
 
@@ -32,13 +33,17 @@ class mainPage(Screen):
             self.ads.new_interstitial(TestIds.INTERSTITIAL)
             self.ads.new_banner(TestIds.BANNER)
             self.ads.new_banner(TestIds.BANNER)
-            self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
-            self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
+            # self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            # self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
             # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
             # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
             # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
             # self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
             # self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
+
+            self.ads27 = KivMob27(TestIds.APP)
+            self.ads27.new_rewarded(TestIds.REWARDED_VIDEO)
+            self.ads27.request_rewarded()
 
             self.ads.request_interstitial()
             self.ads.request_banner()
@@ -101,24 +106,36 @@ class mainPage(Screen):
 
     def show_reward_video(self):
         if platform == 'android':
-            hasShown = self.ads.show_rewarded_ad()
-            print('[DEBUG]: hasShown =',hasShown)
-            if hasShown:
-                self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
-                self.popup.open()
-                filename = join(self.user_data_dir, 'collected_coins.pickle')
-                if os.path.isfile(filename):
-                    collected_coins = pickle.load(open(filename, 'rb'))
-                else:
-                    collected_coins = 0
-                collected_coins += 25
-                pickle.dump(collected_coins, open(filename, 'wb'))
-            else:
-                self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
-                self.popup.open()
-        else:
-            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
-            self.popup.open()
+            # hasShown = self.ads.show_rewarded_ad()
+            self.ads27.show_rewarded_ad(reward_type='test reward type')
+        #     print('[DEBUG]: hasShown =',hasShown)
+        #     if hasShown:
+        #         self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+        #         self.popup.open()
+        #         filename = join(self.user_data_dir, 'collected_coins.pickle')
+        #         if os.path.isfile(filename):
+        #             collected_coins = pickle.load(open(filename, 'rb'))
+        #         else:
+        #             collected_coins = 0
+        #         collected_coins += 25
+        #         pickle.dump(collected_coins, open(filename, 'wb'))
+        #     else:
+        #         self.popup = LabelPopup('Reward video not available now. Retray later', auto_dismiss=True)
+        #         self.popup.open()
+        # else:
+        #     self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+        #     self.popup.open()
+
+    def on_resume(self):
+        res = self.ads27.get_reward_type()
+        print(res)
+        if res != "No reward":
+            #Give reward based on reward_type
+            self.reward(res)
+
+    def reward(self, reward_type):
+        #reward the player
+        self.ads27.playerRewarded() #reset the reward so it is not triggered again
 
 class LabelPopup(Popup):
 	def __init__(self, text, **kwargs):
