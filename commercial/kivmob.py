@@ -264,6 +264,7 @@ class AndroidBridge(AdMobBridge):
         if self._rewarded.isLoaded():
             print('[DEBUG]: Showing video')
             self._rewarded.show()
+            print('[DEBUG]: Returning true')
             return True
         elif not self._rewarded.isLoaded():
             return False
@@ -409,6 +410,7 @@ class KivMob():
         '''
         Logger.info('KivMob: show_rewarded_ad() called.')
         out = self.bridge.show_rewarded_ad()
+        print('[DEBUG]: out =', out)
         return out
 
 
