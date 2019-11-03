@@ -1,63 +1,63 @@
 #:kivy 1.10.0
 #:import Window kivy.core.window.Window
 
+<BackgroundColor@Widget>
+    background_color: 0, 0, 0, 0
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0, 0, 0, 0
+
+<BackgroundFloatLayout@FloatLayout+BackgroundColor>
+    background_color: 0, 0, 0, 0
+
 <JumpyKittenGame>:
     background: background
     Background:
         id: background
         pos: root.pos
-    Image:
-        source: "images/pinkBox.png"
-        height: 0.035*Window.size[0]
-        width: 0.53*Window.size[0]
-        x: 0.54*Window.size[0]
-        center_y: 0.8*Window.size[1]
-    Image:
-        source: "images/pinkBox.png"
-        height: 0.035*Window.size[0]
-        width: 0.59*Window.size[0]
-        x: 0.54*Window.size[0]
-        center_y: 0.8*Window.size[1]
-    Image:
-        source: "images/pinkBox.png"
-        height: 0.035*Window.size[0]
-        width: 0.53*Window.size[0]
-        x: 0.64*Window.size[0]
-        center_y: 0.8*Window.size[1]
-    Label:
-        background_color: 230,219,220,0.9
+    BackgroundLabel:
+        id: bkgLabel
+        background_color: 1,0.7,0.7,0.9
         font_size: 60
-        markup: True
         bold: True
-        text: "[color=e29ea3]Distance: " + '{:.0f}'.format(root.score) + "[/color]"
-        center_x: 0.85*Window.size[0]
-        center_y: 0.8*Window.size[1]
-    Image:
-        source: "images/pinkBox.png"
-        height: 0.035*Window.size[0]
-        width: 0.13*Window.size[0]
-        x: -0.015*Window.size[0]
-        center_y: 0.8*Window.size[1]
-    Image:
-        source: "images/coin_HD.png"
-        height: 0.03*Window.size[0]
-        width: 0.03*Window.size[0]
-        center_y: 0.8*Window.size[1]
-        right: 0.036*Window.size[0]
-    Label:
-        font_size: 60
-        x: 0.037*Window.size[0]
-        center_y: 0.8*Window.size[1]
-        markup: True
-        bold: True
-        text: "[color=e29ea3]: " + '{:.0f}'.format(root.collected_coins) + "[/color]"
+        text: " Score {:04.0f} ".format(root.score)
+        size: self.texture_size
+        y: 0.8*Window.size[1]
+        x: 0.97*Window.size[0] - self.texture_size[0]
+    BackgroundFloatLayout:
+        id: coinFloat
+        background_color: 1,0.7,0.7,0.9
+        width: 0.09*Window.size[0]
+        height: bkgLabel.height
+        y: bkgLabel.y
+        x: 0.03*Window.size[0]
+        center_y: bkgLabel.y + 0.5*bkgLabel.height
+        Image:
+            source: "images/coin_HD.png"
+            height: 0.9*coinFloat.height
+            width: 0.9*coinFloat.height
+            y: coinFloat.y
+            x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
+        Label:
+            font_size: 60
+            bold: True
+            text: "{:03.0f} ".format(root.collected_coins)
+            size: self.texture_size
+            x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
+            y: coinFloat.y
 
 <endGamePopup>:
     title: "Distance: " + '{:.0f}'.format(self.score)
     bold: True
     separator_height: 2
     separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-    background_color: 0, 0, 0, .0
+    # background_color: 0, 0, 0, .0
     size_hint: (.4, .4)
     pos_hint: {'x':.3, 'y':.35}
     title_size: '20sp'
@@ -94,43 +94,53 @@
                 allow_stretch: True
 
 <revivePopup>:
-    title: "Second chance"
-    bold: True
-    separator_height: 2
-    separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-    background_color: 0, 0, 0, .0
-    size_hint: (.4, .4)
-    pos_hint: {'x':.3, 'y':.35}
-    title_size: '20sp'
-    GridLayout:
-        cols: 3
+    title: ""
+    separator_height: 0
+    # separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+    size_hint: (.5, .5)
+    pos_hint: {'x':.25, 'y':.25}
+    title_size: '0sp'
+    # title_size: '20sp'
+    BackgroundFloatLayout:
+        # background_color: 1,0.7,0.7,0.9
         Button:
             size_hint: (.3, .3)
-            pos: (.15, .4)
+            pos_hint: {'x':.35, 'y':0.05}
+            on_release:
+                root.dismiss()
+                app.gamePage.game.obstacle_collision(cancel_process=False)
+            # background_color: 0, 0, 0, .0
+            text: 'No thanks'
+            # Image:
+            #     source: "images/icons/close.png"
+            #     y: self.parent.y
+            #     x: self.parent.x
+            #     size: self.parent.size
+            #     allow_stretch: True
+        Button:
+            size_hint: (.4, .4)
+            pos_hint: {'x':.05, 'y':.4}
+            on_release:
+                root.dismiss()
+                app.gamePage.game.revive(root.i_ob)
+            # background_color: 0, 0, 0, .0
+            text: '2 coins'
+            Image:
+                source: "images/coin.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True
+        Button:
+            size_hint: (.4, .4)
+            pos_hint: {'x':.55, 'y':.4}
             on_release:
                 root.dismiss()
                 app.gamePage.game.revive(root.i_ob)
             background_color: 0, 0, 0, .0
-            text: '2 coins'
-            # Image:
-            #     source: "images/icons/retry.png"
-            #     y: self.parent.y
-            #     x: self.parent.x
-            #     size: self.parent.size
-            #     allow_stretch: True
-        Label:
-            text: ''
-            size_hint: (.05, .05)
-        Button:
-            size_hint: (.3, .3)
-            on_release:
-                root.dismiss()
-                app.gamePage.game.obstacle_collision(cancel_process=False)
-            background_color: 0, 0, 0, .0
-            text: 'Die'
-            # Image:
-            #     source: "images/icons/home.png"
-            #     y: self.parent.y
-            #     x: self.parent.x
-            #     size: self.parent.size
-            #     allow_stretch: True
+            Image:
+                source: "images/icons/video.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True

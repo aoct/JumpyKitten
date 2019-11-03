@@ -221,7 +221,7 @@ class JumpyKittenGame(Widget):
 
     def revive_chance(self, i_ob):
         self.process.cancel()
-        popup = revivePopup(i_ob)
+        popup = revivePopup(i_ob, auto_dismiss=False)
         popup.open()
 
     def revive(self, i_ob):
