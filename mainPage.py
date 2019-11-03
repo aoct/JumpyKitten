@@ -11,12 +11,15 @@ from kivy.logger import Logger
 from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
+from kivy.uix.gridlayout import GridLayout
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 
 from components.background import Background
 
 from os.path import join
+
+from plyer import notification
 
 kittenColor = 'Pink'
 
@@ -140,6 +143,19 @@ class LabelPopup(Popup):
 
 		l = Label(text=text)
 		self.add_widget(l)
+
+# class ReviewNotification(Popup):
+#     def __init__(self, text, **kwargs):
+#         super(Popup, self).__init__(**kwargs)
+
+#         title = 'self.ids.notification_title.text'
+#         message = 'self.ids.notification_text.text'
+#         ticker = 'self.ids.ticker_text.text'
+
+#         kwargs = {'title': title, 'message': message, 'ticker': ticker}
+
+#         notification.notify(**kwargs)
+
 
 Builder.load_string("""
 #:import Window kivy.core.window.Window
