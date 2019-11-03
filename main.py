@@ -2,8 +2,9 @@ import os, sys
 
 import kivy
 kivy.require("1.10.0")
+from kivy.utils import platform
 
-if os.name == 'posix':
+if platform != 'ios' and platform != 'android':
 	print('Showing a smartphone-like screen')
 	from kivy.config import Config
 	Config.set('graphics', 'width', '1140')
@@ -11,7 +12,6 @@ if os.name == 'posix':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition
-from kivy.utils import platform
 
 sys.path.append(".")
 if platform == 'ios':

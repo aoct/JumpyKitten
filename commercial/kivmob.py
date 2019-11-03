@@ -153,30 +153,39 @@ class AdMobBridge():
 
 
 class RewardedListenerInterface():
+    def __init__(self, **kwargs):
+        self.giveReward = False
+        self.hasOpened = False
+        self.Closed = False
+        self.userRewarded = False
 
     def on_rewarded(self, reward_name, reward_amount):
-        pass
+        print('[DEBUG]: On_rewarded')
+        self.giveReward = True
+        self.reward_name = reward_name
+        self.reward_amount = reward_amount
 
     def on_rewarded_video_ad_left_application(self):
         pass
 
     def on_rewarded_video_ad_closed(self):
-        pass
+        self.Closed = True
 
     def on_rewarded_video_ad_failed_to_load(self, error_code):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_started')
+        print('Error code:', error_code)
 
     def on_rewarded_video_ad_loaded(self):
         pass
 
     def on_rewarded_video_ad_opened(self):
-        pass
+        self.hasOpened = True
 
     def on_rewarded_video_ad_started(self):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_started')
 
     def on_rewarded_video_ad_completed(self):
-        pass
+        print('[DEBUG]: on_rewarded_video_ad_completed')
 
 
 class AndroidBridge(AdMobBridge):
@@ -259,14 +268,9 @@ class AndroidBridge(AdMobBridge):
         self._rewarded.loadAd(unitID, builder.build())
 
     @run_on_ui_thread
-    def show_rewarded_ad(self, out):
+    def show_rewarded_ad(self):
         if self._rewarded.isLoaded():
-            print('[DEBUG]: Showing video')
             self._rewarded.show()
-            print('[DEBUG]: Returning true')
-            out.append(True)
-        elif not self._rewarded.isLoaded():
-            out.append(False)
 
     @run_on_ui_thread
     def destroy_banner(self):
@@ -408,10 +412,7 @@ class KivMob():
         ''' Display rewarded video ad.
         '''
         Logger.info('KivMob: show_rewarded_ad() called.')
-        self.out = [False, False]
-        self.bridge.show_rewarded_ad(self.out)
-        print('[DEBUG]: out =', self.out)
-        return self.out[-1]
+        self.bridge.show_rewarded_ad()
 
 
 if __name__ == '__main__':
