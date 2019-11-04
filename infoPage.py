@@ -1,6 +1,11 @@
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.image import Image
+
+from kivy.uix.anchorlayout import AnchorLayout
 
 from components.background import Background
 
@@ -10,6 +15,27 @@ class infoPage(Screen):
 	def __init__(self, **kwargs):
 		super(infoPage, self).__init__(**kwargs)
 		self.bind(size=self.size_callback)
+
+		self.master_grid = GridLayout(cols = 2, size_hint=(1., 0.7), pos_hint={'x':0., 'y':0.15})
+		self.logo_grid = GridLayout(cols=1, size_hint=(.5, .7))
+		self.logo_image = Image(source="images/logo.png", size_hint= (10, 10))
+		self.logo_text = Label(text= 'Jumpy Kitten developed by AOCTdev', bold= True, font_size= 60)
+		self.logo_grid.add_widget(self.logo_image)
+		self.logo_grid.add_widget(self.logo_text)
+
+		self.instructions_anchor = AnchorLayout(anchor_x = 'center', anchor_y = 'center', )
+		self.LayoutImage = Image(source = 'images/box.png', allow_stretch=True, keep_ratio = False, size_hint_x = .75, size_hint_y = 1.)
+		self.instructions_grid = GridLayout(cols=1, size_hint=(.5, .7))
+		self.instruction_title = Label(text='Gaming Instructions', halign='center', bold=True, font_size = 100)
+		self.instruction_layout = Label(text='1. Tap the screen to make Rose jump \n 2.Double tap to overcome hardest obstacles \n 3. Avoid obstacles (trees, rocks, birds) during run \n 4. Collect coins for extra lives \n 5. Achieve high scores to unlock new kittens \n 6. Use coins to buy new kittens', font_size= 60)
+		self.instructions_grid.add_widget(self.instruction_title)
+		self.instructions_grid.add_widget(self.instruction_layout)
+		self.instructions_anchor.add_widget(self.LayoutImage)
+		self.instructions_anchor.add_widget(self.instructions_grid)
+
+		self.master_grid.add_widget(self.logo_grid)
+		self.master_grid.add_widget(self.instructions_anchor)
+		self.add_widget(self.master_grid)
 
 	def size_callback(self, instance, value):
 	    self.background.size = value
@@ -21,15 +47,15 @@ Builder.load_string("""
     Background:
         id: background
         pos: root.pos
-	Image:
-        source: "images/logo.png"
-		size_hint: (.8, .8)
-		pos_hint: {'x':0.1, 'y':0.15}
-	Label:
-		font_size: 60
-		bold: True
-		text: 'Jumpy Kitten game developed by AOCTdev'
-		center_y: -0.25*Window.size[1]
+	# Image:
+ #        source: "images/logo.png"
+	# 	size_hint: (.8, .8)
+	# 	pos_hint: {'x':0.1, 'y':0.15}
+	# Label:
+	# 	font_size: 60
+	# 	bold: True
+	# 	text: 'Jumpy Kitten game developed by AOCTdev'
+	# 	center_y: -0.25*Window.size[1]
 	# Rate our app here: https://play.google.com/store/apps/details?id=org.aoct.jumpykitten.jumpykitten
 	Button:
 		size_hint: (.1, .1)

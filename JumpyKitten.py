@@ -215,10 +215,10 @@ class JumpyKittenGame(Widget):
         self.endgamePopup.score = self.score
         if not self.hasRevived and self.collected_coins > reviveCoinsPrice:
             self.endgamePopup.reviveBotton.disabled = False
-            self.endgamePopup.reviveBotton.image.source = "images/icons/video.png"
+            self.endgamePopup.reviveBotton.image.source = "images/icons/revive.png"
         else:
             self.endgamePopup.reviveBotton.disabled = True
-            self.endgamePopup.reviveBotton.image.source = "images/icons/close.png"
+            self.endgamePopup.reviveBotton.image.source = "images/icons/revive_disable.png"
         self.endgamePopup.open()
 
     def revive(self):
