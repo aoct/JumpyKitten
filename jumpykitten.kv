@@ -80,19 +80,21 @@
                 allow_stretch: True
         Button:
             id: reviveBotton
+            image: image
             size_hint: (.4, .5)
             pos_hint: {'x':.6, 'y':.5}
             on_release:
                 root.dismiss()
                 app.gamePage.game.revive()
             text: "Revive"
-            # background_color: 0, 0, 0, .0
-            # Image:
-            #     source: "images/icons/home.png"
-            #     y: self.parent.y
-            #     x: self.parent.x
-            #     size: self.parent.size
-            #     allow_stretch: True
+            background_color: 0, 0, 0, .0
+            Image:
+                id:image
+                source: "images/icons/video.png"
+                y: self.parent.y
+                x: self.parent.x
+                size: self.parent.size
+                allow_stretch: True
         Button:
             size_hint: (.4, .5)
             pos_hint: {'x':.3, 'y':.0}

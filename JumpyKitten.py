@@ -213,10 +213,12 @@ class JumpyKittenGame(Widget):
         pickle.dump(self.collected_coins, open(filename, 'wb'))
 
         self.endgamePopup.score = self.score
-        if not self.hasRevived and self.score > 30 and self.collected_coins > reviveCoinsPrice:
+        if not self.hasRevived and self.collected_coins > reviveCoinsPrice:
             self.endgamePopup.reviveBotton.disabled = False
+            self.endgamePopup.reviveBotton.image.source = "images/icons/video.png"
         else:
             self.endgamePopup.reviveBotton.disabled = True
+            self.endgamePopup.reviveBotton.image.source = "images/icons/close.png"
         self.endgamePopup.open()
 
     def revive(self):
