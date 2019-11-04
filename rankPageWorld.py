@@ -22,6 +22,10 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 import plyer
+import threading
+from functools import partial
+
+from kivy.clock import Clock
 
 gs_scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 username = None
@@ -103,27 +107,7 @@ class rankPageWorld(Screen):
 		uname_filename = join(self.user_data_dir, 'uname.pickle')
 		if username is None:
 			self.lounch_usernamePopup()
-		# score_history_filename = join(self.user_data_dir, 'score_history.pickle')
-		#
-		# if os.path.isfile(score_history_filename) :
-		# 	global best_score
-		# 	best_score = max(pickle.load(open(score_history_filename, 'rb')))
-		#
-		# sheet = self.get_gsheet()
-		# if not sheet == None:
-		# 	device_already_present = False
-		# 	for i_row, (deviceID, uname, score) in enumerate(sheet.get_all_values(), 1):
-		# 		if i_row == 1: continue
-		# 		if deviceID == self.userDevice_ID:
-		# 			device_already_present = True
-		# 			if float(score) < best_score:
-		# 				sheet.update_cell(i_row, 3, '{:.0f}'.format(best_score))
-		# 				score = best_score
 
-			# if not device_already_present:
-			# 	self.lounch_usernamePopup(may_exist=False)
-
-		# self.reset_ranking()
 
 	def update_score(self, new_score):
 		if not (my_row is None):
@@ -149,7 +133,6 @@ class rankPageWorld(Screen):
 
 	def on_leave(self):
 		pass
-		# self.onlineUsers.clear_widgets()
 
 	def reset_ranking(self):
 		my_best_score = 0
@@ -202,6 +185,19 @@ class rankPageWorld(Screen):
 					self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
 					break
 
+	def reload_button(self):
+		self.pause_popup = LabelPopup('Loading Ranking ...', auto_dismiss=True)
+		self.pause_popup.open()
+		try:
+			mythread = threading.Thread(target = partial(self.reset_ranking))
+			mythread.start()
+		except:
+			self.input.text = ''
+			self.failure_popup = LabelPopup('Unable to reset ranking', auto_dismiss=False)
+			self.failure_popup.open()
+			return
+		self.pause_popup.dismiss()
+
 
 class UsernamePopup(Popup):
 	def __init__(self, uname='Not set', **kwargs):
@@ -226,7 +222,6 @@ class UsernamePopup(Popup):
 		self.add_widget(self.master)
 
 
-
 	def check_availability(self, sheet):
 		desired_uname = self.input.text
 		print('desired_uname='+desired_uname)
@@ -238,32 +233,22 @@ class UsernamePopup(Popup):
 
 		if isAvailable:
 			print('[DEBUG]: Username available')
-			self.pause_popup.dismiss()
 			return True
 		else:
 			print('[DEBUG]: Username unvailable')
-			self.pause_popup.dismiss()
 			self.input.text = ''
 			self.failure_popup = LabelPopup('Username unavailable', auto_dismiss=True)
 			self.failure_popup.open()
 			return False
 
-	def set_username(self, instance):
-		self.pause_popup = LabelPopup('Checking checking username availability', auto_dismiss=False)
-		self.pause_popup.open()
-		try:
-			credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/worldRanking_private.json', gs_scope)
-			file = gspread.authorize(credentials)
-			sheet = file.open('JumpyKitten_Ranking').sheet1
-			isAvailable = self.check_availability(sheet)
-		except:
-			self.pause_popup.dismiss()
-			self.input.text = ''
-			self.failure_popup = LabelPopup('Unable to set username', auto_dismiss=True)
-			return
+	def longProcess(self):
+		credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials/worldRanking_private.json', gs_scope)
+		file = gspread.authorize(credentials)
+		sheet = file.open('JumpyKitten_Ranking').sheet1
+		isAvailable = self.check_availability(sheet)
+		self.pause_popup.dismiss()
 
-		if not isAvailable:
-			return
+		if not isAvailable: return
 
 		new_uname = self.input.text
 		# print('[DEBUG]: Setting username:'+new_uname)
@@ -294,12 +279,26 @@ class UsernamePopup(Popup):
 
 		self.current_uname_label.text = 'Current username: ' + new_uname
 		self.input.text = ''
-		set_popup.dismiss()
 
 		self.done_popup = LabelPopup('New username set', auto_dismiss=True)
 		self.done_popup.open()
+		set_popup.dismiss()
 
 		App.get_running_app().rankPageWorld.reset_ranking()
+
+
+	def set_username(self, instance):
+		# pool = ThreadPool(processes = 1)
+		self.pause_popup = LabelPopup('Checking username availability', auto_dismiss=True)
+		self.pause_popup.open()
+		try:
+			mythread = threading.Thread(target = partial(self.longProcess))
+			mythread.start()
+		except:
+			self.input.text = ''
+			self.failure_popup = LabelPopup('Unable to set username', auto_dismiss=False)
+			self.failure_popup.open()
+			return
 
 
 class LabelPopup(Popup):
@@ -346,7 +345,7 @@ Builder.load_string("""
     	size_hint: (.1, .1)
 		pos_hint: {'x':0.82, 'y':.89}
         background_color: 0, 0, 0, .0
-		on_release: root.reset_ranking()
+		on_release: root.reload_button()
 		Image:
             source: "images/icons/retry.png"
             y: self.parent.y
