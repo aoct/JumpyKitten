@@ -188,6 +188,8 @@ class JumpyKittenGame(Widget):
         if cancel_process:
             self.process.cancel()
         self.mcnay.death()
+        self.remove_widget(self.mcnay)
+        self.add_widget(self.mcnay)
         if platform == 'ios':
             self.banner_ad.hide_ads()
         if platform == 'android':
