@@ -34,18 +34,13 @@ from os.path import join
 
 import time
 
+reviveCoinsPrice = 25
 
 class endGamePopup(Popup):
     score = NumericProperty()
     def __init__(self, score, **kwargs):
         super(Popup, self).__init__(**kwargs)
         self.score = score
-
-class revivePopup(Popup):
-    i_ob = NumericProperty()
-    def __init__(self, i_ob, **kwargs):
-        super(Popup, self).__init__(**kwargs)
-        self.i_ob = i_ob
 
 class JumpyKittenGame(Widget):
     background = ObjectProperty(Background())
@@ -89,6 +84,8 @@ class JumpyKittenGame(Widget):
             self.ads.request_banner()
             self.ads.request_interstitial()
             self.ads.show_banner()
+        self.hasRevived = False
+        self.endgamePopup = endGamePopup(self.score, auto_dismiss=False)
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):
@@ -143,10 +140,8 @@ class JumpyKittenGame(Widget):
                 idx_to_pop = i
             else:
                 if self.mcnay.collision_with_obstacle(o):
-                    if self.collected_coins > 2:
-                        self.revive_chance(i)
-                    else:
-                        self.obstacle_collision()
+                    self.i_obstacle_collided = i
+                    self.obstacle_collision()
         if not idx_to_pop is None:
             self.obstacles.pop(idx_to_pop)
 
@@ -217,19 +212,28 @@ class JumpyKittenGame(Widget):
         filename = join(self.user_data_dir, 'collected_coins.pickle')
         pickle.dump(self.collected_coins, open(filename, 'wb'))
 
-        popup = endGamePopup(self.score, auto_dismiss=False)
-        popup.open()
+        self.endgamePopup.score = self.score
+        if not self.hasRevived and self.score > 30 and self.collected_coins > reviveCoinsPrice:
+            self.endgamePopup.reviveBotton.disabled = False
+        else:
+            self.endgamePopup.reviveBotton.disabled = True
+        self.endgamePopup.open()
 
-    def revive_chance(self, i_ob):
-        self.process.cancel()
-        popup = revivePopup(i_ob, auto_dismiss=False)
-        popup.open()
-
-    def revive(self, i_ob):
+    def revive(self):
+        self.hasRevived = True
+        i_ob = self.i_obstacle_collided
         obstacle = self.obstacles[i_ob]
         self.remove_widget(obstacle)
         self.obstacles.pop(i_ob)
+
+        self.collected_coins -= reviveCoinsPrice
+        filename = join(self.user_data_dir, 'collected_coins.pickle')
+        pickle.dump(self.collected_coins, open(filename, 'wb'))
+
+        self.mcnay.reset()
+        self.process.cancel()
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
+
 
 
 class JumpyKittenPage(Screen):
