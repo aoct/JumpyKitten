@@ -11,7 +11,7 @@ from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.scrollview import ScrollView
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.uix.popup import Popup
 from kivy.app import App
 from kivy.utils import platform
@@ -32,9 +32,9 @@ kittenScore = {'Pink': 0, 'Beige': 200, 'Brown': 500, 'Gray': 1000, 'Gold': 2000
 
 class kittenPage(Screen):
 	background = ObjectProperty(Background())
+	collected_coins = NumericProperty(0)
 	def __init__(self, **kwargs):
 		super(kittenPage, self).__init__(**kwargs)
-
 		self.background.remove_clouds()
 
 		self.master_grid = GridLayout(cols=2,
@@ -57,7 +57,7 @@ class kittenPage(Screen):
 			best_score = max(pickle.load(open(filename_score, 'rb')))
 
 		self.kitten_preview = GridLayout(cols=1, size_hint_x=.8)
-		self.image = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor))
+		self.image = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor), size_hint_x=0.4)
 		self.kitten_preview.add_widget(self.image)
 		self.master_grid.add_widget(self.kitten_preview)
 
@@ -65,7 +65,7 @@ class kittenPage(Screen):
 		self.kittensLayout = AnchorLayout(anchor_x = 'center', anchor_y = 'center')
 		self.kittenLayoutImage = Image(source = 'images/box.png', allow_stretch=True, keep_ratio = False, size_hint_x = 0.92, size_hint_y = 1.02)
 		print(Window.size)
-		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.25*Window.size[1])
+		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.3*Window.size[1])
 		self.kittens.bind(minimum_height=self.kittens.setter('height'))
 
 		for c in ['Pink', 'Beige','Brown', 'Gray', 'Gold']:
@@ -86,54 +86,42 @@ class kittenPage(Screen):
 	    self.background.update_position()
 
 	def addKittensToScroll(self, color):
-		# row = GridLayout(cols=3, size_hint_y=0.35*Window.size[1], col_default_width=0.175*Window.size[0])
-		# box = GridLayout(cols=2, col_default_width=0.1*Window.size[0], col_force_default=True)
-		# coins = Image(source="images/coin_HD.png", size=(0.01*Window.size[0], 0.01*Window.size[0]), allow_stretch = True)
-		# l = Label(text='{}x'.format(kittenValue[color]), size_hint_x=0.2,
-  #       		  halign='left', valign='center',
-		# 	      font_size=40,
-		# 	      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
-		# box.add_widget(l)
-		# box.add_widget(coins)
-		# row.add_widget(box)
-
-		# self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color), size_hint_x = 0.3)
-		# row.add_widget(self.kittenImage)
-		# self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.05*Window.size[0], size_hint_y = 0.05*Window.size[1], group='cat_select')
-		# self.kittenButton.bind(on_press=lambda kittenButton: self.setColor(color))
-		# global kittenColor
-		# if color == kittenColor: 
-		# 	self.kittenButton.state ='down'
-		# 	self.kittenButton.text = 'Selected'
-		# row.add_widget(self.kittenButton)
 		row = self.kittenRowLayout(color)
 		self.kittens.add_widget(row)
 
 	def kittenRowLayout(self, color):
 		a = AnchorLayout(anchor_x = 'center', anchor_y = 'center')
 		i = Image(source ="images/smallBox.png", size_hint_x = 0.9, keep_ratio = False, allow_stretch=True)
-		row = GridLayout(cols=2, size_hint_y=0.35, size_hint_x = 0.8)#col_default_width=0.175*Window.size[0])
-		
+		row = GridLayout(cols=2, size_hint_y=0.4, size_hint_x = 0.8)
+
 		if best_score < kittenScore[color]:
 
-			self.kittenImage = Image(source='images/cats/CAT_FRAME_LOCKED_HD.png', size_hint_x = 0.6)
+			self.kittenImage = Image(source='images/cats/CAT_FRAME_LOCKED_HD.png',
+									 # size_hint_x=0.8,
+									 # size_hint_y=1.99,
+									 allow_stretch=True
+									)
 			row.add_widget(self.kittenImage)
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.4,
 	        		  halign='left', valign='center',
 				      font_size=40,
-				      color=[226/255.0, 158/255.0, 163/255.0, 1], bold=True)
+					  bold=True)
 			row.add_widget(l)
 
 		elif best_score >= kittenScore[color]:
 
-			self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color), size_hint_x = 0.6)
+			self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color),
+									 # size_hint_x=0.8,
+									 # size = (Window.size[0]*0.4, Window.size[1]*0.4),
+									 allow_stretch=True
+									)
 			row.add_widget(self.kittenImage)
 
 			self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.4, group='cat_select')
 			self.kittenButton.bind(on_press=lambda kittenButton: self.setColor(color))
 			global kittenColor
-			if color == kittenColor: 
+			if color == kittenColor:
 				self.kittenButton.state ='down'
 				self.kittenButton.text = 'Selected'
 			row.add_widget(self.kittenButton)
@@ -144,7 +132,7 @@ class kittenPage(Screen):
 
 
 	def setColor(self, color):
-		#this function will open the txt file and save the current cat color		
+		#this function will open the txt file and save the current cat color
 		global kittenColor
 		oldColor = kittenColor
 		kittenColor = color
@@ -161,7 +149,9 @@ class kittenPage(Screen):
 
 
 	def on_enter(self):
-		pass
+		filename = join(self.user_data_dir, 'collected_coins.pickle')
+		if os.path.isfile(filename):
+			self.collected_coins = pickle.load(open(filename, 'rb'))
 
 
 Builder.load_string("""
@@ -182,5 +172,27 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
+    BackgroundFloatLayout:
+        id: coinFloat
+        background_color: 1,0.7,0.7,0.9
+        size_hint: (.09, .065)
+        # width: 0.09*Window.size[0]
+        # height: 0.1*Window.size[1]
+        y: 0.8*Window.size[1]
+        x: 0.03*Window.size[0]
+        Image:
+            source: "images/coin_HD.png"
+            height: 0.9*coinFloat.height
+            width: 0.9*coinFloat.height
+            y: coinFloat.y
+            x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
+        Label:
+            id: coinLabel
+            font_size: 60
+            bold: True
+            text: "{:03.0f} ".format(root.collected_coins)
+            size: self.texture_size
+            x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
+            y: coinFloat.y
 
 	""")

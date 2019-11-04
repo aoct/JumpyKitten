@@ -17,6 +17,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.logger import Logger
 from kivy.utils import platform
+from kivy.uix.floatlayout import FloatLayout
 
 from commercial.kivmob import KivMob, TestIds
 

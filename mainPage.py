@@ -145,6 +145,7 @@ class LabelPopup(Popup):
 
 Builder.load_string("""
 #:import Window kivy.core.window.Window
+
 <mainPage>:
     background: background
     mcnay_image: image
@@ -217,25 +218,28 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-        Image:
-            source: "images/pinkBox.png"
-            height: 0.035*Window.size[0]
-            width: 0.13*Window.size[0]
-            x: 0.065*Window.size[0]
-            center_y: 0.8*Window.size[1]
+    BackgroundFloatLayout:
+        id: coinFloat
+        background_color: 1,0.7,0.7,0.9
+        size_hint: (.09, .065)
+        # width: 0.09*Window.size[0]
+        # height: 0.1*Window.size[1]
+        y: 0.8*Window.size[1]
+        x: 0.03*Window.size[0]
         Image:
             source: "images/coin_HD.png"
-            height: 0.03*Window.size[0]
-            width: 0.03*Window.size[0]
-            center_y: 0.8*Window.size[1]
-            right: 0.12*Window.size[0]
+            height: 0.9*coinFloat.height
+            width: 0.9*coinFloat.height
+            y: coinFloat.y
+            x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
         Label:
+            id: coinLabel
             font_size: 60
-            x: 0.125*Window.size[0]
-            center_y: 0.8*Window.size[1]
-            markup: True
             bold: True
-            text: '[color=e29ea3]: {:.0f}[/color]'.format(root.collected_coins)
+            text: "{:03.0f} ".format(root.collected_coins)
+            size: self.texture_size
+            x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
+            y: coinFloat.y
 
 <LabelPopup>:
 	# title: ''
