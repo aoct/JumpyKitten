@@ -48,9 +48,6 @@ if platform == 'android':
             activity.setContentView(self.webview)
             self.webview.loadUrl('http://www.google.com')
 
-    global webviewer
-    webviewer = Wv()
-
 
 
 class mainPage(Screen):
@@ -78,6 +75,9 @@ class mainPage(Screen):
 
             self.ads.request_interstitial()
             self.ads.request_banner()
+
+            global webviewer
+            webviewer = Wv()
 
         elif platform == 'ios':
             from pyobjus import autoclass
