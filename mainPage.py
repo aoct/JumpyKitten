@@ -14,41 +14,15 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
+import webbrowser
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 from components.background import Background
 
 from os.path import join
 
-from plyer import notification
-
 kittenColor = 'Pink'
 reviewStatus = 'ToDo'
-webviewer = None
-
-if platform == 'android':
-    from jnius import autoclass
-    from android.runnable import run_on_ui_thread
-    from android.runnable import Runnable
-    WebView = autoclass('android.webkit.WebView')
-    WebViewClient = autoclass('android.webkit.WebViewClient')
-    activity = autoclass('org.renpy.android.PythonActivity').mActivity
-
-    class Wv(Widget):
-        def __init__(self, **kwargs):
-            super(Wv, self).__init__(**kwargs)
-            self.webview = WebView(activity)
-            self.wvc = WebViewClient()
-            # Clock.schedule_once(self.create_webview, 0)
-
-        @run_on_ui_thread
-        def create_webview(self, *args):
-            self.webview.getSettings().setJavaScriptEnabled(True)
-            self.webview.setWebViewClient(self.wvc);
-            activity.setContentView(self.webview)
-            self.webview.loadUrl('http://www.google.com')
-
-
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -227,12 +201,10 @@ class ReviewNotification(Popup):
     def reviewGame(self, instance):
         global reviewStatus
         reviewStatus = 'Reviewed'
-        filename_review = join(self.user_data_dir, 'review.pickle')
-        if os.path.isfile(filename_review):
-            reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
-        if platform == 'android':
-            global webviewer
-            Clock.schedule_once(webviewer.create_webview, 0)
+        # filename_review = join(self.user_data_dir, 'review.pickle')
+        # if os.path.isfile(filename_review):
+        #     reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
+        webbrowser.open('https://www.google.com')
 
 
 
