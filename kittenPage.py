@@ -153,6 +153,20 @@ class kittenPage(Screen):
 		if os.path.isfile(filename):
 			self.collected_coins = pickle.load(open(filename, 'rb'))
 
+		filename_score = join(self.user_data_dir, 'score_history.pickle')
+		if os.path.isfile(filename_score):
+			global best_score
+			best_score = max(pickle.load(open(filename_score, 'rb')))
+
+		self.scrollKittens.clear_widgets()
+		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.3*Window.size[1])
+		self.kittens.bind(minimum_height=self.kittens.setter('height'))
+
+		for c in ['Pink', 'Beige','Brown', 'Gray', 'Gold']:
+			self.addKittensToScroll(c)
+
+		self.scrollKittens.add_widget(self.kittens)
+
 
 Builder.load_string("""
 <kittenPage>:
