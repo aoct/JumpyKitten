@@ -207,7 +207,8 @@ class ReviewNotification(Popup):
 
 if platform == 'android':
     from jnius import autoclass
-    from android.runnable import run_on_ui_thread
+    # from android.runnable import run_on_ui_thread
+    from android.runnable import Runnable
     WebView = autoclass('android.webkit.WebView')
     WebViewClient = autoclass('android.webkit.WebViewClient')
     activity = autoclass('org.renpy.android.PythonActivity').mActivity
@@ -218,7 +219,11 @@ if platform == 'android':
             self.url = url
             Clock.schedule_once(self.create_webview, 0)
 
-        @run_on_ui_thread
+        def run_ui_thread(f, *args, **kwargs):
+            # args/kwargs to runnable was a bug, fixed in master
+            Runnable(create_webview)(args, kwargs)
+
+        # @run_on_ui_thread
         def create_webview(self, *args):
             webview = WebView(activity)
             webview.getSettings().setJavaScriptEnabled(True)
