@@ -173,17 +173,17 @@ class ReviewNotification(Popup):
         self.title_size = '40sp'
         self.separator_color = 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
         general_layout = GridLayout(cols = 1)
-        text_label = Label(text = 'Did you enjoy the game?\nGive us a Review', font_size = 20)
+        text_label = Label(text = 'Did you enjoy the game?\nGive us a Review', font_size = 60, halign='center', valign='middle')
 
-        reviewButton = Button(text = 'Write a review')
-        reviewButton.background_color = 1, 1, 1, 1. 
+        reviewButton = Button(text = 'Write a review now', bold=True)
+        reviewButton.background_color = 0, 0, 0, 1.
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Ask me later')
+        cancelButton = Button(text = 'Ask me again later', bold=True)
         cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
-        neverButton = Button(text = 'Do not show again')
+        neverButton = Button(text = 'Do not show again', bold=True)
         neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
