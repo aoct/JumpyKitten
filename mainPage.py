@@ -22,7 +22,7 @@ from components.background import Background
 from os.path import join
 
 kittenColor = 'Pink'
-reviewStatus = 'ToDo'
+reviewStatus = [0, 3]
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -104,8 +104,15 @@ class mainPage(Screen):
         if os.path.isfile(filename):
             self.collected_coins = pickle.load(open(filename, 'rb'))
 
+        filename = join(self.user_data_dir, 'review.pickle')
+        if os.path.isfile(filename):
+            global reviewStatus
+            reviewStatus = pickle.load(open(filename, 'rb'))
         global reviewStatus
-        if reviewStatus == 'ToDo': self.reviewNotification = ReviewNotification()
+        reviewStatus[0] += 1
+        pickle.dump(reviewStatus, open(filename, 'wb'))
+        if reviewStatus[0]%reviewStatus[1] == 0:
+            self.reviewNotification = ReviewNotification(auto_dismiss=True)
 
     def on_leave(self):
         if platform == 'ios':
@@ -189,19 +196,18 @@ class ReviewNotification(Popup):
 
     def doNotShowAgain(self, instance):
         global reviewStatus
-        reviewStatus = 'Never'
-        filename_review = join(self.user_data_dir, 'review.pickle')
-        if os.path.isfile(filename_review):
-            reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
+        reviewStatus[1] *= 3
+        filename = join(self.user_data_dir, 'review.pickle')
+        pickle.dump(reviewStatus, open(filename, 'wb'))
         self.dismiss()
 
     def reviewGame(self, instance):
         global reviewStatus
-        reviewStatus = 'Reviewed'
-        # filename_review = join(self.user_data_dir, 'review.pickle')
-        # if os.path.isfile(filename_review):
-        #     reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
-        webbrowser.open('https://www.google.com')
+        reviewStatus = [0, 500]
+        filename = join(self.user_data_dir, 'review.pickle')
+        pickle.dump(reviewStatus, open(filename, 'wb'))
+        self.dismiss()
+        webbrowser.open('https://play.google.com/store/apps/details?id=org.aoct.jumpykitten.jumpykitten')
 
 
 
