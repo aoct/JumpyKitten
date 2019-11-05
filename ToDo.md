@@ -1,8 +1,7 @@
 Version 1 - (7 days from now):
 2. Graphics:
 	- Presplash - put AOCT logo
-
-
+	
 Version 2 - (7 days from Version 1):
 2. In app purchases:
 	- Add in app purchases (no ads version of the game)
