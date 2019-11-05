@@ -122,7 +122,7 @@ class kittenPage(Screen):
 					button.text = 'Selected'
 			else:
 				button = Button(text='Buy', size_hint_x = 0.5)
-				button.bind(on_release=lambda kittenButton: self.buyCat(color))
+				button.bind(on_release=lambda kittenButton: self.openBuyCatPopup(color))
 
 			row.add_widget(button)
 
@@ -148,8 +148,10 @@ class kittenPage(Screen):
 				if i.children[0].children[0].state == 'down': i.children[0].children[0].text = 'Selected'
 				else: i.children[0].children[0].text = 'Select'
 
-	def buyCat(self, color):
+	def openBuyCatPopup(self, color):
 		print('[DEBUG]: buy color:', color)
+		self.buy_popup = BuyKittenPopup(color)
+		self.buy_popup.open()
 
 	def on_enter(self):
 		filename = join(self.user_data_dir, 'collected_coins.pickle')
@@ -166,7 +168,7 @@ class kittenPage(Screen):
 			global kittenOwned
 			kittenOwned = max(pickle.load(open(filename, 'rb')))
 		else:
-			global kittenOwned
+			kittenOwned = ['Pink']
 			pickle.dump(kittenOwned, open(filename, 'wb'))
 
 
@@ -181,10 +183,24 @@ class kittenPage(Screen):
 
 
 def BuyKittenPopup(Popup):
-	def __init__(self, **kwargs):
+	def __init__(self, color, **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
-		self.
+		general_layout = GridLayout(cols = 2)
+		self.title= 'Cost: ' + kittenPrice[color]
+
+		if self.collected_coins >= kittenPrice[color]:
+			buy_button = Button(source ='images/icons/tick.png')
+			buy_button.bind(on_release = self.buy_action)
+		else:
+			buy_button = Button(source = 'images/icons/tick_transparent.png')
+		
+		cancel_button = Button(source = 'images/icons/cancel.png')
+		cancel_button.bind(on_release = self.dismiss())
+
+		general_layout.add_widget(buy_button)
+		general_layout.add_widget(cancel_button)
+		self.add_widget(general_layout)
 
 
 Builder.load_string("""
@@ -227,5 +243,13 @@ Builder.load_string("""
             size: self.texture_size
             x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
             y: coinFloat.y
+
+<BuyKittenPopup>:
+	size_hint: (0.36, 0.45)
+	pos_hint: {'x': 0.32, 'y': 0.45}
+    background_color: 0, 0, 0, .0
+	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	title_size: '20sp'
+
 
 	""")
