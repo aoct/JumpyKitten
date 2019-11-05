@@ -27,7 +27,7 @@ class infoPage(Screen):
 		self.LayoutImage = Image(source = 'images/box.png', allow_stretch=True, keep_ratio = False, size_hint_x = .85, size_hint_y = 1.)
 		self.instructions_grid = GridLayout(cols=1, size_hint=(.5, .7))
 		self.instruction_title = Label(text='Gaming Instructions', halign='center', bold=True, font_size = 100)
-		self.instruction_layout = Label(text=' 1. Tap the screen to make Rose jump \n 2.Double tap to overcome hardest obstacles \n 3. Avoid obstacles (trees, rocks, birds) during run \n 4. Collect coins for extra lives \n 5. Achieve high scores to unlock new kittens \n 6. Use coins to buy new kittens', font_size= 50)
+		self.instruction_layout = Label(text=' 1. Tap the screen to make Rose jump \n 2. Double tap to overcome hardest obstacles \n 3. Avoid obstacles (trees, rocks, birds) during run \n 4. Collect coins for extra lives \n 5. Achieve high scores to unlock new kittens \n 6. Use coins to buy new kittens', font_size= 50)
 		self.instructions_grid.add_widget(self.instruction_title)
 		self.instructions_grid.add_widget(self.instruction_layout)
 		self.instructions_anchor.add_widget(self.LayoutImage)

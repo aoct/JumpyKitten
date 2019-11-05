@@ -119,7 +119,7 @@ class kittenPage(Screen):
 			row.add_widget(self.kittenImage)
 
 			self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.4, group='cat_select')
-			self.kittenButton.bind(on_press=lambda kittenButton: self.setColor(color))
+			self.kittenButton.bind(on_release=lambda kittenButton: self.setColor(color))
 			global kittenColor
 			if color == kittenColor:
 				self.kittenButton.state ='down'
@@ -143,9 +143,9 @@ class kittenPage(Screen):
 		self.image.reload()
 
 		for i in App.get_running_app().kittenPage.kittens.children:
-			if i.children[0].__class__ == ToggleButton:
-				if i.children[0].state == 'down': i.children[0].text = 'Selected'
-				else: i.children[0].text = 'Select'
+			if i.children[0].children[0].__class__ == ToggleButton:
+				if i.children[0].children[0].state == 'down': i.children[0].children[0].text = 'Selected'
+				else: i.children[0].children[0].text = 'Select'
 
 
 	def on_enter(self):
