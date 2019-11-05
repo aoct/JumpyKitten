@@ -185,18 +185,21 @@ class rankPageWorld(Screen):
 					self.addUserToScroll(str(i_rank), uname, str(score), itsMe=True)
 					break
 
+	def reload_ranking(self):
+		self.reset_ranking()
+		self.pause_popup.dismiss()
+
 	def reload_button(self):
 		self.pause_popup = LabelPopup('Loading Ranking ...', auto_dismiss=True)
 		self.pause_popup.open()
 		try:
-			mythread = threading.Thread(target = partial(self.reset_ranking))
+			mythread = threading.Thread(target = partial(self.reload_ranking))
 			mythread.start()
 		except:
 			self.input.text = ''
 			self.failure_popup = LabelPopup('Unable to reset ranking', auto_dismiss=False)
 			self.failure_popup.open()
 			return
-		self.pause_popup.dismiss()
 
 
 class UsernamePopup(Popup):
