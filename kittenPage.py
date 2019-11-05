@@ -162,6 +162,13 @@ class kittenPage(Screen):
 		self.scrollKittens.add_widget(self.kittens)
 
 
+def BuyKittenPopup(Popup):
+	def __init__(self, **kwargs):
+		super(Popup, self).__init__(**kwargs)
+
+		self.
+
+
 Builder.load_string("""
 <kittenPage>:
 	background: background
