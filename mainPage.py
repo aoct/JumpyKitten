@@ -100,10 +100,10 @@ class mainPage(Screen):
         if os.path.isfile(filename):
             reviewStatus = pickle.load(open(filename, 'rb'))
         else:
-            reviewStatus = [0, 3]
+            reviewStatus = [0, 30]
         reviewStatus[0] += 1
         pickle.dump(reviewStatus, open(filename, 'wb'))
-        if reviewStatus[0]%reviewStatus[1] == 0:
+        if reviewStatus[0] == 5 or reviewStatus[0]%reviewStatus[1] == 0:
             self.reviewNotification = ReviewNotification(auto_dismiss=True)
 
     def on_leave(self):
@@ -161,30 +161,29 @@ class ReviewNotification(Popup):
     def __init__(self, **kwargs):
         super(Popup, self).__init__(**kwargs)
 
-        self.title = 'Game Review'
+        self.title = 'Are you enjoying the game?\nGive us a feedback'
         self.title_size = '40sp'
-        self.separator_color = 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-        general_layout = GridLayout(cols = 1)
-        text_label = Label(text = 'Did you enjoy the game?\nGive us a Review', font_size = 60, halign='center', valign='middle')
+        self.title_align = 'center'
+        self.separator_height = 0
+        general_layout = GridLayout(cols = 1, spacing= [10,10])
 
-        reviewButton = Button(text = 'Write a review now', bold=True)
+        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=60)
         reviewButton.background_color = 0, 0, 0, 1.
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Ask me again later', bold=True)
+        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=60)
         cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
-        neverButton = Button(text = 'Do not show again', bold=True)
+        neverButton = Button(text = 'Do not ask again', bold=True, font_size=60)
         neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
-        general_layout.add_widget(text_label)
         general_layout.add_widget(reviewButton)
         general_layout.add_widget(cancelButton)
         general_layout.add_widget(neverButton)
         self.add_widget(general_layout)
-        self.size_hint = (0.5, 0.6)
+        self.size_hint = (0.5, 0.7)
         self.open()
 
         if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir

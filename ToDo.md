@@ -1,10 +1,6 @@
 Version 1 - (7 days from now):
 2. Graphics:
 	- Presplash - put AOCT logo
-3. Fix page to change cats:
-	- Scroll change cat and manage coins
-4. Add link to review page in play store:
-	- Notification after N games
 
 Version 2 - (7 days from Version 1):
 2. In app purchases:
