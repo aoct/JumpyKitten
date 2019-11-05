@@ -69,7 +69,7 @@ class mainPage(Screen):
             kittenColor = pickle.load(open(filename, 'rb'))
 
         filename_review = join(self.user_data_dir, 'review.pickle')
-        global reviewStatus 
+        global reviewStatus
         if os.path.isfile(filename_review):
             reviewStatus = pickle.load(open(filename_review, 'rb'))
         else:
@@ -203,28 +203,29 @@ class ReviewNotification(Popup):
         if os.path.isfile(filename_review):
             reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
         if platform == 'android':
-            WV()
+            Wv('http://www.google.com')
 
 if platform == 'android':
     from jnius import autoclass
     from android.runnable import run_on_ui_thread
-    WebView = autoclass('android.webkit.WebView')                                                   
-    WebViewClient = autoclass('android.webkit.WebViewClient')                                       
-    activity = autoclass('org.renpy.android.PythonActivity').mActivity 
+    WebView = autoclass('android.webkit.WebView')
+    WebViewClient = autoclass('android.webkit.WebViewClient')
+    activity = autoclass('org.renpy.android.PythonActivity').mActivity
 
     class Wv(Widget):
-        def __init__(self, **kwargs):
+        def __init__(self, url, **kwargs):
             super(Wv, self).__init__(**kwargs)
+            self.url = url
             Clock.schedule_once(self.create_webview, 0)
 
         @run_on_ui_thread
         def create_webview(self, *args):
-            webview = WebView(activity)                                                             
-            webview.getSettings().setJavaScriptEnabled(True)                                        
-            wvc = WebViewClient();                                                                  
-            webview.setWebViewClient(wvc);                                                          
-            activity.setContentView(webview)                                                        
-            webview.loadUrl('http://www.google.com')
+            webview = WebView(activity)
+            webview.getSettings().setJavaScriptEnabled(True)
+            wvc = WebViewClient();
+            webview.setWebViewClient(wvc);
+            activity.setContentView(webview)
+            webview.loadUrl(self.url)
 
 
 
