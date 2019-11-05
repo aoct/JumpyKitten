@@ -219,6 +219,7 @@ if platform == 'android':
             self.url = url
             Clock.schedule_once(self.create_webview, 0)
 
+        @Override
         def run_ui_thread(f, *args, **kwargs):
             # args/kwargs to runnable was a bug, fixed in master
             Runnable(create_webview)(args, kwargs)
