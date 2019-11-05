@@ -100,7 +100,7 @@ class kittenPage(Screen):
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
 	        		  halign='center', valign='center',
-				      font_size=40,
+				      font_size=50,
 					  bold=True)
 			row.add_widget(l)
 
@@ -108,7 +108,6 @@ class kittenPage(Screen):
 
 			img = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color),
 									 size_hint_x=0.5, size_hint_y=0.75,
-									 # size = (Window.size[0]*0.4, Window.size[1]*0.4),
 									 allow_stretch=True
 									)
 			row.add_widget(img)
@@ -121,7 +120,8 @@ class kittenPage(Screen):
 					button.state ='down'
 					button.text = 'Selected'
 			else:
-				button = Button(text='Buy', size_hint_x = 0.5)
+				button = Button(text='Buy', size_hint_x = 0.5, background_color=(0, 0, 0, .0))
+				button.associatedKittenColor = color
 				button.bind(on_release=lambda kittenButton: self.openBuyCatPopup(color))
 
 			row.add_widget(button)
@@ -130,7 +130,6 @@ class kittenPage(Screen):
 		a.add_widget(i)
 		a.add_widget(row)
 		return a
-
 
 	def setColor(self, color):
 		#this function will open the txt file and save the current cat color
@@ -143,15 +142,36 @@ class kittenPage(Screen):
 		self.image.source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
 		self.image.reload()
 
-		for i in App.get_running_app().kittenPage.kittens.children:
+		for i in self.kittens.children:
 			if i.children[0].children[0].__class__ == ToggleButton:
 				if i.children[0].children[0].state == 'down': i.children[0].children[0].text = 'Selected'
 				else: i.children[0].children[0].text = 'Select'
 
 	def openBuyCatPopup(self, color):
-		print('[DEBUG]: buy color:', color)
-		self.buy_popup = BuyKittenPopup(color)
-		self.buy_popup.open()
+		self.buyCatPopup = BuyKittenPopup(color, self.collected_coins)
+		self.buyCatPopup.open()
+
+	def buyCat(self, color):
+		self.collected_coins -= kittenPrice[color]
+		filename = join(self.user_data_dir, 'collected_coins.pickle')
+		pickle.dump(self.collected_coins, open(filename, 'wb'))
+
+		global kittenOwned
+		kittenOwned += [color]
+		filename = join(self.user_data_dir, 'owned_kitten.pickle')
+		pickle.dump(kittenOwned, open(filename, 'wb'))
+
+		for i in self.kittens.children:
+			b = i.children[0].children[0]
+			row = i.children[0]
+			if b.__class__ == Button:
+				if b.associatedKittenColor == color:
+					row.remove_widget(b)
+					button = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
+					button.bind(on_release=lambda kittenButton: self.setColor(color))
+					row.add_widget(button)
+
+		self.buyCatPopup.dismiss()
 
 	def on_enter(self):
 		filename = join(self.user_data_dir, 'collected_coins.pickle')
@@ -166,7 +186,7 @@ class kittenPage(Screen):
 		filename = join(self.user_data_dir, 'owned_kitten.pickle')
 		if os.path.isfile(filename):
 			global kittenOwned
-			kittenOwned = max(pickle.load(open(filename, 'rb')))
+			kittenOwned = pickle.load(open(filename, 'rb'))
 		else:
 			kittenOwned = ['Pink']
 			pickle.dump(kittenOwned, open(filename, 'wb'))
@@ -182,25 +202,16 @@ class kittenPage(Screen):
 		self.scrollKittens.add_widget(self.kittens)
 
 
-def BuyKittenPopup(Popup):
-	def __init__(self, color, **kwargs):
+class BuyKittenPopup(Popup):
+	def __init__(self, color, collected_coins, **kwargs):
 		super(Popup, self).__init__(**kwargs)
+		self.title = '{} cat cost: {} coins'.format(color, kittenPrice[color])
+		self.color = color
 
-		general_layout = GridLayout(cols = 2)
-		self.title= 'Cost: ' + kittenPrice[color]
-
-		if self.collected_coins >= kittenPrice[color]:
-			buy_button = Button(source ='images/icons/tick.png')
-			buy_button.bind(on_release = self.buy_action)
-		else:
-			buy_button = Button(source = 'images/icons/tick_transparent.png')
-		
-		cancel_button = Button(source = 'images/icons/cancel.png')
-		cancel_button.bind(on_release = self.dismiss())
-
-		general_layout.add_widget(buy_button)
-		general_layout.add_widget(cancel_button)
-		self.add_widget(general_layout)
+		if collected_coins >= kittenPrice[color]:
+			self.buyBotton.image.source ='images/icons/tick.png'
+			self.buyBotton.disabled = False
+			self.buyBotton.bind(on_release = lambda x: App.get_running_app().kittenPage.buyCat(color))
 
 
 Builder.load_string("""
@@ -245,11 +256,37 @@ Builder.load_string("""
             y: coinFloat.y
 
 <BuyKittenPopup>:
-	size_hint: (0.36, 0.45)
-	pos_hint: {'x': 0.32, 'y': 0.45}
-    background_color: 0, 0, 0, .0
-	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-	title_size: '20sp'
-
-
+	title: 'Cost: '
+	title_align: 'center'
+	title_size: '30sp'
+	size_hint: (0.4, 0.5)
+	pos_hint: {'x': 0.3, 'y': 0.25}
+	separator_height: 0
+	buyBotton: buyBotton
+	GridLayout:
+		cols: 2
+		Button:
+			id: buyBotton
+			image: image
+	    	text: ''
+	        background_color: 0, 0, 0, .0
+			on_release: pass
+			disabled: True
+			Image:
+				id: image
+	            source: "images/icons/tick_transparent.png"
+	            y: self.parent.y
+	            x: self.parent.x
+	            size: self.parent.size
+	            allow_stretch: True
+		Button:
+	    	text: ''
+	        background_color: 0, 0, 0, .0
+			on_release: root.dismiss()
+			Image:
+	            source: "images/icons/close.png"
+	            y: self.parent.y
+	            x: self.parent.x
+	            size: self.parent.size
+	            allow_stretch: True
 	""")
