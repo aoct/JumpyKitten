@@ -24,6 +24,34 @@ from plyer import notification
 
 kittenColor = 'Pink'
 reviewStatus = 'ToDo'
+webviewer = None
+
+if platform == 'android':
+    from jnius import autoclass
+    from android.runnable import run_on_ui_thread
+    from android.runnable import Runnable
+    WebView = autoclass('android.webkit.WebView')
+    WebViewClient = autoclass('android.webkit.WebViewClient')
+    activity = autoclass('org.renpy.android.PythonActivity').mActivity
+
+    class Wv(Widget):
+        def __init__(self, **kwargs):
+            super(Wv, self).__init__(**kwargs)
+            self.webview = WebView(activity)
+            self.wvc = WebViewClient()
+            # Clock.schedule_once(self.create_webview, 0)
+
+        @run_on_ui_thread
+        def create_webview(self, *args):
+            self.webview.getSettings().setJavaScriptEnabled(True)
+            self.webview.setWebViewClient(self.wvc);
+            activity.setContentView(self.webview)
+            self.webview.loadUrl('http://www.google.com')
+
+    global webviewer
+    webviewer = Wv()
+
+
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -203,29 +231,9 @@ class ReviewNotification(Popup):
         if os.path.isfile(filename_review):
             reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
         if platform == 'android':
-            Wv()
+            global webviewer
+            Clock.schedule_once(webviewer.create_webview, 0)
 
-if platform == 'android':
-    from jnius import autoclass
-    from android.runnable import run_on_ui_thread
-    from android.runnable import Runnable
-    WebView = autoclass('android.webkit.WebView')
-    WebViewClient = autoclass('android.webkit.WebViewClient')
-    activity = autoclass('org.renpy.android.PythonActivity').mActivity
-
-    class Wv(Widget):
-        def __init__(self, **kwargs):
-            super(Wv, self).__init__(**kwargs)
-            self.webview = WebView(activity)
-            self.wvc = WebViewClient()
-            Clock.schedule_once(self.create_webview, 0)
-
-        @run_on_ui_thread
-        def create_webview(self, *args):
-            self.webview.getSettings().setJavaScriptEnabled(True)
-            self.webview.setWebViewClient(self.wvc);
-            activity.setContentView(self.webview)
-            self.webview.loadUrl('http://www.google.com')
 
 
 
