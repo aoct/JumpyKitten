@@ -203,35 +203,29 @@ class ReviewNotification(Popup):
         if os.path.isfile(filename_review):
             reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
         if platform == 'android':
-            Wv('http://www.google.com')
+            Wv()
 
 if platform == 'android':
     from jnius import autoclass
-    # from android.runnable import run_on_ui_thread
+    from android.runnable import run_on_ui_thread
     from android.runnable import Runnable
     WebView = autoclass('android.webkit.WebView')
     WebViewClient = autoclass('android.webkit.WebViewClient')
     activity = autoclass('org.renpy.android.PythonActivity').mActivity
 
     class Wv(Widget):
-        def __init__(self, url, **kwargs):
+        def __init__(self, **kwargs):
             super(Wv, self).__init__(**kwargs)
-            self.url = url
+            self.webview = WebView(activity)
+            self.wvc = WebViewClient()
             Clock.schedule_once(self.create_webview, 0)
 
-        @Override
-        def run_ui_thread(f, *args, **kwargs):
-            # args/kwargs to runnable was a bug, fixed in master
-            Runnable(create_webview)(args, kwargs)
-
-        # @run_on_ui_thread
+        @run_on_ui_thread
         def create_webview(self, *args):
-            webview = WebView(activity)
-            webview.getSettings().setJavaScriptEnabled(True)
-            wvc = WebViewClient();
-            webview.setWebViewClient(wvc);
-            activity.setContentView(webview)
-            webview.loadUrl(self.url)
+            self.webview.getSettings().setJavaScriptEnabled(True)
+            self.webview.setWebViewClient(self.wvc);
+            activity.setContentView(self.webview)
+            self.webview.loadUrl('http://www.google.com')
 
 
 
