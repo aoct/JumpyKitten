@@ -92,19 +92,19 @@ class kittenPage(Screen):
 	def kittenRowLayout(self, color):
 		a = AnchorLayout(anchor_x = 'center', anchor_y = 'center')
 		i = Image(source ="images/smallBox.png", size_hint_x = 0.9, keep_ratio = False, allow_stretch=True)
-		row = GridLayout(cols=2, size_hint_y=0.4, size_hint_x = 0.8)
+		row = GridLayout(cols=2, size_hint_y=0.8, size_hint_x = 0.8)
+		box = BoxLayout(orientation = 'horizontal')
 
 		if best_score < kittenScore[color]:
 
 			self.kittenImage = Image(source='images/cats/CAT_FRAME_LOCKED_HD.png',
-									 # size_hint_x=0.8,
-									 # size_hint_y=1.99,
+									 size_hint_x=0.5, size_hint_y=0.75,
 									 allow_stretch=True
 									)
 			row.add_widget(self.kittenImage)
 
-			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.4,
-	        		  halign='left', valign='center',
+			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
+	        		  halign='center', valign='center',
 				      font_size=40,
 					  bold=True)
 			row.add_widget(l)
@@ -112,13 +112,13 @@ class kittenPage(Screen):
 		elif best_score >= kittenScore[color]:
 
 			self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color),
-									 # size_hint_x=0.8,
+									 size_hint_x=0.5, size_hint_y=0.75,
 									 # size = (Window.size[0]*0.4, Window.size[1]*0.4),
 									 allow_stretch=True
 									)
 			row.add_widget(self.kittenImage)
 
-			self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.4, group='cat_select')
+			self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
 			self.kittenButton.bind(on_release=lambda kittenButton: self.setColor(color))
 			global kittenColor
 			if color == kittenColor:
