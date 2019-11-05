@@ -192,16 +192,21 @@ class ReviewNotification(Popup):
         super(Popup, self).__init__(**kwargs)
 
         self.title = 'Game Review'
+        self.title_size = '40sp'
+        self.separator_color = 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
         general_layout = GridLayout(cols = 1)
-        text_label = Label(text = 'Did you enjoy the game?\nWrite an app review', font_size = 20)
+        text_label = Label(text = 'Did you enjoy the game?\nGive us a Review', font_size = 20)
 
-        reviewButton = Button(text = 'review')
+        reviewButton = Button(text = 'Write a review')
+        reviewButton.background_color = 1, 1, 1, 1. 
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Later')
+        cancelButton = Button(text = 'Ask me later')
+        cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
         neverButton = Button(text = 'Do not show again')
+        neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
         general_layout.add_widget(text_label)
@@ -209,7 +214,7 @@ class ReviewNotification(Popup):
         general_layout.add_widget(cancelButton)
         general_layout.add_widget(neverButton)
         self.add_widget(general_layout)
-
+        self.size_hint = (0.5, 0.6)
         self.open()
 
         if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
