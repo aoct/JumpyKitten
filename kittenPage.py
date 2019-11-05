@@ -26,6 +26,7 @@ import plyer
 
 kittenColor = 'Pink'
 best_score = 0
+kittenOwned = ['Pink']
 
 kittenValue = {'Pink': 0, 'Beige': 50,'Brown': 100, 'Gray': 250, 'Gold': 500}
 kittenScore = {'Pink': 0, 'Beige': 200, 'Brown': 500, 'Gray': 1000, 'Gold': 2000}
@@ -91,11 +92,11 @@ class kittenPage(Screen):
 
 		if best_score < kittenScore[color]:
 
-			self.kittenImage = Image(source='images/cats/CAT_FRAME_LOCKED_HD.png',
+			img = Image(source='images/cats/CAT_FRAME_LOCKED_HD.png',
 									 size_hint_x=0.5, size_hint_y=0.75,
 									 allow_stretch=True
 									)
-			row.add_widget(self.kittenImage)
+			row.add_widget(img)
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
 	        		  halign='center', valign='center',
@@ -105,20 +106,26 @@ class kittenPage(Screen):
 
 		elif best_score >= kittenScore[color]:
 
-			self.kittenImage = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color),
+			img = Image(source='images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(color),
 									 size_hint_x=0.5, size_hint_y=0.75,
 									 # size = (Window.size[0]*0.4, Window.size[1]*0.4),
 									 allow_stretch=True
 									)
-			row.add_widget(self.kittenImage)
+			row.add_widget(img)
 
-			self.kittenButton = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
-			self.kittenButton.bind(on_release=lambda kittenButton: self.setColor(color))
-			global kittenColor
-			if color == kittenColor:
-				self.kittenButton.state ='down'
-				self.kittenButton.text = 'Selected'
-			row.add_widget(self.kittenButton)
+			if color in kittenOwned:
+				button = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
+				button.bind(on_release=lambda kittenButton: self.setColor(color))
+				global kittenColor
+				if color == kittenColor:
+					button.state ='down'
+					button.text = 'Selected'
+			else:
+				button = Button(text='Buy', size_hint_x = 0.5)
+				button.bind(on_release=lambda kittenButton: self.buyCat(color))
+
+			row.add_widget(button)
+
 
 		a.add_widget(i)
 		a.add_widget(row)
@@ -141,6 +148,8 @@ class kittenPage(Screen):
 				if i.children[0].children[0].state == 'down': i.children[0].children[0].text = 'Selected'
 				else: i.children[0].children[0].text = 'Select'
 
+	def buyCat(self, color):
+		print('[DEBUG]: buy color:', color)
 
 	def on_enter(self):
 		filename = join(self.user_data_dir, 'collected_coins.pickle')
@@ -151,6 +160,15 @@ class kittenPage(Screen):
 		if os.path.isfile(filename_score):
 			global best_score
 			best_score = max(pickle.load(open(filename_score, 'rb')))
+
+		filename = join(self.user_data_dir, 'owned_kitten.pickle')
+		if os.path.isfile(filename):
+			global kittenOwned
+			kittenOwned = max(pickle.load(open(filename, 'rb')))
+		else:
+			global kittenOwned
+			pickle.dump(kittenOwned, open(filename, 'wb'))
+
 
 		self.scrollKittens.clear_widgets()
 		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.3*Window.size[1])
