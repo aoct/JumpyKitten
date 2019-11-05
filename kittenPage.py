@@ -113,16 +113,14 @@ class kittenPage(Screen):
 			row.add_widget(img)
 
 			if color in kittenOwned:
-				button = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
-				button.bind(on_release=lambda kittenButton: self.setColor(color))
+				button = ToggleButtonWithImage('images/icons/blank.png',lambda kittenButton: self.setColor(color), 'cat_select')
 				global kittenColor
 				if color == kittenColor:
 					button.state ='down'
-					button.text = 'Selected'
+					button.image.source = 'images/icons/tick_green.png'
 			else:
-				button = Button(text='Buy', size_hint_x = 0.5, background_color=(0, 0, 0, .0))
+				button = ButtonWithImage("images/icons/buy_{}.png".format(kittenPrice[color]), lambda kittenButton: self.openBuyCatPopup(color))
 				button.associatedKittenColor = color
-				button.bind(on_release=lambda kittenButton: self.openBuyCatPopup(color))
 
 			row.add_widget(button)
 
@@ -136,6 +134,9 @@ class kittenPage(Screen):
 		global kittenColor
 		oldColor = kittenColor
 		kittenColor = color
+
+		if oldColor == color: return
+
 		filename = join(self.user_data_dir, 'kittenColor.pickle')
 		pickle.dump(color, open(filename, 'wb'))
 
@@ -143,9 +144,10 @@ class kittenPage(Screen):
 		self.image.reload()
 
 		for i in self.kittens.children:
-			if i.children[0].children[0].__class__ == ToggleButton:
-				if i.children[0].children[0].state == 'down': i.children[0].children[0].text = 'Selected'
-				else: i.children[0].children[0].text = 'Select'
+			# print(i.children[0].children[0].__class__)
+			if i.children[0].children[0].__class__ == ToggleButtonWithImage:
+				if i.children[0].children[0].state == 'down': i.children[0].children[0].image.source = 'images/icons/tick_green.png'
+				else: i.children[0].children[0].image.source = 'images/icons/blank.png'
 
 	def openBuyCatPopup(self, color):
 		self.buyCatPopup = BuyKittenPopup(color, self.collected_coins)
@@ -164,11 +166,10 @@ class kittenPage(Screen):
 		for i in self.kittens.children:
 			b = i.children[0].children[0]
 			row = i.children[0]
-			if b.__class__ == Button:
+			if b.__class__ == ButtonWithImage:
 				if b.associatedKittenColor == color:
 					row.remove_widget(b)
-					button = ToggleButton(text='Select', size_hint_x = 0.5, group='cat_select')
-					button.bind(on_release=lambda kittenButton: self.setColor(color))
+					button = ToggleButtonWithImage('images/icons/blank.png', lambda kittenButton: self.setColor(color), 'cat_select')
 					row.add_widget(button)
 
 		self.buyCatPopup.dismiss()
@@ -212,6 +213,21 @@ class BuyKittenPopup(Popup):
 			self.buyBotton.image.source ='images/icons/tick.png'
 			self.buyBotton.disabled = False
 			self.buyBotton.bind(on_release = lambda x: App.get_running_app().kittenPage.buyCat(color))
+
+class ButtonWithImage(Button):
+	def __init__(self, imageSource, on_release_func, **kwargs):
+		super(Button, self).__init__(**kwargs)
+
+		self.image.source = imageSource
+		self.bind(on_release = on_release_func)
+
+class ToggleButtonWithImage(ToggleButton):
+	def __init__(self, imageSource, on_release_func, group, **kwargs):
+		super(ToggleButton, self).__init__(**kwargs)
+
+		self.image.source = imageSource
+		self.bind(on_release = on_release_func)
+		self.group = group
 
 
 Builder.load_string("""
@@ -289,4 +305,30 @@ Builder.load_string("""
 	            x: self.parent.x
 	            size: self.parent.size
 	            allow_stretch: True
+
+<ButtonWithImage>:
+	text : 'Buy'
+	size_hint_x: 0.5
+	image: image
+	background_color: 0, 0, 0, .0
+	Image:
+		id: image
+		source : 'images/icons/blank.png'
+		y: self.parent.y
+        x: self.parent.x
+        size: self.parent.size
+        allow_stretch: True
+
+<ToggleButtonWithImage>:
+	size_hint_x: 0.5
+	image: image
+	background_color: 0, 0, 0, .0
+	Image:
+		id: image
+		source : 'images/icons/blank.png'
+		y: self.parent.y
+        x: self.parent.x
+        size: self.parent.size
+        allow_stretch: True
+
 	""")
