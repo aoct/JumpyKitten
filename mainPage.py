@@ -81,9 +81,10 @@ class mainPage(Screen):
                 self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
         if platform == 'android':
-            if uniform(0,1) < 0.5:
+            if uniform(0,1) < 0.3:
                 self.ads.show_interstitial()
-            self.ads.show_banner()
+            else:
+                self.ads.show_banner()
 
         filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
@@ -147,15 +148,16 @@ class mainPage(Screen):
                 self.popup = LabelPopup('Reward video not available now.', auto_dismiss=True)
                 self.popup.open()
         else:
-            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+            self.popup = LabelPopup('Reward video not available.', auto_dismiss=True)
             self.popup.open()
 
 class LabelPopup(Popup):
-	def __init__(self, text, **kwargs):
-		super(Popup, self).__init__(**kwargs)
-
-		l = Label(text=text)
-		self.add_widget(l)
+    def __init__(self, text, **kwargs):
+        super(Popup, self).__init__(**kwargs)
+        self.separator_height = 0
+        self.title_size = '0sp'
+        l = Label(text=text, font_size=50)
+        self.add_widget(l)
 
 class ReviewNotification(Popup):
     def __init__(self, **kwargs):

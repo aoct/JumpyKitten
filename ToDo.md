@@ -6,7 +6,6 @@ Version 2 - (7 days from Version 1):
 2. In app purchases:
 	- Add in app purchases (no ads version of the game)
 1. Gameplay:
-	- Add reward like candies or kitten treats. Gather them --> Potentially: use reward ads also to unlock these candy
 	- double jump recharge
 	- Add jump height dependence with press time
 2. Graphics:
