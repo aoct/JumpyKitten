@@ -29,6 +29,7 @@ best_score = 0
 
 kittenValue = {'Pink': 0, 'Beige': 50,'Brown': 100, 'Gray': 250, 'Gold': 500}
 kittenScore = {'Pink': 0, 'Beige': 200, 'Brown': 500, 'Gray': 1000, 'Gold': 2000}
+kittenPrice = {'Pink': 0, 'Beige': 100, 'Brown': 200, 'Gray': 400, 'Gold': 800}
 
 class kittenPage(Screen):
 	background = ObjectProperty(Background())
@@ -64,15 +65,8 @@ class kittenPage(Screen):
 
 		self.kittensLayout = AnchorLayout(anchor_x = 'center', anchor_y = 'center')
 		self.kittenLayoutImage = Image(source = 'images/box.png', allow_stretch=True, keep_ratio = False, size_hint_x = 0.92, size_hint_y = 1.02)
-		print(Window.size)
-		self.kittens = GridLayout(cols=1, spacing=0.02*Window.size[1], size_hint_y=None, row_force_default=False, row_default_height=0.3*Window.size[1])
-		self.kittens.bind(minimum_height=self.kittens.setter('height'))
-
-		for c in ['Pink', 'Beige','Brown', 'Gray', 'Gold']:
-			self.addKittensToScroll(c)
 
 		self.scrollKittens = ScrollView(size=(.3,.9))
-		self.scrollKittens.add_widget(self.kittens)
 		self.kittensLayout.add_widget(self.kittenLayoutImage)
 		self.kittensLayout.add_widget(self.scrollKittens)
 		self.master_grid.add_widget(self.kittensLayout)
