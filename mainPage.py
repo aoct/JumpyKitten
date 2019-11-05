@@ -22,7 +22,6 @@ from components.background import Background
 from os.path import join
 
 kittenColor = 'Pink'
-reviewStatus = [0, 3]
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -67,13 +66,6 @@ class mainPage(Screen):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))
 
-        filename_review = join(self.user_data_dir, 'review.pickle')
-        global reviewStatus
-        if os.path.isfile(filename_review):
-            reviewStatus = pickle.load(open(filename_review, 'rb'))
-        else:
-            pickle.dump(reviewStatus, open(filename_review, 'wb'))
-
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         self.collected_coins = 0
 
@@ -106,9 +98,9 @@ class mainPage(Screen):
 
         filename = join(self.user_data_dir, 'review.pickle')
         if os.path.isfile(filename):
-            global reviewStatus
             reviewStatus = pickle.load(open(filename, 'rb'))
-        global reviewStatus
+        else:
+            reviewStatus = [0, 3]
         reviewStatus[0] += 1
         pickle.dump(reviewStatus, open(filename, 'wb'))
         if reviewStatus[0]%reviewStatus[1] == 0:
@@ -197,17 +189,16 @@ class ReviewNotification(Popup):
 
         if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
         else: self.user_data_dir = 'data'
+        self.reviewStatus = pickle.load(open(join(self.user_data_dir, 'review.pickle'), 'rb'))
 
 
     def doNotShowAgain(self, instance):
-        global reviewStatus
-        reviewStatus[1] *= 3
+        self.reviewStatus[1] *= 3
         filename = join(self.user_data_dir, 'review.pickle')
-        pickle.dump(reviewStatus, open(filename, 'wb'))
+        pickle.dump(self.reviewStatus, open(filename, 'wb'))
         self.dismiss()
 
     def reviewGame(self, instance):
-        global reviewStatus
         reviewStatus = [0, 500]
         filename = join(self.user_data_dir, 'review.pickle')
         pickle.dump(reviewStatus, open(filename, 'wb'))
