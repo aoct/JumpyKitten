@@ -29,7 +29,7 @@ class Coin(Widget):
 Builder.load_string("""
 <Coin>:
     Image:
-        source: "images/coin_HD.png"
+        source: "images/COIN_HD.png"
         center_x: root.center_x
         y: root.y
         size: root.width, root.height

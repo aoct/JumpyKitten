@@ -243,7 +243,7 @@ Builder.load_string("""
         y: 0.8*Window.size[1]
         x: 0.03*Window.size[0]
         Image:
-            source: "images/coin_HD.png"
+            source: "images/COIN_HD.png"
             height: 0.9*coinFloat.height
             width: 0.9*coinFloat.height
             y: coinFloat.y
