@@ -50,9 +50,6 @@ class mainPage(Screen):
             self.ads.request_interstitial()
             self.ads.request_banner()
 
-            global webviewer
-            webviewer = Wv()
-
         elif platform == 'ios':
             from pyobjus import autoclass
             self.banner_ad = autoclass('adSwitchBanner').alloc().init()
