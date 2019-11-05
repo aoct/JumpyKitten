@@ -12,6 +12,8 @@ from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.widget import Widget
+from kivy.clock import Clock
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 from components.background import Background
@@ -21,6 +23,7 @@ from os.path import join
 from plyer import notification
 
 kittenColor = 'Pink'
+reviewStatus = 'ToDo'
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
@@ -65,6 +68,13 @@ class mainPage(Screen):
             global kittenColor
             kittenColor = pickle.load(open(filename, 'rb'))
 
+        filename_review = join(self.user_data_dir, 'review.pickle')
+        global reviewStatus 
+        if os.path.isfile(filename_review):
+            reviewStatus = pickle.load(open(filename_review, 'rb'))
+        else:
+            pickle.dump(reviewStatus, open(filename_review, 'wb'))
+
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         self.collected_coins = 0
 
@@ -94,6 +104,9 @@ class mainPage(Screen):
         filename = join(self.user_data_dir, 'collected_coins.pickle')
         if os.path.isfile(filename):
             self.collected_coins = pickle.load(open(filename, 'rb'))
+
+        global reviewStatus
+        if reviewStatus == 'ToDo': self.reviewNotification = ReviewNotification()
 
     def on_leave(self):
         if platform == 'ios':
@@ -146,17 +159,73 @@ class LabelPopup(Popup):
 		l = Label(text=text)
 		self.add_widget(l)
 
-# class ReviewNotification(Popup):
-#     def __init__(self, text, **kwargs):
-#         super(Popup, self).__init__(**kwargs)
+class ReviewNotification(Popup):
+    def __init__(self, **kwargs):
+        super(Popup, self).__init__(**kwargs)
 
-#         title = 'self.ids.notification_title.text'
-#         message = 'self.ids.notification_text.text'
-#         ticker = 'self.ids.ticker_text.text'
+        self.title = 'Game Review'
+        general_layout = GridLayout(cols = 1)
+        text_label = Label(text = 'Did you enjoy the game?\nWrite an app review', font_size = 20)
 
-#         kwargs = {'title': title, 'message': message, 'ticker': ticker}
+        reviewButton = Button(text = 'review')
+        reviewButton.bind(on_release = self.reviewGame)
 
-#         notification.notify(**kwargs)
+        cancelButton = Button(text = 'Later')
+        cancelButton.bind(on_release = self.dismiss)
+
+        neverButton = Button(text = 'Do not show again')
+        neverButton.bind(on_release = self.doNotShowAgain)
+
+        general_layout.add_widget(text_label)
+        general_layout.add_widget(reviewButton)
+        general_layout.add_widget(cancelButton)
+        general_layout.add_widget(neverButton)
+        self.add_widget(general_layout)
+
+        self.open()
+
+        if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
+        else: self.user_data_dir = 'data'
+
+
+    def doNotShowAgain(self, instance):
+        global reviewStatus
+        reviewStatus = 'Never'
+        filename_review = join(self.user_data_dir, 'review.pickle')
+        if os.path.isfile(filename_review):
+            reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
+        self.dismiss()
+
+    def reviewGame(self, instance):
+        global reviewStatus
+        reviewStatus = 'Reviewed'
+        filename_review = join(self.user_data_dir, 'review.pickle')
+        if os.path.isfile(filename_review):
+            reviewStatus = pickle.dump(reviewStatus, open(filename_review, 'wb'))
+        if platform == 'android':
+            WV()
+
+if platform == 'android':
+    from jnius import autoclass
+    from android.runnable import run_on_ui_thread
+    WebView = autoclass('android.webkit.WebView')                                                   
+    WebViewClient = autoclass('android.webkit.WebViewClient')                                       
+    activity = autoclass('org.renpy.android.PythonActivity').mActivity 
+
+    class Wv(Widget):
+        def __init__(self, **kwargs):
+            super(Wv, self).__init__(**kwargs)
+            Clock.schedule_once(self.create_webview, 0)
+
+        @run_on_ui_thread
+        def create_webview(self, *args):
+            webview = WebView(activity)                                                             
+            webview.getSettings().setJavaScriptEnabled(True)                                        
+            wvc = WebViewClient();                                                                  
+            webview.setWebViewClient(wvc);                                                          
+            activity.setContentView(webview)                                                        
+            webview.loadUrl('http://www.google.com')
+
 
 
 Builder.load_string("""
