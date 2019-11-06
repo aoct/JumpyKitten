@@ -108,14 +108,12 @@ class rankPageWorld(Screen):
 		if username is None:
 			self.lounch_usernamePopup()
 
-
 	def update_score(self, new_score):
 		if not (my_row is None):
 			sheet = self.get_gsheet()
 			if not sheet == None:
 				print('[DEBUG] Sending new scores')
 				sheet.update_cell(my_row, 3, '{:.0f}'.format(new_score))
-
 
 	def get_gsheet(self):
 		try:
@@ -146,6 +144,9 @@ class rankPageWorld(Screen):
 
 		sheet = self.get_gsheet()
 		if sheet == None:
+			for i in range(2):
+				self.addUserToScroll('', '', '')
+			self.addUserToScroll(7*'-', 'Can not connect to the server', 7*'-')
 			return
 
 		users = []
@@ -190,14 +191,14 @@ class rankPageWorld(Screen):
 		self.pause_popup.dismiss()
 
 	def reload_button(self):
-		self.pause_popup = LabelPopup('Loading Ranking ...', auto_dismiss=True)
+		self.pause_popup = LabelPopup('Loading Ranking ...', auto_dismiss=False)
 		self.pause_popup.open()
 		try:
 			mythread = threading.Thread(target = partial(self.reload_ranking))
 			mythread.start()
 		except:
 			self.input.text = ''
-			self.failure_popup = LabelPopup('Unable to reset ranking', auto_dismiss=False)
+			self.failure_popup = LabelPopup('Unable to reset ranking', auto_dismiss=True)
 			self.failure_popup.open()
 			return
 
@@ -210,7 +211,7 @@ class UsernamePopup(Popup):
 
 		self.master = BoxLayout(orientation='vertical', spacing='10dp', padding='10dp')
 
-		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left')
+		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=40)
 		self.master.add_widget(self.current_uname_label)
 
 		addBox = GridLayout(cols=2, size_hint = (1., 0.4))
@@ -286,20 +287,20 @@ class UsernamePopup(Popup):
 		self.done_popup = LabelPopup('New username set', auto_dismiss=True)
 		self.done_popup.open()
 		set_popup.dismiss()
-
+		self.dismiss()
 		App.get_running_app().rankPageWorld.reset_ranking()
 
 
 	def set_username(self, instance):
 		# pool = ThreadPool(processes = 1)
-		self.pause_popup = LabelPopup('Checking username availability', auto_dismiss=True)
+		self.pause_popup = LabelPopup('Checking username availability', auto_dismiss=False)
 		self.pause_popup.open()
 		try:
 			mythread = threading.Thread(target = partial(self.longProcess))
 			mythread.start()
 		except:
 			self.input.text = ''
-			self.failure_popup = LabelPopup('Unable to set username', auto_dismiss=False)
+			self.failure_popup = LabelPopup('Unable to set username', auto_dismiss=True)
 			self.failure_popup.open()
 			return
 
@@ -308,7 +309,7 @@ class LabelPopup(Popup):
 	def __init__(self, text, **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
-		l = Label(text=text)
+		l = Label(text=text, font_size=50)
 		self.add_widget(l)
 
 
@@ -374,14 +375,13 @@ Builder.load_string("""
 	title: 'Leaderboard Username'
 	size_hint: (0.36, 0.45)
 	pos_hint: {'x': 0.32, 'y': 0.45}
-    background_color: 0, 0, 0, .0
-	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
+	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
 
 <LabelPopup>:
 	title: ''
 	size_hint: (0.36, 0.5)
 	pos_hint: {'x': 0.32, 'y': 0.45}
-	separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-	title_size: '20sp'
+	separator_height: 0
+	title_size: '0sp'
 """)
