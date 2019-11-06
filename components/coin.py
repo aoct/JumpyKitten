@@ -9,7 +9,7 @@ from random import uniform
 from math import log
 
 class Coin(Widget):
-    def __init__(self, score, **kwargs):
+    def __init__(self, score, min_y=None, **kwargs):
         super(Coin, self).__init__(**kwargs)
 
         self.type = 'ground steady'
@@ -17,7 +17,9 @@ class Coin(Widget):
         self.width = 0.05*Window.size[0]
         self.height = self.width
 
-        self.y = uniform(0.1*Window.size[1], 0.7*Window.size[1])
+        if min_y is None:
+            min_y = 0.1*Window.size[1]
+        self.y = uniform(min_y, 0.7*Window.size[1])
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
         self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
