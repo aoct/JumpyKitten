@@ -123,7 +123,7 @@ class mainPage(Screen):
         if platform == 'android':
             self.loadingPopup.open()
             myThread = threading.Thread(target=self.ads.show_rewarded_ad)
-    		myThreadInitialization.start()
+            myThreadInitialization.start()
             # self.ads.show_rewarded_ad()
             for i in range(30):
                 time.sleep(0.1)
