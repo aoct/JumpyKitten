@@ -145,10 +145,10 @@ class mainPage(Screen):
                 self.ads_listener.hasOpened = False
             else:
                 self.loadingPopup.dismiss()
-                self.popup = LabelPopup('Reward video not available now.', auto_dismiss=True)
+                self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
                 self.popup.open()
         else:
-            self.popup = LabelPopup('Reward video not available.', auto_dismiss=True)
+            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
             self.popup.open()
 
 class LabelPopup(Popup):
@@ -320,8 +320,8 @@ Builder.load_string("""
 
 <LabelPopup>:
 	# title: ''
-	size_hint: (0.36, 0.5)
-	pos_hint: {'x': 0.32, 'y': 0.45}
+	size_hint: (0.3, 0.4)
+	pos_hint: {'x': 0.4, 'y': 0.45}
 	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	# title_size: '20sp'
 """)
