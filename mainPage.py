@@ -293,20 +293,30 @@ Builder.load_string("""
         # height: 0.1*Window.size[1]
         y: 0.8*Window.size[1]
         x: 0.03*Window.size[0]
-        Image:
-            source: "images/COIN_HD.png"
-            height: 0.9*coinFloat.height
-            width: 0.9*coinFloat.height
-            y: coinFloat.y
-            x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
-        Label:
-            id: coinLabel
-            font_size: 60
-            bold: True
-            text: "{:03.0f} ".format(root.collected_coins)
-            size: self.texture_size
-            x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
-            y: coinFloat.y
+        GridLayout:
+            cols:3
+            pos_hint: {'x':0, 'y': 0}
+            size_hint: (1., 1.)
+            Label: 
+                text: ''
+                size_hint_x: 0.05
+            Image:
+                source: "images/COIN_HD.png"
+                size_hint: (.20, .9)
+                pos_hint_x: 0.05
+                # height: 0.9*coinFloat.height
+                # width: 0.9*coinFloat.height
+                # y: coinFloat.y
+                # x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
+            Label:
+                id: coinLabel
+                size_hint: (.70, .9)
+                font_size: 60
+                bold: True
+                text: "{:03.0f} ".format(root.collected_coins)
+                # size: self.texture_size
+                # x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
+                # y: coinFloat.y
 
 <LabelPopup>:
 	# title: ''
