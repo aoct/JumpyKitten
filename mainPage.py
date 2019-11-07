@@ -20,6 +20,8 @@ from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 from components.background import Background
 
 from os.path import join
+import threading
+from functools import partial
 
 kittenColor = 'Pink'
 
@@ -119,9 +121,11 @@ class mainPage(Screen):
 
     def show_reward_video(self):
         if platform == 'android':
-            self.ads.show_rewarded_ad()
             self.loadingPopup.open()
-            for i in range(20):
+            myThread = threading.Thread(target=self.ads.show_rewarded_ad)
+    		myThreadInitialization.start()
+            # self.ads.show_rewarded_ad()
+            for i in range(30):
                 time.sleep(0.1)
 
             if self.ads_listener.hasOpened:
