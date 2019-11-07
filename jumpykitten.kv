@@ -64,13 +64,14 @@
                 # y: coinFloat.y
 
 <endGamePopup>:
-    title: "Your kitten touched an obstacle"#"Score: " + '{:.0f}'.format(self.score)
+    title: "Your kitten touched an obstacle"
+    title_align: "center"
     bold: True
     separator_height: 0
     # separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
     # background_color: 0, 0, 0, .0
     size_hint: (.42, .7)
-    pos_hint: {'x':.26, 'y':.15}
+    pos_hint: {'x':.29, 'y':.15}
     title_size: 50
     reviveBotton: reviveBotton
     FloatLayout:

@@ -83,7 +83,7 @@ class JumpyKittenGame(Widget):
             print('Requesting banner')
             self.ads.request_banner()
             self.ads.request_interstitial()
-            self.ads.show_banner()
+            # self.ads.show_banner()
         self.hasRevived = False
         self.endgamePopup = endGamePopup(self.score, auto_dismiss=False)
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
