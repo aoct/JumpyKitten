@@ -82,7 +82,8 @@ class rankPageWorld(Screen):
 			global my_row
 			my_row = pickle.load(open(filename, 'rb'))
 
-		self.reset_ranking()
+		myThreadInitialization = threading.Thread(target= self.reset_ranking)
+		myThreadInitialization.start()
 
 	def size_callback(self, instance, value):
 	    self.background.size = value

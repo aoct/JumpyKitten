@@ -220,24 +220,25 @@ Builder.load_string("""
         pos: root.pos
     Button:
         on_release: app.sm.current = 'GamePage'
-        size_hint: (.3, .3)
-        pos_hint: {'x':.35, 'y':.35}
+        size_hint: (.5, .5)
+        pos_hint: {'x':.25, 'y':.25}
         background_color: 0, 0, 0, .0
         Image:
             id: image
             # source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
-            y: self.parent.y
-            x: self.parent.x
-            size: self.parent.size
+            y: self.parent.y+0.25*self.parent.size[1]
+            x: self.parent.x+0.25*self.parent.size[0]
+            size: (0.5*self.parent.size[0], 0.5*self.parent.size[1])
             allow_stretch: True
+            keep_ratio: True
     Label:
-        text: "Press to Start"
-        pos_hint: {'x':.35, 'y':.25}
+        text: "Touch kitten to start"
+        pos_hint: {'x':.35, 'y':.65}
         size_hint: (0.3, 0.1)
         halign: 'center'
         valign: 'center'
         font_size: 60
-        color: [226/255.0, 158/255.0, 163/255.0, 1]
+        color: [255/255.0, 255/255.0, 255/255.0, 1]
         markup: True
         bold: True
     Button:
