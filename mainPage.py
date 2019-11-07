@@ -33,18 +33,18 @@ class mainPage(Screen):
         self.loadingPopup = LabelPopup('Loading...', auto_dismiss=False)
 
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads.new_banner(TestIds.BANNER)
-            self.ads.new_banner(TestIds.BANNER)
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads.new_banner(TestIds.BANNER)
+            # self.ads_listener = RewardedListenerInterface()
+            # self.ads.set_rewarded_ad_listener(self.ads_listener)
+            # self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
             self.ads_listener = RewardedListenerInterface()
-            self.ads.set_rewarded_ad_listener(self.ads_listener)
-            self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
-            # self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
-            # self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
+            self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
 
             self.ads.request_interstitial()
             self.ads.request_banner()
@@ -84,8 +84,8 @@ class mainPage(Screen):
             if uniform(0,1) < 0.5:
                 self.ads.show_interstitial()
             else:
-                pass
-                # self.ads.show_banner()
+                # pass
+                self.ads.show_banner()
 
         filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):

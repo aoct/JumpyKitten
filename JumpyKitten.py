@@ -64,12 +64,12 @@ class JumpyKittenGame(Widget):
             self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_banner(TestIds.BANNER)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_banner(TestIds.BANNER)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
         if platform == 'ios':
             self.user_data_dir = App.get_running_app().user_data_dir
@@ -83,7 +83,7 @@ class JumpyKittenGame(Widget):
             print('Requesting banner')
             self.ads.request_banner()
             self.ads.request_interstitial()
-            # self.ads.show_banner()
+            self.ads.show_banner()
         self.hasRevived = False
         self.endgamePopup = endGamePopup(self.score, auto_dismiss=False)
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
