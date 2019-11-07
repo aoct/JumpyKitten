@@ -319,9 +319,9 @@ Builder.load_string("""
                 # y: coinFloat.y
 
 <LabelPopup>:
-	# title: ''
-	size_hint: (0.3, 0.4)
-	pos_hint: {'x': 0.4, 'y': 0.45}
-	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-	# title_size: '20sp'
+	title: ''
+	size_hint: (0.4, 0.35)
+	pos_hint: {'x': 0.3, 'y': 0.4}
+	separator_height: 0
+	title_size: '0sp'
 """)

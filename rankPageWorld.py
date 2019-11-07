@@ -50,7 +50,7 @@ class rankPageWorld(Screen):
 		row = GridLayout(cols=3, size_hint_y=0.25)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
 		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text='Best Distance', halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=60))
 		self.world_ranking.add_widget(row)
 		self.onlineUsers = GridLayout(cols=1, spacing=15, size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
@@ -378,11 +378,4 @@ Builder.load_string("""
 	pos_hint: {'x': 0.32, 'y': 0.45}
 	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
 	title_size: '20sp'
-
-<LabelPopup>:
-	title: ''
-	size_hint: (0.36, 0.5)
-	pos_hint: {'x': 0.32, 'y': 0.45}
-	separator_height: 0
-	title_size: '0sp'
 """)
