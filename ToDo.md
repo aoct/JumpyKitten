@@ -1,6 +1,9 @@
 Version 1 - (7 days from now):
-2. Graphics:
+1. Graphics:
 	- Presplash - put AOCT logo
+	- Check that all the sizes and all the labels are appearing ok on the phone (review popup does not)
+2. Open speedup:
+	- Make the first world ranking update that happens at the beginning to run in background
 	
 Version 2 - (7 days from Version 1):
 2. In app purchases:
