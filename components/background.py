@@ -57,11 +57,11 @@ Builder.load_string("""
     Image:
         id: image_2
         allow_stretch: True
-        source: "images/background/blueSky_fence_greenGrass_whiteClouds.png"
+        source: "images/background/blueSky_fence_greenGrass_whiteMoreClouds.png"
         size: root.height * self.image_ratio, root.height
     Image:
         id: image_3
         allow_stretch: True
-        source: "images/background/blueSky_fence_greenGrass_whiteClouds.png"
+        source: "images/background/blueSky_fence_greenGrass_whiteMoreClouds.png"
         size: root.height * self.image_ratio, root.height
 """)

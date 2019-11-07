@@ -1,5 +1,5 @@
 import os, sys
-
+__version__ = "1.0.0"
 import kivy
 kivy.require("1.10.0")
 from kivy.utils import platform
