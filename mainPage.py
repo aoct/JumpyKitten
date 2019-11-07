@@ -164,7 +164,7 @@ class ReviewNotification(Popup):
         super(Popup, self).__init__(**kwargs)
 
         self.title = 'Are you enjoying the game?\nGive us a feedback'
-        self.title_size = '40sp'
+        self.title_size = 60
         self.title_align = 'center'
         self.separator_height = 0
         general_layout = GridLayout(cols = 1, spacing= [10,10])
