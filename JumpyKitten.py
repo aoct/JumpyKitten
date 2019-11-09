@@ -219,7 +219,7 @@ class JumpyKittenGame(Widget):
         pickle.dump(self.collected_coins, open(filename, 'wb'))
 
         self.endgamePopup.score = self.score
-        if not self.hasRevived and self.collected_coins > reviveCoinsPrice:
+        if not self.hasRevived and self.collected_coins >= reviveCoinsPrice:
             self.endgamePopup.reviveBotton.disabled = False
             self.endgamePopup.reviveBotton.image.source = "images/icons/revive.png"
         else:
