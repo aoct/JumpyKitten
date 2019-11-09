@@ -45,7 +45,7 @@ class mainPage(Screen):
             self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
             self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
             self.ads_listener = RewardedListenerInterface()
-            self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
+            self.ads.set_rewarded_ad_listener(self.ads_listener)
             self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
 
             self.ads.request_interstitial()
@@ -122,10 +122,12 @@ class mainPage(Screen):
     def show_reward_video(self):
         if platform == 'android':
             self.loadingPopup.open()
-            # myThread = threading.Thread(target=self.ads.show_rewarded_ad)
-            # myThread.start()
-            self.ads.show_rewarded_ad()
-            for i in range(30):
+            print('Sleeping')
+            time.sleep(3)
+            myThread = threading.Thread(target=self.ads.show_rewarded_ad)
+            myThread.start()
+            # self.ads.show_rewarded_ad()
+            for i in range(20):
                 print(i)
                 time.sleep(0.1)
 
