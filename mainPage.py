@@ -126,13 +126,15 @@ class mainPage(Screen):
             myThread.start()
             # self.ads.show_rewarded_ad()
             for i in range(30):
+                print(i)
                 time.sleep(0.1)
 
+            print('Has open? ', self.ads_listener.hasOpened)
+            self.loadingPopup.dismiss()
             if self.ads_listener.hasOpened:
                 while not self.ads_listener.Closed:
                     time.sleep(0.1)
                 self.ads_listener.Closed = False
-                self.loadingPopup.dismiss()
                 if self.ads_listener.giveReward:
                     self.ads_listener.giveReward = False
                     self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
@@ -149,7 +151,6 @@ class mainPage(Screen):
                     self.popup.open()
                 self.ads_listener.hasOpened = False
             else:
-                self.loadingPopup.dismiss()
                 self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
                 self.popup.open()
         else:
