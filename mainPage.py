@@ -122,16 +122,13 @@ class mainPage(Screen):
     def show_reward_video(self):
         if platform == 'android':
             self.loadingPopup.open()
-            print('Sleeping')
-            time.sleep(3)
+
             myThread = threading.Thread(target=self.ads.show_rewarded_ad)
             myThread.start()
             # self.ads.show_rewarded_ad()
-            for i in range(20):
-                print(i)
+            for i in range(30):
                 time.sleep(0.1)
 
-            print('Has open? ', self.ads_listener.hasOpened)
             self.loadingPopup.dismiss()
             if self.ads_listener.hasOpened:
                 while not self.ads_listener.Closed:
