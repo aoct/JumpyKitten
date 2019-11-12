@@ -64,12 +64,12 @@ class JumpyKittenGame(Widget):
             self.banner_ad.show_ads()
             self.interstitial_ad = autoclass('adSwitchInterstitial').alloc().init()
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_banner(TestIds.BANNER)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_banner(TestIds.BANNER)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
         if platform == 'ios':
             self.user_data_dir = App.get_running_app().user_data_dir
@@ -219,7 +219,7 @@ class JumpyKittenGame(Widget):
         pickle.dump(self.collected_coins, open(filename, 'wb'))
 
         self.endgamePopup.score = self.score
-        if not self.hasRevived and self.collected_coins > reviveCoinsPrice:
+        if not self.hasRevived and self.collected_coins >= reviveCoinsPrice:
             self.endgamePopup.reviveBotton.disabled = False
             self.endgamePopup.reviveBotton.image.source = "images/icons/revive.png"
         else:

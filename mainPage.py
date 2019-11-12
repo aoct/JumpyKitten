@@ -20,6 +20,8 @@ from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
 from components.background import Background
 
 from os.path import join
+import threading
+from functools import partial
 
 kittenColor = 'Pink'
 
@@ -33,18 +35,18 @@ class mainPage(Screen):
         self.loadingPopup = LabelPopup('Loading...', auto_dismiss=False)
 
         if platform == 'android':
-            self.ads = KivMob(TestIds.APP)
-            self.ads.new_interstitial(TestIds.INTERSTITIAL)
-            self.ads.new_banner(TestIds.BANNER)
-            self.ads.new_banner(TestIds.BANNER)
+            # self.ads = KivMob(TestIds.APP)
+            # self.ads.new_interstitial(TestIds.INTERSTITIAL)
+            # self.ads.new_banner(TestIds.BANNER)
+            # self.ads_listener = RewardedListenerInterface()
+            # self.ads.set_rewarded_ad_listener(self.ads_listener)
+            # self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
+            self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
+            self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
+            self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
             self.ads_listener = RewardedListenerInterface()
             self.ads.set_rewarded_ad_listener(self.ads_listener)
-            self.ads.load_rewarded_ad(TestIds.REWARDED_VIDEO)
-            # self.ads = KivMob('ca-app-pub-8564280870740386~8534172049')
-            # self.ads.new_interstitial('ca-app-pub-8564280870740386/9108176670')
-            # self.ads.new_banner('ca-app-pub-8564280870740386/9108176670')
-            # self.ads.set_rewarded_ad_listener(RewardedListenerInterface())
-            # self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
+            self.ads.load_rewarded_ad('ca-app-pub-8564280870740386/3839785853')
 
             self.ads.request_interstitial()
             self.ads.request_banner()
@@ -81,9 +83,10 @@ class mainPage(Screen):
                 self.interstitial_ad.show_ads()
             self.banner_ad.show_ads()
         if platform == 'android':
-            if uniform(0,1) < 0.3:
+            if uniform(0,1) < 0.5:
                 self.ads.show_interstitial()
             else:
+                # pass
                 self.ads.show_banner()
 
         filename = join(self.user_data_dir, 'kittenColor.pickle')
@@ -118,16 +121,19 @@ class mainPage(Screen):
 
     def show_reward_video(self):
         if platform == 'android':
-            self.ads.show_rewarded_ad()
             self.loadingPopup.open()
-            for i in range(20):
+
+            myThread = threading.Thread(target=self.ads.show_rewarded_ad)
+            myThread.start()
+            # self.ads.show_rewarded_ad()
+            for i in range(30):
                 time.sleep(0.1)
 
+            self.loadingPopup.dismiss()
             if self.ads_listener.hasOpened:
                 while not self.ads_listener.Closed:
                     time.sleep(0.1)
                 self.ads_listener.Closed = False
-                self.loadingPopup.dismiss()
                 if self.ads_listener.giveReward:
                     self.ads_listener.giveReward = False
                     self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
@@ -144,7 +150,6 @@ class mainPage(Screen):
                     self.popup.open()
                 self.ads_listener.hasOpened = False
             else:
-                self.loadingPopup.dismiss()
                 self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
                 self.popup.open()
         else:
