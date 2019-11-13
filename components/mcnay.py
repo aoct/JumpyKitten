@@ -31,7 +31,9 @@ class Mcnay(Widget):
         self.ground = Window.size[1]*0.05
         self.ground_dead = -Window.size[1]*0.02
 
-        self.size = (Window.size[0]/7., Window.size[0]/7.)
+        # self.size = (Window.size[0]/7., Window.size[0]/7.)
+        self.size_hint_x = 0.2
+        self.size_hint_y = 0.2
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 5

@@ -248,19 +248,3 @@ class JumpyKittenPage(Screen):
         self.mcnay.reset()
         self.process.cancel()
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
-
-
-
-# class JumpyKittenPage(Screen):
-
-#     def __init__(self, **kwargs):
-#         super(JumpyKittenPage, self).__init__(**kwargs)
-#         self.game = JumpyKittenGame()
-#         self.add_widget(self.game)
-
-    # def on_enter(self):
-    #     self.game.reset()
-    #     self.game.start()
-
-    # def on_leave(self):
-    #     self.game.reset()
