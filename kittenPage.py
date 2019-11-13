@@ -17,6 +17,7 @@ from kivy.app import App
 from kivy.utils import platform
 from kivy.uix.textinput import TextInput
 from kivy.uix.anchorlayout import AnchorLayout
+from kivy.metrics import sp
 
 from components.background import Background
 
@@ -100,7 +101,7 @@ class kittenPage(Screen):
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
 	        		  halign='center', valign='center',
-				      font_size=50,
+				      font_size=sp(40),
 					  bold=True)
 			row.add_widget(l)
 
@@ -248,7 +249,7 @@ Builder.load_string("""
             x: self.parent.x
             size: self.parent.size
             allow_stretch: True
-    BackgroundFloatLayout:
+	BackgroundFloatLayout:
         id: coinFloat
         background_color: 1,0.7,0.7,0.9
         size_hint: (.09, .065)
@@ -264,7 +265,7 @@ Builder.load_string("""
                 text: ''
                 size_hint_x: 0.02
             Image:
-                source: "images/COIN_HD.png"
+                source: "images/coin.png"
                 size_hint: (.25, .95)
                 pos_hint_x: 0.05
                 # height: 0.9*coinFloat.height
@@ -274,9 +275,9 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: 60
+                font_size: '35sp'
                 bold: True
-                text: "{:03.0f} ".format(root.collected_coins)
+                text: " {:03.0f} ".format(root.collected_coins)
                 # size: self.texture_size
                 # x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
                 # y: coinFloat.y

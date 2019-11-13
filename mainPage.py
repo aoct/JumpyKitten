@@ -14,6 +14,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.clock import Clock
+from kivy.metrics import sp
 import webbrowser
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
@@ -161,7 +162,7 @@ class LabelPopup(Popup):
         super(Popup, self).__init__(**kwargs)
         self.separator_height = 0
         self.title_size = '0sp'
-        l = Label(text=text, font_size=50)
+        l = Label(text=text, font_size=sp(50))
         self.add_widget(l)
 
 class ReviewNotification(Popup):
@@ -169,20 +170,20 @@ class ReviewNotification(Popup):
         super(Popup, self).__init__(**kwargs)
 
         self.title = 'Are you enjoying the game?\nGive us a feedback'
-        self.title_size = 60
+        self.title_size = sp(50)
         self.title_align = 'center'
         self.separator_height = 0
         general_layout = GridLayout(cols = 1, spacing= [10,10])
 
-        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=60)
+        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=sp(35))
         reviewButton.background_color = 0, 0, 0, 1.
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=60)
+        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=sp(35))
         cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
-        neverButton = Button(text = 'Do not ask again', bold=True, font_size=60)
+        neverButton = Button(text = 'Do not ask again', bold=True, font_size=sp(35))
         neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
@@ -242,7 +243,7 @@ Builder.load_string("""
         size_hint: (0.3, 0.1)
         halign: 'center'
         valign: 'center'
-        font_size: 60
+        font_size: '35sp'
         color: [255/255.0, 255/255.0, 255/255.0, 1]
         markup: True
         bold: True
@@ -306,7 +307,7 @@ Builder.load_string("""
                 text: ''
                 size_hint_x: 0.02
             Image:
-                source: "images/COIN_HD.png"
+                source: "images/coin.png"
                 size_hint: (.25, .95)
                 pos_hint_x: 0.05
                 # height: 0.9*coinFloat.height
@@ -316,9 +317,9 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: 60
+                font_size: '35sp'
                 bold: True
-                text: "{:03.0f} ".format(root.collected_coins)
+                text: " {:03.0f} ".format(root.collected_coins)
                 # size: self.texture_size
                 # x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
                 # y: coinFloat.y

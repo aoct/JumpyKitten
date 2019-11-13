@@ -4,6 +4,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.image import Image
+from kivy.metrics import sp
 
 from kivy.uix.anchorlayout import AnchorLayout
 
@@ -19,15 +20,15 @@ class infoPage(Screen):
 		self.master_grid = GridLayout(cols = 2, size_hint=(1., 0.7), pos_hint={'x':0., 'y':0.15})
 		self.logo_grid = GridLayout(cols=1, size_hint=(.5, .7))
 		self.logo_image = Image(source="images/logo.png", size_hint= (10, 10))
-		self.logo_text = Label(text= '        Jumpy Kitten\ndeveloped by AOCTdev', bold= True, font_size= 50)
+		self.logo_text = Label(text= '        Jumpy Kitten\ndeveloped by AOCTdev', bold= True, font_size= sp(20))
 		self.logo_grid.add_widget(self.logo_image)
 		self.logo_grid.add_widget(self.logo_text)
 
 		self.instructions_anchor = AnchorLayout(anchor_x = 'center', anchor_y = 'center', )
 		self.LayoutImage = Image(source = 'images/box.png', allow_stretch=True, keep_ratio = False, size_hint_x = .85, size_hint_y = 1.)
 		self.instructions_grid = GridLayout(cols=1, size_hint=(.5, .7))
-		self.instruction_title = Label(text='Gaming Instructions', halign='center', bold=True, font_size = 100)
-		self.instruction_layout = Label(text=' 1. Tap the screen to make Rose jump \n 2. Double tap to overcome hardest obstacles \n 3. Avoid obstacles (trees, rocks, birds) during run \n 4. Collect coins for extra lives \n 5. Achieve high scores to unlock new kittens \n 6. Use coins to buy new kittens \n 7. Watch reward videos to gain extra coins', font_size= 50)
+		self.instruction_title = Label(text='Gaming Instructions\n', halign='center', valign='top', bold=True, font_size=sp(50))
+		self.instruction_layout = Label(text=' 1. Tap the screen to make Rose jump \n 2. Double tap to overcome hardest obstacles \n 3. Avoid obstacles (trees, rocks, birds) during run \n 4. Collect coins for extra lives \n 5. Achieve high scores to unlock new kittens \n 6. Use coins to buy new kittens \n 7. Watch reward videos to gain extra coins\n', valign='bottom', font_size= sp(25))
 		self.instructions_grid.add_widget(self.instruction_title)
 		self.instructions_grid.add_widget(self.instruction_layout)
 		self.instructions_anchor.add_widget(self.LayoutImage)

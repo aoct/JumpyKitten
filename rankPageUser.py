@@ -9,6 +9,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.properties import ObjectProperty
 from kivy.app import App
 from kivy.utils import platform
+from kivy.metrics import sp
 
 from components.background import Background
 
@@ -30,10 +31,10 @@ class rankPageUser(Screen):
 									   spacing=10
 									   )
 		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
-		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=90))
-		self.score_report.add_widget(Label(text='Best score: 0', font_size=70))
-		self.score_report.add_widget(Label(text='Last score: 0', font_size=70))
-		self.score_report.add_widget(Label(text='Games played: 0', font_size=70))
+		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=sp(70)))
+		self.score_report.add_widget(Label(text='Best score: 0', font_size=sp(50)))
+		self.score_report.add_widget(Label(text='Last score: 0', font_size=sp(50)))
+		self.score_report.add_widget(Label(text='Games played: 0', font_size=sp(50)))
 		self.master_grid.add_widget(self.score_report)
 
 		self.add_widget(self.master_grid)

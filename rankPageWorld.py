@@ -13,6 +13,7 @@ from kivy.uix.popup import Popup
 from kivy.app import App
 from kivy.utils import platform
 from kivy.uix.textinput import TextInput
+from kivy.metrics import sp
 
 from components.background import Background
 
@@ -46,11 +47,11 @@ class rankPageWorld(Screen):
 									   )
 
 		self.world_ranking = GridLayout(cols=1, size_hint_x=1.)#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
-		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=90, size_hint_y=0.25))
+		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=sp(70), size_hint_y=0.25))
 		row = GridLayout(cols=3, size_hint_y=0.25)
-		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=60))
-		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=sp(50)))
 		self.world_ranking.add_widget(row)
 		self.onlineUsers = GridLayout(cols=1, spacing=15, size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
@@ -91,9 +92,9 @@ class rankPageWorld(Screen):
 
 	def addUserToScroll(self, rank, uname, score, itsMe=False):
 		row = GridLayout(cols=3)
-		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=60))
-		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=60))
-		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=60))
+		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=sp(50)))
 		self.onlineUsers.add_widget(row)
 
 	def lounch_usernamePopup(self, instance=None):
@@ -212,7 +213,7 @@ class UsernamePopup(Popup):
 
 		self.master = BoxLayout(orientation='vertical', spacing='10dp', padding='10dp')
 
-		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=40)
+		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=sp(35))
 		self.master.add_widget(self.current_uname_label)
 
 		addBox = GridLayout(cols=2, size_hint = (1., 0.4))
@@ -310,7 +311,7 @@ class LabelPopup(Popup):
 	def __init__(self, text, **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
-		l = Label(text=text, font_size=50)
+		l = Label(text=text, font_size=sp(35))
 		self.add_widget(l)
 
 
@@ -377,5 +378,5 @@ Builder.load_string("""
 	size_hint: (0.36, 0.45)
 	pos_hint: {'x': 0.32, 'y': 0.45}
 	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-	title_size: '20sp'
+	title_size: '50sp'
 """)
