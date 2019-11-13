@@ -42,13 +42,13 @@ class endGamePopup(Popup):
         super(Popup, self).__init__(**kwargs)
         self.score = score
 
-class JumpyKittenGame(Widget):
+class JumpyKittenPage(Screen):
     background = ObjectProperty(Background())
     score = NumericProperty(0)
     collected_coins = NumericProperty(0)
 
     def __init__(self, **kwargs):
-        super(JumpyKittenGame, self).__init__(**kwargs)
+        super(JumpyKittenPage, self).__init__(**kwargs)
 
         self.g_grav = -0.5 #pizel * frame_rate^2
         self.obstacles = []
@@ -76,6 +76,13 @@ class JumpyKittenGame(Widget):
         else:
             self.user_data_dir = 'data'
 
+        self.reset()
+
+    def on_enter(self):
+        self.reset()
+        self.start()
+
+    def on_leave(self):
         self.reset()
 
     def start(self):
@@ -244,15 +251,16 @@ class JumpyKittenGame(Widget):
 
 
 
-class JumpyKittenPage(Screen):
-    def __init__(self, **kwargs):
-        super(JumpyKittenPage, self).__init__(**kwargs)
-        self.game = JumpyKittenGame()
-        self.add_widget(self.game)
+# class JumpyKittenPage(Screen):
 
-    def on_enter(self):
-        self.game.reset()
-        self.game.start()
+#     def __init__(self, **kwargs):
+#         super(JumpyKittenPage, self).__init__(**kwargs)
+#         self.game = JumpyKittenGame()
+#         self.add_widget(self.game)
 
-    def on_leave(self):
-        self.game.reset()
+    # def on_enter(self):
+    #     self.game.reset()
+    #     self.game.start()
+
+    # def on_leave(self):
+    #     self.game.reset()
