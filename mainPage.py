@@ -162,7 +162,7 @@ class LabelPopup(Popup):
         super(Popup, self).__init__(**kwargs)
         self.separator_height = 0
         self.title_size = '0sp'
-        l = Label(text=text, font_size=sp(50))
+        l = Label(text=text, font_size=sp(35))
         self.add_widget(l)
 
 class ReviewNotification(Popup):
@@ -295,8 +295,6 @@ Builder.load_string("""
         id: coinFloat
         background_color: 1,0.7,0.7,0.9
         size_hint: (.09, .065)
-        # width: 0.09*Window.size[0]
-        # height: 0.1*Window.size[1]
         y: 0.8*Window.size[1]
         x: 0.03*Window.size[0]
         GridLayout:
@@ -310,19 +308,12 @@ Builder.load_string("""
                 source: "images/coin.png"
                 size_hint: (.25, .95)
                 pos_hint_x: 0.05
-                # height: 0.9*coinFloat.height
-                # width: 0.9*coinFloat.height
-                # y: coinFloat.y
-                # x: coinFloat.x - coinFloat.width*0.45 + 0.9*coinFloat.height/2
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
                 font_size: '35sp'
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
-                # size: self.texture_size
-                # x: coinFloat.x + coinFloat.width*0.5 - self.texture_size[0]*0.5
-                # y: coinFloat.y
 
 <LabelPopup>:
 	title: ''
