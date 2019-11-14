@@ -118,7 +118,7 @@ class JumpyKittenPage(Screen):
         if self.score > 100 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
             new_obstacle = Bird(self.score)
         else:
-            new_obstacle = Rock(self.score)
+            new_obstacle = Log(self.score)
             # if uniform(0,1) > 0.8:
             #     new_obstacle = Rock(self.score)
             # else:

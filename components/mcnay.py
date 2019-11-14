@@ -32,7 +32,6 @@ class Mcnay(Widget):
         self.ground = Window.size[1]*0.1
         self.ground_dead = -Window.size[1]*0.01
 
-        # self.size = (Window.size[0]/7., Window.size[0]/7.)
         self.size_hint_x = 0.13
         self.size_hint_y = 0.21
 

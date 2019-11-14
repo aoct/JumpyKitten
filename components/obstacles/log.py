@@ -19,13 +19,16 @@ class Log(Widget):
         self.type = 'ground steady'
         image_num = randint(1,3)
 
-        self.width = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[0]*0.15
         if image_num == 1:
-            self.height = (1+0.01*log(score+1))*uniform(0.85, 1.15)*Window.size[1]/6.
+            scale = [0.9, 1]
         elif image_num == 2:
-            self.height = (1+0.01*log(score+1))*uniform(1, 1.3)*Window.size[1]/6.
+            scale = [0.8, 1.4]
         else:
-            self.height = (1+0.01*log(score+1))*uniform(1.3, 1.45)*Window.size[1]/6.
+            scale = [0.7, 1.8]
+        self.size_hint_x = (1+0.02*log(score+1))*0.15*scale[0]*uniform(0.8, 1.2)
+        self.size_hint_y = (1+0.02*log(score+1))*0.16*scale[1]*uniform(0.8, 1.2)
+
+        self.y = Window.size[1]*0.05
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
         self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
@@ -39,16 +42,18 @@ class Log(Widget):
 
 Builder.load_string("""
 <Log>:
-    # canvas:
-    #     Color:
-    #         rgb: 221 / 255.0, 40 / 255.0, 40 / 255.0
-    #     Rectangle:
-    #         pos: self.x, root.obstacle_base
-    #         size: root.width, root.height
     log_image: image
+    Image:
+        size: root.size
+        pos: root.pos
+        source: "images/cats/CAT_FRAME_0_HD_debug.png"
+        allow_stretch: True
+        keep_ratio: False
     Image:
         id: image
         center_x: root.center_x
-        y: root.obstacle_base*0.9 - 30
+        y: root.y
         size: root.width, root.height
+        allow_stretch: True
+        keep_ratio: False
 """)
