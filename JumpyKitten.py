@@ -172,15 +172,15 @@ class JumpyKittenPage(Screen):
         if not idx_to_pop is None:
             self.coins.pop(idx_to_pop)
 
-        # if self.score%10 == 0 and uniform(0,1) > 0.6:
-        #     min_y = 0.1*Window.size[1]
-        #     last_o = self.obstacles[-1]
-        #     if last_o.type == 'ground steady' and last_o.x+last_o.width > 0.9*Window.size[0]:
-        #         min_y = last_o.y+1.2*last_o.height
-        #     c = Coin(self.score)
-        #     c.x = self.width
-        #     self.add_widget(c)
-        #     self.coins.append(c)
+        if self.score%10 == 0 and uniform(0,1) > 0.6:
+            min_y = 0.1*Window.size[1]
+            last_o = self.obstacles[-1]
+            if last_o.type == 'ground steady' and last_o.x+last_o.width > 0.9*Window.size[0]:
+                min_y = last_o.y+1.2*last_o.height
+            c = Coin(self.score)
+            c.x = self.width
+            self.add_widget(c)
+            self.coins.append(c)
 
         self.updates += 1
         self.score = self.updates/20.

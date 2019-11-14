@@ -14,8 +14,8 @@ class Coin(Widget):
 
         self.type = 'ground steady'
 
-        self.width = 0.05*Window.size[0]
-        self.height = self.width
+        self.size_hint_x = 0.06
+        self.size_hint_y = self.size_hint_x*(Window.size[0]/Window.size[1])
 
         if min_y is None:
             min_y = 0.1*Window.size[1]
@@ -31,8 +31,15 @@ class Coin(Widget):
 Builder.load_string("""
 <Coin>:
     Image:
+        source: "images/COIN_HD_debug.png"
+        center_x: root.center_x
+        y: root.y
+        size: root.size
+    Image:
         source: "images/COIN_HD.png"
         center_x: root.center_x
         y: root.y
-        size: root.width, root.height
+        size: root.size
+        allow_stretch: False
+        keep_ratio: True
 """)
