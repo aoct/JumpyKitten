@@ -231,7 +231,6 @@ Builder.load_string("""
         background_color: 0, 0, 0, .0
         Image:
             id: image
-            # source: "images/cats/basePinkCat_aoct/CAT_FRAME_0_HD.png"
             y: self.parent.y+0.25*self.parent.size[1]
             x: self.parent.x+0.25*self.parent.size[0]
             size: (0.5*self.parent.size[0], 0.5*self.parent.size[1])

@@ -19,6 +19,7 @@ kittenColor = 'Pink'
 
 class Mcnay(Widget):
     mcnay_image = ObjectProperty(Image())
+    debug_img = ObjectProperty(Image())
 
     def __init__(self, **kwargs):
         super(Mcnay, self).__init__(**kwargs)
@@ -28,12 +29,12 @@ class Mcnay(Widget):
         self.velocity = Vector(0, 0)
         self.pos = Vector(Window.size[0]/8, Window.size[1]/3)
 
-        self.ground = Window.size[1]*0.05
-        self.ground_dead = -Window.size[1]*0.02
+        self.ground = Window.size[1]*0.1
+        self.ground_dead = -Window.size[1]*0.01
 
         # self.size = (Window.size[0]/7., Window.size[0]/7.)
-        self.size_hint_x = 0.2
-        self.size_hint_y = 0.2
+        self.size_hint_x = 0.13
+        self.size_hint_y = 0.21
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 5
@@ -133,8 +134,15 @@ Builder.load_string("""
 <Mcnay>:
     mcnay_image: image
     Image:
-        id: image
-        # source: 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         size: root.size
         pos: root.pos
+        source: "images/cats/CAT_FRAME_0_HD_debug.png"
+        allow_stretch: True
+        keep_ratio: False
+    Image:
+        id: image
+        size: root.size
+        pos: root.pos
+        allow_stretch: True
+        keep_ratio: True
 """)
