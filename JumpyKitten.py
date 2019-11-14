@@ -180,7 +180,7 @@ class JumpyKittenPage(Screen):
             last_o = self.obstacles[-1]
             if last_o.type == 'ground steady' and last_o.x+last_o.width > 0.9*Window.size[0]:
                 min_y = last_o.y+1.2*last_o.height
-            c = Coin(self.score)
+            c = Coin(self.score, min_y=min_y)
             c.x = self.width
             self.add_widget(c)
             self.coins.append(c)
