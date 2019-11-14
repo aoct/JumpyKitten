@@ -162,6 +162,7 @@ class LabelPopup(Popup):
         super(Popup, self).__init__(**kwargs)
         # l = Label(text=text, font_size=sp(35))
         l = Label(text=text, font_size='35dp')
+        l.text_size = self.size
         # l = Label(text=text, font_size=sp(35))
         self.add_widget(l)
 
