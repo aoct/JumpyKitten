@@ -20,9 +20,6 @@ class Bird(Widget):
 
         self.type = 'bird'
 
-        # self.height = 0.12*Window.size[1]
-        # self.width = self.height
-
         self.size_hint_y = 0.12
         self.size_hint_x = self.size_hint_y*(Window.size[1]/Window.size[0])
         print(self.size_hint_y, self.size_hint_x, self.size)

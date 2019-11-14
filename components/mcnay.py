@@ -95,7 +95,8 @@ class Mcnay(Widget):
     def collision_with_obstacle(self, o):
         xCenterObstacle = o.pos[0] + o.width/2
         yCenterObstacle = o.pos[1] + o.height/2
-        radiusObstacle = 0.45*o.width
+        if o.type == 'bird': radiusObstacle = 0.35*o.width
+        else: radiusObstacle = 0.45*o.width
 
         xCenterMcNay = self.pos[0] + self.size[0]/2
         yCenterMcNay = self.pos[1] + self.size[1]/2
