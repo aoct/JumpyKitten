@@ -38,7 +38,7 @@ class Log(Widget):
         self.log_image.source = 'images/obstacles/logOnGrass_{}.png'.format(image_num)
 
     def update(self, score):
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
         self.pos[0] = self.velocity[0] + self.pos[0]
 
 Builder.load_string("""

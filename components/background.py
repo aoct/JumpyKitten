@@ -36,8 +36,6 @@ class Background(Widget):
         elif self.image_3.right <= 0:
             self.image_3.pos = (self.image_2.right, 0)
 
-
-
     def update_position(self):
         self.image_1.pos = (0, 0)
         self.image_2.pos = (self.image_1.right, 0)
