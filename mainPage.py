@@ -13,6 +13,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
+from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.metrics import sp
 import webbrowser
@@ -160,9 +161,14 @@ class mainPage(Screen):
 class LabelPopup(Popup):
     def __init__(self, text, **kwargs):
         super(Popup, self).__init__(**kwargs)
+        self.title = ''
+        self.size_hint = (0.4, 0.35)
+        self.pos_hint = {'x': 0.3, 'y': 0.4}
+        self.separator_height = 0
+        self.title_size = '0sp'
         # l = Label(text=text, font_size=sp(35))
-        l = Label(text=text, font_size='35dp')
-        l.text_size = self.size
+        l = Label(text=text, font_size='35dp', valign='center', halign='center')
+        l.text_size = (0.4*Window.size[0], 0.35*Window.size[1])
         # l = Label(text=text, font_size=sp(35))
         self.add_widget(l)
 
@@ -328,10 +334,10 @@ Builder.load_string("""
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
 
-<LabelPopup>:
-	title: ''
-	size_hint: (0.4, 0.35)
-	pos_hint: {'x': 0.3, 'y': 0.4}
-	separator_height: 0
-	title_size: '0sp'
+# <LabelPopup>:
+# 	title: ''
+# 	size_hint: (0.4, 0.35)
+# 	pos_hint: {'x': 0.3, 'y': 0.4}
+# 	separator_height: 0
+# 	title_size: '0sp'
 """)
