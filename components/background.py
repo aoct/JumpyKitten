@@ -15,7 +15,6 @@ class Background(Widget):
 
     def __init__(self, **kwargs):
         super(Background, self).__init__(**kwargs)
-        # self.velocity = [-Window.size[0]/400., 0] #pxl*frame_rate
         self.base_velocity = Vector(-Window.size[0]/200., 0)
 
     def remove_clouds(self):
@@ -24,7 +23,7 @@ class Background(Widget):
         self.image_3.source = 'images/background/blueSky_fence_greenGrass.png'
 
     def update(self, score):
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
 
         self.image_1.pos[0] = self.velocity[0] + self.image_1.pos[0]
         self.image_2.pos[0] = self.velocity[0] + self.image_2.pos[0]

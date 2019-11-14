@@ -29,7 +29,7 @@ class Bird(Widget):
         self.base_velocity = Vector(-1e-2*Window.size[0], 0)
         self.velocity = self.base_velocity * min(1.5, (1 + 0.002*score))
 
-        self.y = triangular(0.15*Window.size[1], 0.7*Window.size[1], 0.45*Window.size[1])
+        self.y = triangular(0.2*Window.size[1], 0.7*Window.size[1], 0.45*Window.size[1])
 
         self.updatesSinceLastImageChange = 0
         self.imageFrame = 0
@@ -47,11 +47,11 @@ class Bird(Widget):
 Builder.load_string("""
 <Bird>:
     image: image_
-    Image:
-        source: "images/obstacles/pinkBird/pixil-frame-0_HD_debug.png"
-        center_x: root.center_x
-        y: root.y
-        size: root.width, root.height
+    # Image:
+    #     source: "images/obstacles/pinkBird/pixil-frame-0_HD_debug.png"
+    #     center_x: root.center_x
+    #     y: root.y
+    #     size: root.width, root.height
     Image:
         id: image_
         source: "images/obstacles/pinkBird/pixil-frame-0_HD.png"
