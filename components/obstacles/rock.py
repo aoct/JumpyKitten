@@ -23,7 +23,7 @@ class Rock(Widget):
         self.y = Window.size[1]*0.05
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
 
         self.marked = False
 
@@ -33,11 +33,11 @@ class Rock(Widget):
 
 Builder.load_string("""
 <Rock>:
-    Image:
-        source: "images/obstacles/rockOnGrass_debug.png"
-        center_x: root.center_x
-        y: root.y
-        size: root.size
+    # Image:
+    #     source: "images/obstacles/rockOnGrass_debug.png"
+    #     center_x: root.center_x
+    #     y: root.y
+    #     size: root.size
     Image:
         source: "images/obstacles/rockOnGrass.png"
         center_x: root.center_x

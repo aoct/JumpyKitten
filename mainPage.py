@@ -229,19 +229,19 @@ Builder.load_string("""
         size_hint: (.6, .8)
         pos_hint: {'x':.2, 'y':.1}
         background_color: 0, 0, 0, .0
-        Image:
-            size: self.parent.size
-            pos: self.parent.pos
-            source: "images/cats/CAT_FRAME_0_HD_debug.png"
-            allow_stretch: True
-            keep_ratio: False
-        Image:
-            source: "images/cats/CAT_FRAME_0_HD_debug.png"
-            size: (0.15*Window.size[0], 0.23*Window.size[1])
-            center_y: self.parent.center_y
-            center_x: self.parent.center_x
-            allow_stretch: True
-            keep_ratio: False
+        # Image:
+        #     size: self.parent.size
+        #     pos: self.parent.pos
+        #     source: "images/cats/CAT_FRAME_0_HD_debug.png"
+        #     allow_stretch: True
+        #     keep_ratio: False
+        # Image:
+        #     source: "images/cats/CAT_FRAME_0_HD_debug.png"
+        #     size: (0.15*Window.size[0], 0.23*Window.size[1])
+        #     center_y: self.parent.center_y
+        #     center_x: self.parent.center_x
+        #     allow_stretch: True
+        #     keep_ratio: False
         Image:
             id: image
             size: (0.15*Window.size[0], 0.23*Window.size[1])

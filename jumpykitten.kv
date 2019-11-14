@@ -22,12 +22,11 @@
         id: background
         pos: root.pos
     BackgroundLabel:
-        id: bkgLabel
         background_color: 1,0.7,0.7,0.9
         font_size: '35sp'
         bold: True
         text: " Score {:04.0f} ".format(root.score)
-        size: self.texture_size
+        size_hint: (.18, .065)
         y: 0.8*Window.size[1]
         x: 0.97*Window.size[0] - self.texture_size[0]
     BackgroundFloatLayout:

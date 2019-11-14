@@ -18,6 +18,7 @@ class Log(Widget):
 
         self.type = 'ground steady'
         image_num = randint(1,3)
+        self.image_num = image_num
 
         if image_num == 1:
             scale = [0.9, 1]
@@ -31,7 +32,7 @@ class Log(Widget):
         self.y = Window.size[1]*0.05
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
 
         self.marked = False
         self.log_image.source = 'images/obstacles/logOnGrass_{}.png'.format(image_num)
@@ -43,12 +44,12 @@ class Log(Widget):
 Builder.load_string("""
 <Log>:
     log_image: image
-    Image:
-        size: root.size
-        pos: root.pos
-        source: "images/cats/CAT_FRAME_0_HD_debug.png"
-        allow_stretch: True
-        keep_ratio: False
+    # Image:
+    #     size: root.size
+    #     pos: root.pos
+    #     source: "images/cats/CAT_FRAME_0_HD_debug.png"
+    #     allow_stretch: True
+    #     keep_ratio: False
     Image:
         id: image
         center_x: root.center_x
