@@ -18,6 +18,7 @@ class Log(Widget):
 
         self.type = 'ground steady'
         image_num = randint(1,3)
+        self.image_num = image_num
 
         if image_num == 1:
             scale = [0.9, 1]
