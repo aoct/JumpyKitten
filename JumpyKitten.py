@@ -115,7 +115,7 @@ class JumpyKittenPage(Screen):
             self.collected_coins = pickle.load(open(filename, 'rb'))
 
     def new_obstacle(self):
-        if self.score > 100 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.7:
+        if self.score > 0 and uniform(0, 1 + log(1. + self.score*1e-5)) > 0.0:
             new_obstacle = Bird(self.score)
         else:
             new_obstacle = Rock(self.score)
