@@ -25,6 +25,8 @@ from os.path import join
 
 import plyer
 
+from font_scale import font_scaling
+
 kittenColor = 'Pink'
 best_score = 0
 kittenOwned = ['Pink']
@@ -101,7 +103,7 @@ class kittenPage(Screen):
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
 	        		  halign='center', valign='center',
-				      font_size=sp(40),
+				      font_size=font_scaling(40),
 					  bold=True)
 			row.add_widget(l)
 
@@ -232,6 +234,8 @@ class ToggleButtonWithImage(ToggleButton):
 
 
 Builder.load_string("""
+#:import font_scaling font_scale.font_scaling
+
 <kittenPage>:
 	background: background
     Background:
@@ -275,7 +279,7 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: '35sp'
+                font_size: font_scaling(35)
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
                 # size: self.texture_size
@@ -285,7 +289,7 @@ Builder.load_string("""
 <BuyKittenPopup>:
 	title: 'Cost: '
 	title_align: 'center'
-	title_size: '30sp'
+	title_size: font_scaling(30)
 	size_hint: (0.4, 0.5)
 	pos_hint: {'x': 0.3, 'y': 0.25}
 	separator_height: 0

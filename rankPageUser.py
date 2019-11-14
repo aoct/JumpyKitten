@@ -18,6 +18,8 @@ from os.path import join
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+from font_scale import font_scaling
+
 class rankPageUser(Screen):
 	background = ObjectProperty(Background())
 	def __init__(self, **kwargs):
@@ -31,10 +33,10 @@ class rankPageUser(Screen):
 									   spacing=10
 									   )
 		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
-		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=sp(70)))
-		self.score_report.add_widget(Label(text='Best score: 0', font_size=sp(50)))
-		self.score_report.add_widget(Label(text='Last score: 0', font_size=sp(50)))
-		self.score_report.add_widget(Label(text='Games played: 0', font_size=sp(50)))
+		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=font_scaling(70)))
+		self.score_report.add_widget(Label(text='Best score: 0', font_size=font_scaling(50)))
+		self.score_report.add_widget(Label(text='Last score: 0', font_size=font_scaling(50)))
+		self.score_report.add_widget(Label(text='Games played: 0', font_size=font_scaling(50)))
 		self.master_grid.add_widget(self.score_report)
 
 		self.add_widget(self.master_grid)

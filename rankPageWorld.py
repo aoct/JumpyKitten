@@ -28,6 +28,8 @@ from functools import partial
 
 from kivy.clock import Clock
 
+from font_scale import font_scaling
+
 gs_scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 username = None
 my_raw = None
@@ -45,14 +47,14 @@ class rankPageWorld(Screen):
 									   pos_hint={'x':0., 'y':.05},
 									   )
 
-		self.world_ranking = GridLayout(cols=1, size_hint_x=1., spacing=sp(20))#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
-		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=sp(70), size_hint_y=0.25))
+		self.world_ranking = GridLayout(cols=1, size_hint_x=1., spacing=font_scaling(20))#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
+		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=font_scaling(70), size_hint_y=0.25))
 		row = GridLayout(cols=3, size_hint_y=0.25)
-		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=sp(50)))
-		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=sp(50)))
-		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=font_scaling(50)))
+		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=font_scaling(50)))
+		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=font_scaling(50)))
 		self.world_ranking.add_widget(row)
-		self.onlineUsers = GridLayout(cols=1, spacing=sp(30), size_hint_y=None, row_force_default=True, row_default_height=60)
+		self.onlineUsers = GridLayout(cols=1, spacing=font_scaling(30), size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
 
 		self.scrollOnlineUsers = ScrollView(size_hint=(1.,.9))
@@ -91,9 +93,9 @@ class rankPageWorld(Screen):
 
 	def addUserToScroll(self, rank, uname, score, itsMe=False):
 		row = GridLayout(cols=3)
-		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=sp(50)))
-		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=sp(50)))
-		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=sp(50)))
+		row.add_widget(Label(text=rank, bold=itsMe, halign='center', valign='center', font_size=font_scaling(50)))
+		row.add_widget(Label(text=uname, bold=itsMe, halign='left', valign='center', font_size=font_scaling(50)))
+		row.add_widget(Label(text=score, bold=itsMe, halign='right', valign='center', font_size=font_scaling(50)))
 		self.onlineUsers.add_widget(row)
 
 	def lounch_usernamePopup(self, instance=None):
@@ -210,16 +212,16 @@ class UsernamePopup(Popup):
 
 		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
 
-		self.master = BoxLayout(orientation='vertical', spacing='10sp', padding='10sp')
+		self.master = BoxLayout(orientation='vertical', spacing=font_scaling(10), padding=font_scaling(10))
 
-		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=sp(30))
+		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=font_scaling(30))
 		self.master.add_widget(self.current_uname_label)
 
 		addBox = GridLayout(cols=2, size_hint = (1., 0.4))
-		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6, font_size=sp(30))
+		self.input = TextInput(text='', hint_text='(new username)', multiline=False, size_hint_x=0.6, font_size=font_scaling(30))
 		addBox.add_widget(self.input)
 
-		self.set_button = Button(text='Enter', size_hint_x=0.2, font_size=sp(30))
+		self.set_button = Button(text='Enter', size_hint_x=0.2, font_size=font_scaling(30))
 		self.set_button.bind(on_release=self.set_username)
 		addBox.add_widget(self.set_button)
 		self.master.add_widget(addBox)
@@ -309,12 +311,16 @@ class UsernamePopup(Popup):
 class LabelPopup(Popup):
 	def __init__(self, text, **kwargs):
 		super(Popup, self).__init__(**kwargs)
-
-		l = Label(text=text, font_size=sp(35))
+		self.size_hint = (0.6, 0.5)
+		self.title = ''
+		self.separator_color = 0., 0., 0., 0
+		l = Label(text=text, font_size=font_scaling(35), halign = 'center', valign = 'top')
 		self.add_widget(l)
 
 
 Builder.load_string("""
+#:import font_scaling font_scale.font_scaling
+
 <rankPageWorld>:
 	background: background
     Background:
@@ -377,5 +383,5 @@ Builder.load_string("""
 	size_hint: (0.4, 0.5)
 	pos_hint: {'x': 0.3, 'y': 0.48}
 	# separator_color: 0x77 / 255., 0x6e / 255., 0x65 / 255., 1.
-	title_size: '40sp'
+	title_size: font_scaling(40)
 """)

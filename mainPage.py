@@ -15,7 +15,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
 from kivy.clock import Clock
-from kivy.metrics import sp
+from kivy.metrics import sp, dp
 import webbrowser
 
 from commercial.kivmob import KivMob, TestIds, RewardedListenerInterface
@@ -24,6 +24,8 @@ from components.background import Background
 from os.path import join
 import threading
 from functools import partial
+
+from font_scale import font_scaling
 
 kittenColor = 'Pink'
 
@@ -74,6 +76,7 @@ class mainPage(Screen):
         self.collected_coins = 0
 
     def size_callback(self, instance, value):
+        print(value)
         self.background.size = value
         self.background.update_position()
 
@@ -165,11 +168,9 @@ class LabelPopup(Popup):
         self.size_hint = (0.4, 0.35)
         self.pos_hint = {'x': 0.3, 'y': 0.4}
         self.separator_height = 0
-        self.title_size = '0sp'
-        # l = Label(text=text, font_size=sp(35))
-        l = Label(text=text, font_size='35dp', valign='center', halign='center')
+        self.title_size = font_scaling(0)
+        l = Label(text=text, font_size = font_scaling(30), valign='center', halign='center')
         l.text_size = (0.4*Window.size[0], 0.35*Window.size[1])
-        # l = Label(text=text, font_size=sp(35))
         self.add_widget(l)
 
 class ReviewNotification(Popup):
@@ -177,20 +178,20 @@ class ReviewNotification(Popup):
         super(Popup, self).__init__(**kwargs)
 
         self.title = 'Are you enjoying the game?\nGive us a feedback'
-        self.title_size = sp(50)
+        self.title_size = font_scaling(50)
         self.title_align = 'center'
         self.separator_height = 0
         general_layout = GridLayout(cols = 1, spacing= [10,10])
 
-        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=sp(35))
+        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=font_scaling(35))
         reviewButton.background_color = 0, 0, 0, 1.
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=sp(35))
+        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=font_scaling(35))
         cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
-        neverButton = Button(text = 'Do not ask again', bold=True, font_size=sp(35))
+        neverButton = Button(text = 'Do not ask again', bold=True, font_size=font_scaling(35))
         neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
@@ -220,10 +221,9 @@ class ReviewNotification(Popup):
         webbrowser.open('https://play.google.com/store/apps/details?id=org.aoct.jumpykitten.jumpykitten')
 
 
-
-
 Builder.load_string("""
 #:import Window kivy.core.window.Window
+#:import font_scaling font_scale.font_scaling
 
 <mainPage>:
     background: background
@@ -262,7 +262,7 @@ Builder.load_string("""
         size_hint: (0.3, 0.1)
         halign: 'center'
         valign: 'center'
-        font_size: '35sp'
+        font_size: font_scaling(35) #'35sp'
         color: [255/255.0, 255/255.0, 255/255.0, 1]
         markup: True
         bold: True
@@ -330,7 +330,7 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: '35sp'
+                font_size: font_scaling(35) #'35sp'
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
 

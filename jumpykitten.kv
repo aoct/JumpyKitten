@@ -1,5 +1,6 @@
 #:kivy 1.10.0
 #:import Window kivy.core.window.Window
+#:import font_scaling font_scale.font_scaling
 
 <BackgroundColor@Widget>
     background_color: 0, 0, 0, 0
@@ -23,7 +24,7 @@
         pos: root.pos
     BackgroundLabel:
         background_color: 1,0.7,0.7,0.9
-        font_size: '35sp'
+        font_size: font_scaling(35)
         bold: True
         text: " Score {:04.0f} ".format(root.score)
         size_hint: (.18, .065)
@@ -49,7 +50,7 @@
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: '35sp'
+                font_size: font_scaling(35)
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
 
@@ -62,7 +63,7 @@
     # background_color: 0, 0, 0, .0
     size_hint: (.42, .7)
     pos_hint: {'x':.29, 'y':.15}
-    title_size: '30sp'
+    title_size: font_scaling(30)
     reviveBotton: reviveBotton
     FloatLayout:
         id:content

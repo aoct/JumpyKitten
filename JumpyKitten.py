@@ -34,6 +34,8 @@ from os.path import join
 
 import time
 
+from font_scale import font_scaling
+
 reviveCoinsPrice = 25
 
 class endGamePopup(Popup):
