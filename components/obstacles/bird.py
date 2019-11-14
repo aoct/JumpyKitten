@@ -25,7 +25,6 @@ class Bird(Widget):
 
         self.size_hint_y = 0.12
         self.size_hint_x = self.size_hint_y*(Window.size[1]/Window.size[0])
-        print(self.size_hint_y, self.size_hint_x, self.size)
 
         self.base_velocity = Vector(-1e-2*Window.size[0], 0)
         self.velocity = self.base_velocity * min(1.5, (1 + 0.002*score))
