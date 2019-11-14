@@ -7,8 +7,12 @@ from kivy.utils import platform
 if platform != 'ios' and platform != 'android':
 	print('Showing a smartphone-like screen')
 	from kivy.config import Config
-	Config.set('graphics', 'width', '1140')
-	Config.set('graphics', 'height', '540')
+	# screen_ratio = 18./9.0 #Mot one
+	screen_ratio = 19.5/9 #iPhoneX
+	x = 540
+	print('Screen size: {} : {:.0f}'.format(x, screen_ratio*x))
+	Config.set('graphics', 'width', str(int(x*screen_ratio)))
+	Config.set('graphics', 'height', str(x))
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition

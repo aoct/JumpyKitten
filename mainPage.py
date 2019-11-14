@@ -160,9 +160,9 @@ class mainPage(Screen):
 class LabelPopup(Popup):
     def __init__(self, text, **kwargs):
         super(Popup, self).__init__(**kwargs)
-        self.separator_height = 0
-        self.title_size = '0sp'
-        l = Label(text=text, font_size=sp(35))
+        # l = Label(text=text, font_size=sp(35))
+        l = Label(text=text, font_size='35dp')
+        # l = Label(text=text, font_size=sp(35))
         self.add_widget(l)
 
 class ReviewNotification(Popup):
