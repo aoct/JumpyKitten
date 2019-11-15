@@ -27,9 +27,9 @@
         font_size: font_scaling(35, root.font_scale)
         bold: True
         text: " Score {:04.0f} ".format(root.score)
-        size_hint: (.15, .065)
+        size_hint: (.2, .065)
         y: 0.8*Window.size[1]
-        x: 0.97*Window.size[0] - self.texture_size[0]
+        x: 0.95*Window.size[0] - self.texture_size[0]
     BackgroundFloatLayout:
         id: coinFloat
         background_color: 1,0.7,0.7,0.9
