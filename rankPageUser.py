@@ -6,7 +6,7 @@ from kivy.lang import Builder
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 from kivy.app import App
 from kivy.utils import platform
 from kivy.metrics import sp
@@ -22,10 +22,18 @@ from font_scale import font_scaling
 
 class rankPageUser(Screen):
 	background = ObjectProperty(Background())
+	font_scale = NumericProperty(1)
 	def __init__(self, **kwargs):
 		super(rankPageUser, self).__init__(**kwargs)
 
 		self.background.remove_clouds()
+
+		if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
+		else: self.user_data_dir = 'data'
+
+		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
+		if os.path.isfile(filename_scale):
+		    self.font_scale = pickle.load(open(filename_scale, 'rb'))
 
 		self.master_grid = GridLayout(cols=1,
 									   size_hint=(1.,.7),
@@ -33,10 +41,10 @@ class rankPageUser(Screen):
 									   spacing=10
 									   )
 		self.score_report = GridLayout(cols=1, size_hint=(1.,.3))
-		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=font_scaling(70)))
-		self.score_report.add_widget(Label(text='Best score: 0', font_size=font_scaling(50)))
-		self.score_report.add_widget(Label(text='Last score: 0', font_size=font_scaling(50)))
-		self.score_report.add_widget(Label(text='Games played: 0', font_size=font_scaling(50)))
+		self.score_report.add_widget(Label(text='Your scores', bold=True, font_size=font_scaling(70, self.font_scale)))
+		self.score_report.add_widget(Label(text='Best score: 0', font_size=font_scaling(50, self.font_scale)))
+		self.score_report.add_widget(Label(text='Last score: 0', font_size=font_scaling(50, self.font_scale)))
+		self.score_report.add_widget(Label(text='Games played: 0', font_size=font_scaling(50, self.font_scale)))
 		self.master_grid.add_widget(self.score_report)
 
 		self.add_widget(self.master_grid)

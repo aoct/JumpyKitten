@@ -25,18 +25,32 @@ from os.path import join
 import threading
 from functools import partial
 
-from font_scale import font_scaling
+from font_scale import font_scaling, scaling
 
 kittenColor = 'Pink'
 
 class mainPage(Screen):
     background = ObjectProperty(Background())
     collected_coins = NumericProperty(0)
+    font_scale = NumericProperty(1)
 
     def __init__(self, **kwargs):
         super(mainPage, self).__init__(**kwargs)
 
-        self.loadingPopup = LabelPopup('Loading...', auto_dismiss=False)
+        if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
+        else: self.user_data_dir = 'data'
+
+        try:
+            scalingPopup = LabelPopup('Scaling', 1)
+            scaling(scalingPopup.children[0].children[-1].text_size[0])
+        except:
+            self.font_scale = 1
+        else:
+            filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
+            if os.path.isfile(filename_scale):
+                self.font_scale = pickle.load(open(filename_scale, 'rb'))
+
+        self.loadingPopup = LabelPopup('Loading...', self.font_scale, auto_dismiss=False)
 
         if platform == 'android':
             # self.ads = KivMob(TestIds.APP)
@@ -62,11 +76,6 @@ class mainPage(Screen):
 
         self.bind(size=self.size_callback)
 
-        if platform == 'ios':
-            self.user_data_dir = App.get_running_app().user_data_dir
-        else:
-            self.user_data_dir = 'data'
-
         filename = join(self.user_data_dir, 'kittenColor.pickle')
         if os.path.isfile(filename):
             global kittenColor
@@ -74,6 +83,8 @@ class mainPage(Screen):
 
         self.mcnay_image.source = 'images/cats/base{0}Cat_aoct/CAT_FRAME_0_HD.png'.format(kittenColor)
         self.collected_coins = 0
+
+
 
     def size_callback(self, instance, value):
         print(value)
@@ -113,7 +124,7 @@ class mainPage(Screen):
         reviewStatus[0] += 1
         pickle.dump(reviewStatus, open(filename, 'wb'))
         if reviewStatus[0] == 5 or reviewStatus[0]%reviewStatus[1] == 0:
-            self.reviewNotification = ReviewNotification(auto_dismiss=True)
+            self.reviewNotification = ReviewNotification(self.font_scale, auto_dismiss=True)
 
     def on_leave(self):
         if platform == 'ios':
@@ -141,7 +152,7 @@ class mainPage(Screen):
                 self.ads_listener.Closed = False
                 if self.ads_listener.giveReward:
                     self.ads_listener.giveReward = False
-                    self.popup = LabelPopup('You earned earned 25 coins', auto_dismiss=True)
+                    self.popup = LabelPopup('You earned earned 25 coins', self.font_scale, auto_dismiss=True)
                     self.popup.open()
                     filename = join(self.user_data_dir, 'collected_coins.pickle')
                     if os.path.isfile(filename):
@@ -151,47 +162,47 @@ class mainPage(Screen):
                     self.collected_coins += 25
                     pickle.dump(self.collected_coins, open(filename, 'wb'))
                 else:
-                    self.popup = LabelPopup('No coins earned', auto_dismiss=True)
+                    self.popup = LabelPopup('No coins earned', self.font_scale, auto_dismiss=True)
                     self.popup.open()
                 self.ads_listener.hasOpened = False
             else:
-                self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+                self.popup = LabelPopup('Reward video not available', self.font_scale, auto_dismiss=True)
                 self.popup.open()
         else:
-            self.popup = LabelPopup('Reward video not available', auto_dismiss=True)
+            self.popup = LabelPopup('Reward video not available', self.font_scale, auto_dismiss=True)
             self.popup.open()
 
 class LabelPopup(Popup):
-    def __init__(self, text, **kwargs):
+    def __init__(self, text, font_scale, **kwargs):
         super(Popup, self).__init__(**kwargs)
         self.title = ''
         self.size_hint = (0.4, 0.35)
         self.pos_hint = {'x': 0.3, 'y': 0.4}
         self.separator_height = 0
-        self.title_size = font_scaling(0)
-        l = Label(text=text, font_size = font_scaling(30), valign='center', halign='center')
+        self.title_size = font_scaling(0, font_scale)
+        l = Label(text=text, font_size = font_scaling(30, font_scale), valign='center', halign='center')
         l.text_size = (0.4*Window.size[0], 0.35*Window.size[1])
         self.add_widget(l)
 
 class ReviewNotification(Popup):
-    def __init__(self, **kwargs):
+    def __init__(self, font_scale, **kwargs):
         super(Popup, self).__init__(**kwargs)
 
         self.title = 'Are you enjoying the game?\nGive us a feedback'
-        self.title_size = font_scaling(50)
+        self.title_size = font_scaling(50, font_scale)
         self.title_align = 'center'
         self.separator_height = 0
         general_layout = GridLayout(cols = 1, spacing= [10,10])
 
-        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=font_scaling(35))
+        reviewButton = Button(text = 'Leave a review now', bold=True, font_size=font_scaling(35, font_scale))
         reviewButton.background_color = 0, 0, 0, 1.
         reviewButton.bind(on_release = self.reviewGame)
 
-        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=font_scaling(35))
+        cancelButton = Button(text = 'Ask me again later', bold=True, font_size=font_scaling(35, font_scale))
         cancelButton.background_color = 0, 0, 0, 1.
         cancelButton.bind(on_release = self.dismiss)
 
-        neverButton = Button(text = 'Do not ask again', bold=True, font_size=font_scaling(35))
+        neverButton = Button(text = 'Do not ask again', bold=True, font_size=font_scaling(35, font_scale))
         neverButton.background_color = 0, 0, 0, 1.
         neverButton.bind(on_release = self.doNotShowAgain)
 
@@ -262,7 +273,7 @@ Builder.load_string("""
         size_hint: (0.3, 0.1)
         halign: 'center'
         valign: 'center'
-        font_size: font_scaling(35) #'35sp'
+        font_size: font_scaling(35, root.font_scale) #'35sp'
         color: [255/255.0, 255/255.0, 255/255.0, 1]
         markup: True
         bold: True
@@ -330,7 +341,7 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: font_scaling(35) #'35sp'
+                font_size: font_scaling(35, root.font_scale) #'35sp'
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
 

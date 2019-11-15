@@ -40,14 +40,17 @@ reviveCoinsPrice = 25
 
 class endGamePopup(Popup):
     score = NumericProperty()
-    def __init__(self, score, **kwargs):
+    font_scale = NumericProperty(1)
+    def __init__(self, score, font_scale, **kwargs):
         super(Popup, self).__init__(**kwargs)
         self.score = score
+        self.font_scale = font_scale
 
 class JumpyKittenPage(Screen):
     background = ObjectProperty(Background())
     score = NumericProperty(0)
     collected_coins = NumericProperty(0)
+    font_scale = NumericProperty(1)
 
     def __init__(self, **kwargs):
         super(JumpyKittenPage, self).__init__(**kwargs)
@@ -73,10 +76,12 @@ class JumpyKittenPage(Screen):
             self.ads.new_banner('ca-app-pub-8564280870740386/2464625123')
             self.ads.new_interstitial('ca-app-pub-8564280870740386/8985921895')
 
-        if platform == 'ios':
-            self.user_data_dir = App.get_running_app().user_data_dir
-        else:
-            self.user_data_dir = 'data'
+        if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
+        else: self.user_data_dir = 'data'
+
+        filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
+        if os.path.isfile(filename_scale):
+            self.font_scale = pickle.load(open(filename_scale, 'rb'))
 
         self.reset()
 
@@ -94,7 +99,7 @@ class JumpyKittenPage(Screen):
             self.ads.request_interstitial()
             self.ads.show_banner()
         self.hasRevived = False
-        self.endgamePopup = endGamePopup(self.score, auto_dismiss=False)
+        self.endgamePopup = endGamePopup(self.score, self.font_scale, auto_dismiss=False)
         self.process = Clock.schedule_interval(self.update, 1.0/60.0)
 
     def reset(self):

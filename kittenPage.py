@@ -38,6 +38,7 @@ kittenPrice = {'Pink': 0, 'Beige': 100, 'Brown': 200, 'Gray': 400, 'Gold': 800}
 class kittenPage(Screen):
 	background = ObjectProperty(Background())
 	collected_coins = NumericProperty(0)
+	font_scale = NumericProperty(1)
 	def __init__(self, **kwargs):
 		super(kittenPage, self).__init__(**kwargs)
 		self.background.remove_clouds()
@@ -48,10 +49,12 @@ class kittenPage(Screen):
 									   spacing=10
 									   )
 
-		if platform == 'ios':
-			self.user_data_dir = App.get_running_app().user_data_dir
-		else:
-			self.user_data_dir = 'data'
+		if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
+		else: self.user_data_dir = 'data'
+
+		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
+		if os.path.isfile(filename_scale):
+		    self.font_scale = pickle.load(open(filename_scale, 'rb'))
 
 		filename_color = join(self.user_data_dir, 'kittenColor.pickle')
 		filename_score = join(self.user_data_dir, 'score_history.pickle')
@@ -103,7 +106,7 @@ class kittenPage(Screen):
 
 			l = Label(text='Unlock at\nscore {}'.format(kittenScore[color]), size_hint_x=0.5, size_hint_y = 0.5,
 	        		  halign='center', valign='center',
-				      font_size=font_scaling(40),
+				      font_size=font_scaling(40, self.font_scale),
 					  bold=True)
 			row.add_widget(l)
 
@@ -153,7 +156,7 @@ class kittenPage(Screen):
 				else: i.children[0].children[0].image.source = 'images/icons/blank.png'
 
 	def openBuyCatPopup(self, color):
-		self.buyCatPopup = BuyKittenPopup(color, self.collected_coins)
+		self.buyCatPopup = BuyKittenPopup(color, self.collected_coins, self.font_scale)
 		self.buyCatPopup.open()
 
 	def buyCat(self, color):
@@ -207,10 +210,12 @@ class kittenPage(Screen):
 
 
 class BuyKittenPopup(Popup):
-	def __init__(self, color, collected_coins, **kwargs):
+	font_scale = NumericProperty(1)
+	def __init__(self, color, collected_coins, font_scale, **kwargs):
 		super(Popup, self).__init__(**kwargs)
 		self.title = '{} cat cost: {} coins'.format(color, kittenPrice[color])
 		self.color = color
+		self.font_scale = font_scale
 
 		if collected_coins >= kittenPrice[color]:
 			self.buyBotton.image.source ='images/icons/tick.png'
@@ -279,7 +284,7 @@ Builder.load_string("""
             Label:
                 id: coinLabel
                 size_hint: (.70, .9)
-                font_size: font_scaling(35)
+                font_size: font_scaling(35, root.font_scale)
                 bold: True
                 text: " {:03.0f} ".format(root.collected_coins)
                 # size: self.texture_size
@@ -289,7 +294,7 @@ Builder.load_string("""
 <BuyKittenPopup>:
 	title: 'Cost: '
 	title_align: 'center'
-	title_size: font_scaling(30)
+	title_size: font_scaling(30, root.font_scale)
 	size_hint: (0.4, 0.5)
 	pos_hint: {'x': 0.3, 'y': 0.25}
 	separator_height: 0
