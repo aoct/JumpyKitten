@@ -13,6 +13,7 @@ def scaling(text_size = 84.0):
 	computer_size = 84.0 #label.text_size[0] on my macbook pro
 	phone_size = text_size #label.text_size[0] on my handheld device
 	calculated_scale = phone_size/computer_size
+	print('[DEBUG]: Font scaling: {:.1f}/{:.1f} = {:.1f}'.format(text_size, computer_size, calculated_scale))
 
 	if platform == 'ios': user_data_dir = App.get_running_app().user_data_dir
 	else: user_data_dir = 'data'

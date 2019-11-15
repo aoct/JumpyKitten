@@ -22,10 +22,10 @@ class Coin(Widget):
         self.y = uniform(min_y, 0.7*Window.size[1])
 
         self.base_velocity = Vector(-Window.size[0]/200., 0)
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
 
     def update(self, score):
-        self.velocity = self.base_velocity * (1 + 0.05*log(1+30*score)/10)
+        self.velocity = self.base_velocity * (1 + 0.07*log(1+30*score)/10)
         self.pos[0] = self.velocity[0]  + self.pos[0]
 
 Builder.load_string("""

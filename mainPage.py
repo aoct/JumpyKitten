@@ -87,7 +87,6 @@ class mainPage(Screen):
 
 
     def size_callback(self, instance, value):
-        print(value)
         self.background.size = value
         self.background.update_position()
 
