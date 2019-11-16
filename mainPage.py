@@ -143,7 +143,7 @@ class mainPage(Screen):
                 self.ads_listener.Closed = False
                 if self.ads_listener.giveReward:
                     self.ads_listener.giveReward = False
-                    self.popup = LabelPopup('You earned earned 25 coins', self.font_scale, auto_dismiss=True)
+                    self.popup = LabelPopup('You earned 25 coins', self.font_scale, auto_dismiss=True)
                     self.popup.open()
                     filename = join(self.user_data_dir, 'collected_coins.pickle')
                     if os.path.isfile(filename):
