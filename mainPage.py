@@ -40,15 +40,7 @@ class mainPage(Screen):
         if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
         else: self.user_data_dir = 'data'
 
-        try:
-            scalingPopup = LabelPopup('Scaling', 1)
-            scaling(scalingPopup.children[0].children[-1].text_size[0])
-        except:
-            self.font_scale = 1
-        else:
-            filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
-            if os.path.isfile(filename_scale):
-                self.font_scale = pickle.load(open(filename_scale, 'rb'))
+        self.font_scale = pickle.load(open(join(self.user_data_dir, 'fontScaling.pickle'), 'rb'))
 
         self.loadingPopup = LabelPopup('Loading...', self.font_scale, auto_dismiss=False)
 
@@ -181,6 +173,7 @@ class LabelPopup(Popup):
         self.title_size = font_scaling(0, font_scale)
         l = Label(text=text, font_size = font_scaling(30, font_scale), valign='center', halign='center')
         l.text_size = (0.4*Window.size[0], 0.35*Window.size[1])
+        print(l.font_size, l.text_size, l.texture_size)
         self.add_widget(l)
 
 class ReviewNotification(Popup):
