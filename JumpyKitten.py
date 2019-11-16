@@ -80,8 +80,7 @@ class JumpyKittenPage(Screen):
         else: self.user_data_dir = 'data'
 
         filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
-        if os.path.isfile(filename_scale):
-            self.font_scale = pickle.load(open(filename_scale, 'rb'))
+        self.font_scale = pickle.load(open(filename_scale, 'rb'))[0]
 
         self.reset()
 

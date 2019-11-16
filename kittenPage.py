@@ -54,7 +54,7 @@ class kittenPage(Screen):
 
 		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
 		if os.path.isfile(filename_scale):
-		    self.font_scale = pickle.load(open(filename_scale, 'rb'))
+		    self.font_scale = pickle.load(open(filename_scale, 'rb'))[0]
 
 		filename_color = join(self.user_data_dir, 'kittenColor.pickle')
 		filename_score = join(self.user_data_dir, 'score_history.pickle')

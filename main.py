@@ -10,7 +10,7 @@ if platform != 'ios' and platform != 'android':
 	# screen_ratio = 18./9.0 #Mot one
 	screen_ratio = 19.5/9 #iPhoneX
 	x = 540
-	print('Screen size: {} : {:.0f}'.format(x, screen_ratio*x))
+	print('Screen size: {} : {:.0f}'.format(screen_ratio*x, x))
 	Config.set('graphics', 'width', str(int(x*screen_ratio)))
 	Config.set('graphics', 'height', str(x))
 
@@ -37,7 +37,7 @@ class JumpyKittenApp(App):
 	def build(self):
 		self.sm = ScreenManager(transition = NoTransition())
 
-		scaling(Window.size[0])
+		scaling(Window.size)
 
 		self.mainPage = mainPage(name = 'MainPage')
 		self.sm.add_widget(self.mainPage)

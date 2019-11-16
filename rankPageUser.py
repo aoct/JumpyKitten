@@ -33,7 +33,7 @@ class rankPageUser(Screen):
 
 		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
 		if os.path.isfile(filename_scale):
-		    self.font_scale = pickle.load(open(filename_scale, 'rb'))
+		    self.font_scale = pickle.load(open(filename_scale, 'rb'))[0]
 
 		self.master_grid = GridLayout(cols=1,
 									   size_hint=(1.,.7),

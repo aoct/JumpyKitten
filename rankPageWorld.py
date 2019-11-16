@@ -47,22 +47,22 @@ class rankPageWorld(Screen):
 		else: self.user_data_dir = 'data'
 
 		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
-		if os.path.isfile(filename_scale):
-		    self.font_scale = pickle.load(open(filename_scale, 'rb'))
+		self.font_scale = pickle.load(open(filename_scale, 'rb'))[0]
+		self.scale_y = pickle.load(open(filename_scale, 'rb'))[1]
 
 		self.master_grid = GridLayout(cols=1,
 									   size_hint=(1.,.8),
 									   pos_hint={'x':0., 'y':.05},
 									   )
 
-		self.world_ranking = GridLayout(cols=1, size_hint_x=1., spacing=font_scaling(20, self.font_scale))#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
+		self.world_ranking = GridLayout(cols=1, size_hint_x=1., spacing=font_scaling(20, self.scale_y))#, size_hint_y= None)#, spacing = 10, row_force_default=True, row_default_height=60)
 		self.world_ranking.add_widget(Label(text='World Ranking', bold=True, font_size=font_scaling(70, self.font_scale), size_hint_y=0.25))
 		row = GridLayout(cols=3, size_hint_y=0.25)
 		row.add_widget(Label(text='Rank', halign='center', valign='center', font_size=font_scaling(50, self.font_scale)))
 		row.add_widget(Label(text='Username', halign='left', valign='center', font_size=font_scaling(50, self.font_scale)))
 		row.add_widget(Label(text='Best Score', halign='right', valign='center', font_size=font_scaling(50, self.font_scale)))
 		self.world_ranking.add_widget(row)
-		self.onlineUsers = GridLayout(cols=1, spacing=font_scaling(30, self.font_scale), size_hint_y=None, row_force_default=True, row_default_height=60)
+		self.onlineUsers = GridLayout(cols=1, spacing=font_scaling(30, self.scale_y), size_hint_y=None, row_force_default=True, row_default_height=60)
 		self.onlineUsers.bind(minimum_height=self.onlineUsers.setter('height'))
 
 		self.scrollOnlineUsers = ScrollView(size_hint=(1.,.9))
@@ -105,7 +105,7 @@ class rankPageWorld(Screen):
 		if not username is None:
 			uname = username
 
-		popup = UsernamePopup(self.font_scale, auto_dismiss=True, uname=uname)
+		popup = UsernamePopup(self.font_scale, self.scale_y, auto_dismiss=True, uname=uname)
 		popup.open()
 
 	def on_enter(self):
@@ -210,13 +210,14 @@ class rankPageWorld(Screen):
 
 class UsernamePopup(Popup):
 	font_scale = NumericProperty(1)
-	def __init__(self, font_scale, uname='Not set',  **kwargs):
+	def __init__(self, font_scale, scale_y, uname='Not set',  **kwargs):
 		super(Popup, self).__init__(**kwargs)
 
 		self.userDevice_ID = '{}'.format(plyer.uniqueid.id)
 		self.font_scale = font_scale
 
-		self.master = BoxLayout(orientation='vertical', spacing=font_scaling(10, self.font_scale), padding=font_scaling(10, self.font_scale))
+		pad = min(scale_y, self.font_scale)
+		self.master = BoxLayout(orientation='vertical', spacing=font_scaling(10, scale_y), padding=font_scaling(10, pad))
 
 		self.current_uname_label = Label(text='Current username: ' + uname, bold=True, halign='left', font_size=font_scaling(30, self.font_scale))
 		self.master.add_widget(self.current_uname_label)
