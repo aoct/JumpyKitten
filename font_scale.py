@@ -23,5 +23,3 @@ def scaling(screen_size):
 	filename = join(user_data_dir, 'fontScaling.pickle')
 	l = [x_scale, y_scale]
 	pickle.dump(l, open(filename, 'wb'))
-	l = pickle.load(open(filename, 'rb'))
-	print(l)
