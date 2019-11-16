@@ -16,6 +16,7 @@ if platform != 'ios' and platform != 'android':
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, NoTransition
+from kivy.core.window import Window
 
 sys.path.append(".")
 if platform == 'ios':
@@ -30,9 +31,13 @@ from rankPageUser import rankPageUser
 from rankPageWorld import rankPageWorld
 from kittenPage import kittenPage
 
+from font_scale import scaling
+
 class JumpyKittenApp(App):
 	def build(self):
 		self.sm = ScreenManager(transition = NoTransition())
+
+		scaling(Window.size[0])
 
 		self.mainPage = mainPage(name = 'MainPage')
 		self.sm.add_widget(self.mainPage)

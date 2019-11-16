@@ -9,7 +9,7 @@ import os, pickle, time
 def font_scaling(num, scale=1):
 	return  num*scale
 
-def scaling(pixel_screen_width = 84.0):
+def scaling(pixel_screen_width = 1170.):
 	computer_size = 1170. #label.text_size[0] on my macbook pro
 	phone_size = pixel_screen_width #label.text_size[0] on my handheld device
 	calculated_scale = phone_size/computer_size

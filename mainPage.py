@@ -40,7 +40,7 @@ class mainPage(Screen):
         if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
         else: self.user_data_dir = 'data'
 
-        
+        self.font_scale = pickle.load(open(join(self.user_data_dir, 'fontScaling.pickle'), 'rb'))
 
         self.loadingPopup = LabelPopup('Loading...', self.font_scale, auto_dismiss=False)
 
@@ -80,10 +80,7 @@ class mainPage(Screen):
 
     def size_callback(self, instance, value):
         self.background.size = value
-        print(value)
         self.background.update_position()
-        scaling(value[0])
-        self.font_scale = pickle.load(open(join(self.user_data_dir, 'fontScaling.pickle'), 'rb'))
 
     def on_enter(self):
         if platform == 'ios':

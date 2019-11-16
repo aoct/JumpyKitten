@@ -26,10 +26,8 @@ class infoPage(Screen):
 
 		if platform == 'ios': self.user_data_dir = App.get_running_app().user_data_dir
 		else: self.user_data_dir = 'data'
-
-		filename_scale = join(self.user_data_dir, 'fontScaling.pickle')
-		if os.path.isfile(filename_scale):
-			self.font_scale = pickle.load(open(filename_scale, 'rb'))
+		
+		self.font_scale = pickle.load(open(join(self.user_data_dir, 'fontScaling.pickle'), 'rb'))
 
 		self.master_grid = GridLayout(cols = 2, size_hint=(1., 0.7), pos_hint={'x':0., 'y':0.15})
 		self.logo_grid = GridLayout(cols=1, size_hint=(.5, .7))
@@ -53,8 +51,8 @@ class infoPage(Screen):
 		self.add_widget(self.master_grid)
 
 	def size_callback(self, instance, value):
-	    self.background.size = value
-	    self.background.update_position()
+		self.background.size = value
+		self.background.update_position()
 
 Builder.load_string("""
 <infoPage>:
